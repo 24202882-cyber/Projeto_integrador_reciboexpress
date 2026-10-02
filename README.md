@@ -41,13 +41,6 @@ Geração de PDF	a definir
 Versionamento	Git e GitHub
 
 
-# Estrutura do repositório
-recibo-express/
-├── docs/          
-├── src/          
-├── README.md
-└── LICENSE
-
 # Equipe – Grupo 16
 Alexandre Bessa de Oliveira, RA 24202882
 Carlos Alexandre dos Santos Rocha, RA 2207168
