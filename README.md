@@ -43,8 +43,8 @@ Versionamento	Git e GitHub
 
 # Estrutura do repositório
 recibo-express/
-├── docs/          # Documentação, relatórios e imagens do protótipo
-├── src/           # Código-fonte da aplicação
+├── docs/          
+├── src/          
 ├── README.md
 └── LICENSE
 
