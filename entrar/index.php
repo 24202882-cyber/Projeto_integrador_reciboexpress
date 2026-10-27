@@ -25,8 +25,7 @@
  **************************************************
  **************************************************
  */
-require '../vendor/autoload.php';
-
+require_once '../vendor/autoload.php';
 session_start();
 
 /*
@@ -61,7 +60,7 @@ use League\OAuth2\Client\Provider\Google;
 $provider = new Google([
     'clientId'     => '682512042222-4kun1ghgo6t0d7s70k8u7c42k186fseg.apps.googleusercontent.com',
     'clientSecret' => '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',
-    'redirectUri'  => 'http://localhost/callback.php',
+    'redirectUri'  => 'http://localhost:8081/entrar/callback.php',
 ]);
 
 // 1. Validação de segurança contra ataques CSRF
@@ -213,7 +212,7 @@ else {
 <head>
   <title>Recibo Express - Entrar</title>
   <?php include($Raiz . "include/html/header.html"); ?>
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>  
 </head>
 
 <style>
@@ -458,10 +457,76 @@ function verificaSENHA(ccampo) {
               <div class="divider">
                 <span>OU</span>
               </div>
-              <div id="g_id_onload" data-client_id="682512042222-4kun1ghgo6t0d7s70k8u7c42k186fseg.apps.googleusercontent.com" data-login_uri="http://localhost/entrar/callback.php" data-auto_prompt="false">
+
+              <div id="buttonDiv"></div>
+
+<!--
+              <div id="g_id_onload" 
+                data-client_id="682512042222-4kun1ghgo6t0d7s70k8u7c42k186fseg.apps.googleusercontent.com"
+                data-login_uri="http://localhost:8081/entrar/callback.php"
+                data-auto_prompt="false">
               </div>
               <div class="g_id_signin" data-type="standard" data-shape="rectangular" data-theme="outline" data-text="continue_with" data-size="large" data-logo_alignment="left">
               </div>
+-->
+
+              <script>
+              // SEU CLIENT ID DO GOOGLE CLOUD CONSOLE
+              const CLIENT_ID = '682512042222-4kun1ghgo6t0d7s70k8u7c42k186fseg.apps.googleusercontent.com';
+
+              window.onload = function () {
+                  google.accounts.id.initialize({
+                      client_id: CLIENT_ID,
+                      callback: handleCredentialResponse
+                  });
+
+                  google.accounts.id.renderButton(
+                      document.getElementById("buttonDiv"),
+                      { theme: "outline", size: "large", type: "standard" }
+                  );
+
+                  // Opcional: exibe o prompt "One Tap"
+                  google.accounts.id.prompt();
+              };
+
+              // Função de Callback executada após a autenticação do Google
+              async function handleCredentialResponse(response) {
+                  const credentialToken = response.credential; // ID Token JWT enviado pelo Google
+
+                  try {
+                      // Envia o ID Token para validação no backend PHP
+                      const res = await fetch('callback.php', {
+                          method: 'POST',
+                          headers: {
+                              'Content-Type': 'application/json'
+                          },
+                          body: JSON.stringify({ token: credentialToken })
+                      });
+
+                      const data = await res.json();
+
+                      if (data.success) {
+                          // Oculta o botão e exibe o perfil do usuário
+                          document.getElementById('buttonDiv').style.display = 'none';
+                          document.getElementById('userProfile').style.display = 'block';
+
+                          document.getElementById('userName').textContent = data.user.nome;
+                          document.getElementById('userEmail').textContent = data.user.email;
+                          document.getElementById('userImg').src = data.user.foto;
+                      } else {
+                          alert('Erro na autenticação: ' + data.message);
+                      }
+                  } catch (error) {
+                      console.error('Erro na requisição:', error);
+                  }
+              }
+
+              function logout() {
+                  google.accounts.id.disableAutoSelect();
+                  location.reload();
+              }
+              </script>
+
               <div class="row mt-3 mb-3">
                 <div class="col-12">
                   <span class="texto-suave texto-menor">Não tem conta? </span><a class="link-padrao texto-menor" href="<?php echo $Raiz . "publico/cadastro"; ?>">Criar conta</a>

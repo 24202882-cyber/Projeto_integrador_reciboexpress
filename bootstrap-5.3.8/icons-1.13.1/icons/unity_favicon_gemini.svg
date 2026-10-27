@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="16px" height="16px">
+  <circle cx="250" cy="250" r="250" fill="#e21918" />
+  
+  <defs>
+    <mask id="cutout">
+      <rect width="500" height="500" fill="#ffffff" />
+      <circle cx="372" cy="358" r="76" fill="#000000" />
+    </mask>
+  </defs>
+
+  <path d="M 115,95 
+           L 215,95 
+           L 215,290 
+           A 35,35 0 0 0 285,290 
+           L 285,95 
+           L 385,95 
+           L 385,320
+           A 135,135 0 0 1 115,320 
+           Z" 
+        fill="#ffffff" 
+        mask="url(#cutout)" />
+
+  <circle cx="372" cy="358" r="54" fill="#ffffff" />
+</svg>

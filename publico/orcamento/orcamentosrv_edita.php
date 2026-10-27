@@ -27,7 +27,6 @@
  */
 header('Content-Type: application/json; charset=utf-8');
 session_start();
-
 $Raiz = "../../";
 include($Raiz . "include/php/header.php"); // Configurações HEADER
 include($Raiz . "include/php/funcoes.php"); // Funcoes de Usuário PHP
@@ -82,13 +81,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     }
     // 4. Retorna a resposta de sucesso em formato JSON
     echo json_encode([
-        'status'  => 'sucesso',
-        'mensagem' => 'Dados recebidos com sucesso!',
-        'dados'   => [
-            'nome'    => $nome,
-            'email'   => $email,
-            'arquivo' => $arquivoInfo
-        ]
+      'status'  => 'sucesso',
+      'mensagem' => 'Dados recebidos com sucesso!',
+      'dados'   => [
+          'nome'    => $nome,
+          'email'   => $email,
+          'arquivo' => $arquivoInfo
+      ]
     ]);
   }
   catch (Exception $e) {

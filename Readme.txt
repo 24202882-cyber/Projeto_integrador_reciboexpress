@@ -19,3 +19,5 @@ Chave Secreta Outh: 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
 Cliente ID Web: 682512042222-4kun1ghgo6t0d7s70k8u7c42k186fseg.apps.googleusercontent.com
 Cliente Chave Secreta: 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
 
+
+Senha do mysql em producao: qEcXwV5ikqEcXwV5ik
