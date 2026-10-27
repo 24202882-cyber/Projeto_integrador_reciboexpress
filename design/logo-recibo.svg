@@ -1,0 +1,16 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect x="0" y="0" width="1024" height="1024" rx="228" fill="#163B5C"/>
+  <g stroke-linecap="round" fill="none">
+    <path d="M 150 402 H 378" stroke="#E9784A" stroke-width="30"/>
+    <path d="M 182 474 H 366" stroke="#EE9068" stroke-width="26"/>
+    <path d="M 214 546 H 352" stroke="#F2A886" stroke-width="22"/>
+  </g>
+  <g transform="rotate(-7 560 437)">
+    <path d="M 392 240 A 26 26 0 0 1 418 214 H 686 L 728 256 V 660 L 709.3 680 L 690.7 660 L 672.0 680 L 653.3 660 L 634.7 680 L 616.0 660 L 597.3 680 L 578.7 660 L 560.0 680 L 541.3 660 L 522.7 680 L 504.0 660 L 485.3 680 L 466.7 660 L 448.0 680 L 429.3 660 L 410.7 680 L 392.0 660 V 240 Z" fill="#F7FAFF"/>
+    <path d="M 686 214 L 686 256 L 728 256 Z" fill="#C7D2DC"/>
+    <rect x="424" y="248" width="96" height="14" rx="7" fill="#163B5C"/>
+    <rect x="424" y="280" width="162" height="42" rx="11" fill="#E9784A"/>
+    <rect x="424" y="344" width="182" height="14" rx="7" fill="#163B5C"/>
+    <rect x="424" y="374" width="118" height="14" rx="7" fill="#163B5C"/>
+  </g>
+</svg>
