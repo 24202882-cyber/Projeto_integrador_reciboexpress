@@ -1,0 +1,834 @@
+<?php
+/*
+ **************************************************
+ **************************************************
+ ***** 
+ ***** APLICAÇÃO
+ ***** Recibo Express
+ ***** Arquivo: /page/cadastro/index.php
+ ***** Conteúdo: Cadastro do Perfil Profissional
+ ***** Data criação: set/2026
+ ***** Disponível em: reciboexpress.com.br
+ *****
+ **************************************************
+ *****
+ ***** DESENVOLVEDOR
+ ***** Turma A2026S2N2
+ ***** Projeto Integrador II
+ ***** Univesp
+ ***** Universidade Virtual do Estado de São Paulo
+ ***** Matéria obrigatória do curso de
+ ***** Análise de Sistemas e 
+ ***** Engenharia da Computação
+ ***** São Paulo - SP - 2026
+ ***** 
+ **************************************************
+ **************************************************
+ */
+session_start();
+$Raiz = "../../";
+$Titulo = "CRIAR CONTA E PERFIL";
+$Home = $Raiz . "index.php";
+include($Raiz . "conexao/db.php");
+include($Raiz . "include/php/header.php");
+include($Raiz . "include/php/funcoes.php");
+// Chave secreta de 32 bytes (256 bits). Em produção, guarde em uma variável de ambiente (.env)
+define('SECRET_KEY', '12345678901234567890123456789012');
+define('CIPHER_METHOD', 'aes-256-cbc');
+/**
+ * Criptografa uma string
+ */
+function criptografar($dados) {
+  // 1. Descobre o tamanho necessário do IV para o algoritmo
+  $ivLength = openssl_cipher_iv_length(CIPHER_METHOD);
+  // 2. Gera um IV aleatório e seguro
+  $iv = openssl_random_pseudo_bytes($ivLength);
+  // 3. Criptografa os dados
+  $encrypted = openssl_encrypt($dados, CIPHER_METHOD, SECRET_KEY, 0, $iv);
+  // 4. Junta o IV com o texto criptografado e codifica em base64 para facilitar o armazenamento/transporte
+  return base64_encode($iv . $encrypted);
+}
+
+/**
+ * Descriptografa uma string
+ */
+function descriptografar($dadosCriptografados) {
+  // 1. Decodifica o base64
+  $data = base64_decode($dadosCriptografados);
+  
+  // 2. Descobre o tamanho do IV
+  $ivLength = openssl_cipher_iv_length(CIPHER_METHOD);
+  
+  // 3. Extrai o IV do início da string
+  $iv = substr($data, 0, $ivLength);
+  
+  // 4. Extrai o texto criptografado (o restante da string)
+  $encryptedText = substr($data, $ivLength);
+  
+  // 5. Descriptografa os dados usando o mesmo IV e chave
+  return openssl_decrypt($encryptedText, CIPHER_METHOD, SECRET_KEY, 0, $iv);
+}
+
+
+//VerificaSessao();
+//********************
+//********************
+//**** Prepara ambiente para execuçao...incluir na pagina de login tambem.
+//********************
+//********************
+if (!isset($_SESSION['AMBIENTE'])) {
+  if (strtoupper($_SERVER['SERVER_NAME']) === "LOCALHOST") {
+    $_SESSION['AMBIENTE'] = "DESENVOLVIMENTO";
+  } else {
+    $_SESSION['AMBIENTE'] = "PRODUCAO";
+  }
+}
+//********************
+//********************
+//**** EOF Prepara ambiente para execuçao...incluir na pagina de login tambem.
+//********************
+//********************
+$ok = true;
+if ($_SERVER['REQUEST_METHOD'] == "POST") {  
+  $chave_perfil = "0"; //$_POST["chave_perfil"];
+  $nome_perfil = $_POST["nome_perfil"];
+  $end_perfil = $_POST["end_perfil"];
+  $num_perfil = $_POST["num_perfil"];
+  $compl_perfil = $_POST["compl_perfil"];
+  $bairro_perfil = $_POST["bairro_perfil"];
+  $cid_perfil = $_POST["cid_perfil"];
+  $uf_perfil = $_POST["uf_perfil"];
+  $cep_perfil = $_POST["cep_perfil"];
+  $cpf_perfil = $_POST["cpf_perfil"];
+  $tel_perfil = $_POST["tel_perfil"];
+  $email_perfil = $_POST["email_perfil"];
+  $senha_usuario = $_POST["senha_usuario"];
+  $senha2_usuario = $_POST["senha2_usuario"];
+  $msg = "";
+  //$dtn_perfil = $_POST["dtn_perfil"];
+  //$dtc_perfil = $_POST["dtc_perfil"];
+  //$caixa_perfil = $_POST["caixa_perfil"];
+  if ($nome_perfil == "") {
+    $ok = false;
+    $msg = "Nome inválido.";
+  }
+  if (!cpf($cpf_perfil)) {    
+    $ok = false;
+    $msg = "CPF inválido.";
+  }
+  if ($tel_perfil == "") {    
+    $ok = false;
+    $msg = "Telefone / WhatsApp inválido.";
+  }
+  if ($email_perfil == "") {    
+    $ok = false;
+    $msg = "E-mail inválido.";
+  }
+  if ($cep_perfil == "") {    
+    $ok = false;
+    $msg = "CEP inválido.";
+  }
+  if ($cid_perfil == "") {    
+    $ok = false;
+    $msg = "Cidade - UF inválido.";
+  }
+  if ($end_perfil == "") {    
+    $ok = false;
+    $msg = "Endereço inválido.";
+  }
+  if ($senha_usuario == "") {
+    $ok = false;
+    $msg = "Senha inválida.";
+  }
+  if ($senha2_usuario == "") {
+    $ok = false;
+    $msg = "Senha de confirmação inválida.";
+  }
+  if ($ok) {
+    if ($senha_usuario != $senha2_usuario) {
+      $ok = false;
+      $msg = "Senha não confere com a senha de confirmação.";
+    }
+  }
+  if ($ok) {
+    abre_db();
+    $strsql = "
+		select     
+		tperfil.*
+		from  
+		tperfil		
+		where  
+		tperfil.cpf_perfil = :vcpf_perfil and 
+		tperfil.caixa_perfil = 1
+		";
+    $qperfil = $pdo->prepare($strsql);
+    $qperfil->bindParam(":vcpf_perfil", $cpf_perfil);    
+    $qperfil->execute();
+    if ($tperfil = $qperfil->fetch(PDO::FETCH_ASSOC)) {
+      $url_redirec = $Raiz . "publico/cadastro";
+      $chave_perfil = $tperfil["chave_perfil"];    
+      $nome_perfil = $tperfil["nome_perfil"];
+      $end_perfil = $tperfil["end_perfil"];
+      $num_perfil = $tperfil["num_perfil"];
+      $compl_perfil = $tperfil["compl_perfil"];
+      $bairro_perfil = $tperfil["bairro_perfil"];
+      $cid_perfil = $tperfil["cid_perfil"];
+      $uf_perfil = $tperfil["uf_perfil"];
+      $cep_perfil = $tperfil["cep_perfil"];
+      $cpf_perfil = $tperfil["cpf_perfil"];
+      $tel_perfil = $tperfil["tel_perfil"];
+      $email_perfil = $tperfil["email_perfil"];
+      $msg = "Perfil já cadastrado com CPF informado.";
+      $ok = false;
+    }
+    else {
+      $strsql = "
+      select     
+      tperfil.*
+      from  
+      tperfil		
+      where  
+      tperfil.email_perfil = :vemail_perfil and       
+      tperfil.caixa_perfil = 1
+      ";
+      $qperfil = $pdo->prepare($strsql);
+      $qperfil->bindParam(":vemail_perfil", $email_perfil);      
+      $qperfil->execute();
+      if ($tperfil = $qperfil->fetch(PDO::FETCH_ASSOC)) {
+        $url_redirec = $Raiz . "publico/cadastro";
+        $chave_perfil = $tperfil["chave_perfil"];    
+        $nome_perfil = $tperfil["nome_perfil"];
+        $end_perfil = $tperfil["end_perfil"];
+        $num_perfil = $tperfil["num_perfil"];
+        $compl_perfil = $tperfil["compl_perfil"];
+        $bairro_perfil = $tperfil["bairro_perfil"];
+        $cid_perfil = $tperfil["cid_perfil"];
+        $uf_perfil = $tperfil["uf_perfil"];
+        $cep_perfil = $tperfil["cep_perfil"];
+        $cpf_perfil = $tperfil["cpf_perfil"];
+        $tel_perfil = $tperfil["tel_perfil"];
+        $email_perfil = $tperfil["email_perfil"];
+        $msg = "Perfil já com e-mail informado.";
+        $ok = false;
+      }
+      else {
+        $strsql = "
+        select     
+        tusuario.chave_usuario
+        ,tperfil.nome_perfil        
+        from  
+        tusuario
+        left join tperfil on tusuario.chave_perfil = tperfil.chave_perfil 
+        where  
+        tusuario.email_usuario = :vemail_perfil and 
+        tusuario.caixa_usuario = 1
+        ";
+        $qusuario = $pdo->prepare($strsql);
+        $qusuario->bindParam(":vemail_perfil", $email_perfil);      
+        $qusuario->execute();
+        if ($tusuario = $qusuario->fetch(PDO::FETCH_ASSOC)) {
+          $url_redirec = $Raiz . "publico/cadastro";
+          $chave_perfil = $tusuario["chave_perfil"];    
+          $nome_perfil = $tusuario["nome_perfil"];
+          $end_perfil = $tperfil["end_perfil"];
+          $num_perfil = $tperfil["num_perfil"];
+          $compl_perfil = $tperfil["compl_perfil"];
+          $bairro_perfil = $tperfil["bairro_perfil"];
+          $cid_perfil = $tperfil["cid_perfil"];
+          $uf_perfil = $tperfil["uf_perfil"];
+          $cep_perfil = $tperfil["cep_perfil"];
+          $cpf_perfil = $tperfil["cpf_perfil"];
+          $tel_perfil = $tperfil["tel_perfil"];
+          $email_perfil = $tperfil["email_perfil"];
+          $msg = "E-mail já vinculado para outro usuário já cadastrado.";
+          $ok = false;
+        }
+        else {
+          // Inclusão do perfil
+          $cod_perfil = criptografar($email_perfil);
+          $strsql = "
+          insert 
+          into 
+          tperfil 
+          (cod_perfil
+          ,nome_perfil
+          ,end_perfil
+          ,num_perfil
+          ,compl_perfil
+          ,bairro_perfil
+          ,cid_perfil
+          ,uf_perfil
+          ,cep_perfil
+          ,cpf_perfil
+          ,tel_perfil
+          ,email_perfil
+          ) 
+          values 
+          (:vcod_perfil
+          ,:vnome_perfil
+          ,:vend_perfil
+          ,:vnum_perfil
+          ,:vcompl_perfil
+          ,:vbairro_perfil
+          ,:vcid_perfil
+          ,:vuf_perfil
+          ,:vcep_perfil
+          ,:vcpf_perfil
+          ,:vtel_perfil
+          ,:vemail_perfil
+          )";
+          $qperfil = $pdo->prepare($strsql);    
+          $qperfil->bindParam(":vcod_perfil", $cod_perfil);
+          $qperfil->bindParam(":vnome_perfil", $nome_perfil);
+          $qperfil->bindParam(":vend_perfil", $end_perfil);
+          $qperfil->bindParam(":vnum_perfil", $num_perfil);
+          $qperfil->bindParam(":vcompl_perfil", $compl_perfil);
+          $qperfil->bindParam(":vbairro_perfil", $bairro_perfil);
+          $qperfil->bindParam(":vcid_perfil", $cid_perfil);
+          $qperfil->bindParam(":vuf_perfil", $uf_perfil);
+          $qperfil->bindParam(":vcep_perfil", $cep_perfil);
+          $qperfil->bindParam(":vcpf_perfil", $cpf_perfil);
+          $qperfil->bindParam(":vtel_perfil", $tel_perfil);
+          $qperfil->bindParam(":vemail_perfil", $email_perfil);
+          $qperfil->execute();
+          $chave_perfil = $pdo->lastInsertId();
+          fecha_diario("tperfil", "chave_perfil", $chave_perfil, $abre_diario = array(), $campoexcluidos = array(""));
+          // EOF Inclusão do perfil
+
+          // Inclusão do usuário vinculado ao perfil
+          $tipo_usuario = "USUARIO";
+          $ativo_usuario = "1";
+          $caixa_usuario = "1";
+          $strsql = "
+          insert 
+          into 
+          tusuario 
+          (chave_perfil
+          ,nome_usuario
+          ,email_usuario
+          ,senha_usuario
+          ,tipo_usuario
+          ,ativo_usuario
+          ,caixa_usuario
+          ) 
+          values 
+          (:vchave_perfil
+          ,:vnome_usuario
+          ,:vemail_usuario
+          ,:vsenha_usuario
+          ,:vtipo_usuario
+          ,:vativo_usuario
+          ,:vcaixa_usuario
+          )";
+          $qusuario = $pdo->prepare($strsql);          
+          $qusuario->bindParam(":vchave_perfil", $chave_perfil);
+          $qusuario->bindParam(":vnome_usuario", $nome_perfil);
+          $qusuario->bindParam(":vemail_usuario", $email_perfil);
+          $qusuario->bindParam(":vsenha_usuario", $senha_usuario);
+          $qusuario->bindParam(":vtipo_usuario", $tipo_usuario);
+          $qusuario->bindParam(":vativo_usuario", $ativo_usuario);
+          $qusuario->bindParam(":vcaixa_usuario", $caixa_usuario);
+          $qusuario->execute();
+          $chave_usuario = $pdo->lastInsertId();
+          fecha_diario("tusuario", "chave_usuario", $chave_usuario, $abre_diario = array(), $campoexcluidos = array(""));
+          // EOF Inclusão do usuário vinculado ao perfil
+          fecha_db();
+          header("Location: {$Home}");
+          die();          
+        }
+      }
+    }    
+  }
+}
+else {
+  $chave_perfil = "0";
+  $nome_perfil = "";
+  $end_perfil = "";
+  $num_perfil = "";
+  $compl_perfil = "";
+  $bairro_perfil = "";
+  $cid_perfil = "";
+  $uf_perfil = "";
+  $cep_perfil = "";
+  $cpf_perfil = "";
+  $tel_perfil = "";
+  $email_perfil = "";
+  $senha_usuario = "";
+  $senha2_usuario = "";
+  $msg = "";
+}
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Recibo Express - Cadastro</title>
+  <?php include($Raiz . "include/html/header.html"); ?>
+</head>
+<script type="text/javascript">
+function pesquisacep(vcep) {
+  var vok = true;
+  var vcodibge_perfil = document.getElementById('codibge_perfil').value;
+  var vcep_perfil_pesquisado = document.getElementById('cep_perfil_pesquisado').value;
+  if (vcep_perfil_pesquisado.length != 9) {
+    vcep_perfil_pesquisado = "";
+  }
+  vcep = vcep.trim();
+  vcodibge_perfil = vcodibge_perfil.trim();
+  if (vcep == "") {
+    vok = false;
+  }
+  if (vok) {
+    vcep = vcep.replace(/\D/g, "");
+    if (vcep.length != 8) {
+      vok = false;      
+    }
+  }
+  if (vok) {
+    vcep_perfil_pesquisado = vcep_perfil_pesquisado.replace(/\D/g, "");
+    if (vcep == vcep_perfil_pesquisado && vcodibge_perfil.length == 7) {
+      vok = false;
+    }
+  }
+  if (vok) {
+    var validacep = /^[0-9]{8}$/;    
+    if (validacep.test(vcep)) {
+      //Preenche os campos com "..." enquanto consulta webservice.
+      if (document.getElementById('end_perfil').value == "") {
+        document.getElementById('end_perfil').value = "...";
+      }
+      if (document.getElementById('bairro_perfil').value == "") {
+        document.getElementById('bairro_perfil').value = "...";
+      }
+      if (document.getElementById('cid_perfil').value == "") {
+        document.getElementById('cid_perfil').value = "...";
+      }
+      if (document.getElementById('uf_perfil').value == "") {
+        document.getElementById('uf_perfil').value = "...";
+      }
+      if (document.getElementById('codibge_perfil').value == "") {
+        document.getElementById('codibge_perfil').value = "...";
+      }      
+      document.getElementById('cep_perfil_pesquisado').value = document.getElementById('cep_perfil').value;
+      //Cria um elemento javascript.
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", "https://viacep.com.br/ws/" + vcep + "/json/", true);
+      xhr.setRequestHeader("Accept", "application/json");
+      xhr.onreadystatechange = function () {
+        if ((xhr.readyState == 0 || xhr.readyState == 4) && xhr.status == 200) {
+          xhr = JSON.parse(xhr.responseText);
+          var vcep_formatado = xhr.cep;
+          if (vcep_formatado != "") {
+            vcep_formatado = vcep_formatado.replace(/(\d{5})(\d)/, '$1-$2');
+          }
+          document.getElementById('cep_perfil').value = vcep_formatado;
+          document.getElementById('end_perfil').value = xhr.logradouro.toUpperCase();
+          document.getElementById('bairro_perfil').value = xhr.bairro.toUpperCase();
+          document.getElementById('cid_perfil').value = xhr.localidade.toUpperCase();
+          document.getElementById('uf_perfil').value = xhr.uf.toUpperCase();
+          document.getElementById('codibge_perfil').value = xhr.ibge;
+          document.getElementById('cid_perfil').value = xhr.localidade.toUpperCase() + ' / ' + xhr.uf.toUpperCase();
+          document.getElementById('end_perfil').value = xhr.logradouro.toUpperCase() + ', ' + xhr.bairro.toUpperCase();          
+        };
+      };
+      xhr.send(null);      
+    }
+    else {      
+      vok = false;
+      limpa_formulário_cep();
+    }
+  }  
+  if (!vok) {
+    const vcep_perfil_feedback = document.getElementById("cep_perfil_feedback");
+    vcep_perfil_feedback.textContent = "Conteúdo inválido! Informe um CEP.";
+    document.getElementById('cep_perfil').setAttribute('class', 'form-control is-invalid');
+    document.getElementById('cep_perfil_feedback').setAttribute('class', 'invalid-feedback');    
+  }
+  else {
+    const vcep_perfil_feedback = document.getElementById("cep_perfil_feedback");
+    vcep_perfil_feedback.textContent = "";
+    document.getElementById('cep_perfil').setAttribute('class', 'form-control');
+    document.getElementById('cep_perfil_feedback').setAttribute('class', 'd-none');
+  }
+  return;
+};
+
+function limpa_formulário_cep() {
+  document.getElementById('end_perfil').value = "";
+  document.getElementById('bairro_perfil').value = "";
+  document.getElementById('cid_perfil').value = "";
+  document.getElementById('uf_perfil').value = "";
+  document.getElementById('codibge_perfil').value = "";
+}
+
+function verificaNOME(ccampo) {
+  var vok = true;
+  var cnome = ccampo.value;
+  cnome = cnome.trim();
+  if (cnome == "") {    
+    const vnome_perfil_feedback = document.getElementById("nome_perfil_feedback");
+    vnome_perfil_feedback.textContent = "Conteúdo inválido! Informe um nome.";
+    document.getElementById('nome_perfil').setAttribute('class', 'form-control is-invalid');
+    document.getElementById('nome_perfil_feedback').setAttribute('class', 'invalid-feedback');
+    vok = false;
+  }
+  if (vok) {
+    document.getElementById('nome_perfil').setAttribute('class', 'form-control');
+    document.getElementById('nome_perfil_feedback').setAttribute('class', 'd-none');
+  }
+}
+
+function verificaTEL(ccampo) {
+  var vok = true;
+  var ctel = ccampo.value;
+  ctel = ctel.trim();
+  if (ctel == "") {    
+    const vtel_perfil_feedback = document.getElementById("tel_perfil_feedback");
+    vtel_perfil_feedback.textContent = "Conteúdo inválido! Informe um Telefone / WhatsApp.";
+    document.getElementById('tel_perfil').setAttribute('class', 'form-control is-invalid');
+    document.getElementById('tel_perfil_feedback').setAttribute('class', 'invalid-feedback');
+    vok = false;
+  }
+  if (vok) {
+    document.getElementById('tel_perfil').setAttribute('class', 'form-control');
+    document.getElementById('tel_perfil_feedback').setAttribute('class', 'd-none');
+  }
+}
+
+async function verificaEMAIL(ccampo) {
+  let cemail = ccampo.value;
+  cemail = cemail.trim();
+  if (cemail == "") {    
+    const vemail_perfil_feedback = document.getElementById("email_perfil_feedback");
+    vemail_perfil_feedback.textContent = "Conteúdo inválido! Informe um e-mail.";
+    document.getElementById('email_perfil').setAttribute('class', 'form-control is-invalid');
+    document.getElementById('email_perfil_feedback').setAttribute('class', 'invalid-feedback');
+    return;
+  }
+  try {
+    const cchave_perfil = document.getElementById("chave_perfil").value;    
+    const response = await fetch('cadastro_ajax.php', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        chave_perfil: cchave_perfil,
+        email_perfil: cemail
+      }),
+    });
+    const data = await response.json();
+    console.log(data); // Loga os dados já processados do JSON
+    if (data.retorno === "falha") {
+      const vemail_perfil_feedback = document.getElementById("email_perfil_feedback");
+      vemail_perfil_feedback.textContent = "E-mail inválido ou já cadastrado.";
+      document.getElementById('email_perfil').className = 'form-control is-invalid';
+      document.getElementById('email_perfil_feedback').className = 'invalid-feedback';      
+      document.getElementById("BTN_CONFIRMAR").disabled = true;
+    } else {
+      // Sucesso na validação do servidor
+      document.getElementById('email_perfil').className = 'form-control';
+      document.getElementById('email_perfil_feedback').className = 'd-none';
+      document.getElementById("BTN_CONFIRMAR").disabled = false;
+    }
+  } catch (error) {
+    console.error('Erro na requisição:', error);
+  }
+}
+
+function verificaCEP(ccampo) {
+  var vok = true;
+  var ccep = ccampo.value;
+  ccep = ccep.trim();
+  if (ccep == "") {    
+    const vcep_perfil_feedback = document.getElementById("cep_perfil_feedback");
+    vcep_perfil_feedback.textContent = "Conteúdo inválido! Informe um CEP.";
+    document.getElementById('cep_perfil').setAttribute('class', 'form-control is-invalid');
+    document.getElementById('cep_perfil_feedback').setAttribute('class', 'invalid-feedback');
+    vok = false;
+  }
+  if (vok) {
+    ccep = ccep.replace(/\D/g, "");
+    if (ccep.length != 8) {
+      vok = false;
+    }
+  }  
+  if (!vok) {
+    const vcep_perfil_feedback = document.getElementById("cep_perfil_feedback");
+    vcep_perfil_feedback.textContent = "Conteúdo inválido! Informe um CEP.";
+    document.getElementById('cep_perfil').setAttribute('class', 'form-control');
+    document.getElementById('cep_perfil_feedback').setAttribute('class', 'd-none');
+  }
+}
+
+function verificaCID(ccampo) {
+  var vok = true;
+  var ccid = ccampo.value;
+  ccid = ccid.trim();
+  if (ccid == "") {    
+    const vcid_perfil_feedback = document.getElementById("cid_perfil_feedback");
+    vcid_perfil_feedback.textContent = "Conteúdo inválido! Informe uma cidade e UF.";
+    document.getElementById('cid_perfil').setAttribute('class', 'form-control is-invalid');
+    document.getElementById('cid_perfil_feedback').setAttribute('class', 'invalid-feedback');
+    vok = false;
+  }
+  if (vok) {
+    document.getElementById('cid_perfil').setAttribute('class', 'form-control');
+    document.getElementById('cid_perfil_feedback').setAttribute('class', 'd-none');
+  }
+}
+
+function verificaEND(ccampo) {
+  var vok = true;
+  var cend = ccampo.value;
+  cend = cend.trim();
+  if (cend == "") {    
+    const vend_perfil_feedback = document.getElementById("end_perfil_feedback");
+    vend_perfil_feedback.textContent = "Conteúdo inválido! Informe uma endade e UF.";
+    document.getElementById('end_perfil').setAttribute('class', 'form-control is-invalid');
+    document.getElementById('end_perfil_feedback').setAttribute('class', 'invalid-feedback');
+    vok = false;
+  }
+  if (vok) {
+    document.getElementById('end_perfil').setAttribute('class', 'form-control');
+    document.getElementById('end_perfil_feedback').setAttribute('class', 'd-none');
+  }
+}
+
+function verificaSENHA(ccampo) {
+  var vok = true;
+  var csenha = ccampo.value;
+  csenha = csenha.trim();
+  if (csenha == "") {    
+    const vsenha_usuario_feedback = document.getElementById("senha_usuario_feedback");
+    vsenha_usuario_feedback.textContent = "Conteúdo inválido! Informe uma senha.";
+    document.getElementById('senha_usuario').setAttribute('class', 'form-control is-invalid');
+    document.getElementById('senha_usuario_feedback').setAttribute('class', 'invalid-feedback');
+    vok = false;
+  }
+  if (vok) {
+    document.getElementById('senha_usuario').setAttribute('class', 'form-control');
+    document.getElementById('senha_usuario_feedback').setAttribute('class', 'd-none');
+  }
+}
+
+function verificaSENHA2(ccampo) {
+  var vok = true;
+  var csenha2 = ccampo.value;
+  csenha2 = csenha2.trim();
+  if (csenha2 == "") {    
+    const vsenha2_usuario_feedback = document.getElementById("senha2_usuario_feedback");
+    vsenha2_usuario_feedback.textContent = "Conteúdo inválido! Informe a senha de confirmação.";
+    document.getElementById('senha2_usuario').setAttribute('class', 'form-control is-invalid');
+    document.getElementById('senha2_usuario_feedback').setAttribute('class', 'invalid-feedback');
+    vok = false;
+  }
+  if (vok) {
+    document.getElementById('senha2_usuario').setAttribute('class', 'form-control');
+    document.getElementById('senha2_usuario_feedback').setAttribute('class', 'd-none');
+  }
+}
+
+//********************
+//********************
+//**** Pesquisa CPF
+//********************
+//********************
+async function verificaCPF(ccampo) {
+  let ccpf = ccampo.value;
+  // 1. Validação local (Formato)
+  if (!isCpf(ccpf)) {
+    const vcpf_perfil_feedback = document.getElementById("cpf_perfil_feedback");
+    vcpf_perfil_feedback.textContent = "Conteúdo inválido! Informe um número válido de CPF.";
+    document.getElementById('cpf_perfil').className = 'form-control is-invalid';
+    document.getElementById('cpf_perfil_feedback').className = 'invalid-feedback';    
+    return; // Interrompe a execução caso seja inválido
+  }
+  // Formata o CPF no campo
+  ccpf = formatCpfCnpj(ccpf, true, isCnpj(ccpf));
+  ccampo.value = ccpf;
+  // 2. Validação no Servidor (AJAX Assíncrono)
+  try {
+    const cchave_perfil = document.getElementById("chave_perfil").value;
+    const response = await fetch('cadastro_ajax.php', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        chave_perfil: cchave_perfil,
+        cpf_perfil: ccpf
+      }),
+    });
+    const data = await response.json();
+    console.log(data); // Loga os dados já processados do JSON
+    if (data.retorno === "falha") {
+      const vcpf_perfil_feedback = document.getElementById("cpf_perfil_feedback");
+      vcpf_perfil_feedback.textContent = "CPF inválido ou já cadastrado.";
+      document.getElementById('cpf_perfil').className = 'form-control is-invalid';
+      document.getElementById('cpf_perfil_feedback').className = 'invalid-feedback';      
+      document.getElementById("BTN_CONFIRMAR").disabled = true;
+    } else {
+      // Sucesso na validação do servidor
+      document.getElementById('cpf_perfil').className = 'form-control';
+      document.getElementById('cpf_perfil_feedback').className = 'd-none';
+      document.getElementById("BTN_CONFIRMAR").disabled = false;
+    }
+  } catch (error) {
+    console.error('Erro na requisição:', error);
+  }
+}
+//********************
+//********************
+//**** EOF Pesquisa CPF
+//********************
+//********************
+
+
+function mascaraTEL(input) {
+  // 1. Remove tudo que não for dígito
+  let valor = input.value.replace(/\D/g, '');
+  // 2. Limita a no máximo 11 dígitos
+  valor = valor.substring(0, 11);
+  // 3. Aplica a formatação dinamicamente
+  if (valor.length > 10) {
+    // 11 dígitos (Celular): (XX) XXXXX-XXXX
+    valor = valor.replace(/^(\d{2})(\d{5})(\d{4})$/, '($1) $2-$3');
+  } else if (valor.length > 6) {
+    // 7 a 10 dígitos (Fixo ou Celular em digitação): (XX) XXXX-XXXX
+    valor = valor.replace(/^(\d{2})(\d{4,5})(\d{4})$/, '($1) $2-$3');
+  } else if (valor.length > 2) {
+    // 3 a 6 dígitos: (XX) XXXX...
+    valor = valor.replace(/^(\d{2})(\d{0,5})/, '($1) $2');
+  } else if (valor.length > 0) {
+    // 1 a 2 dígitos: (XX...
+    valor = valor.replace(/^(\d{0,2})/, '($1');
+  }
+  input.value = valor;
+}
+</script>
+<body>
+  <div class="container pt-2">
+    <div class="row mt-3">
+      <div class="col">
+        <div class="rounded-2 d-flex justify-content-between align-items-center">
+          <a href="/"><img src="/identidade/logo-reciboexpress-texto.svg" style="max-width:200px" alt="Recibo Express" class="d-inline-block align-text-top"></a>
+          <div class="d-flex justify-content-end align-items-center">
+            <span class="texto14-admin" style="color:#163B5C">Entrar</span>
+          </div>
+        </div>
+        <hr>
+      </div>
+    </div>
+    <div class="card rounded-3 border-1 p-4" style="background-color: #FFF; border-color: #CCC;">
+      <h1 class="texto-titulo">Complete seu perfil</h1>      
+      <span class="texto-titulo-aux">Esses dados aparecem nos seus recibos. Você é pessoa física prestadora de serviço.</span>
+      <div class="row" style="margin-top: 60px; margin-bottom: 30px;">
+        <div class="col-12">
+          <div class="d-inline p-2 text-bg-primary">
+            Pessoa física
+          </div>
+        </div>
+      </div>
+      <span class="texto-pirulito">DADOS DO PRESTADOR</span>
+      <form method="post" class="needs-validation" id="FPERFIL_EDITA" name="FPERFIL_EDITA" action="index.php" novalidate>
+        <div class="row mb-3">
+          <div class="col-12">
+            <label for="nome_perfil" class="col-form-label-sm fw-bold mb-0 texto-campo">NOME COMPLETO</label>
+            <input type="hidden" id="chave_perfil" name="chave_perfil" value="">
+            <input type="text" class="form-control" id="nome_perfil" name="nome_perfil" value="<?php echo $nome_perfil ?>" placeholder="Nome completo" onblur="verificaNOME(this)" aria-describedby="nome_perfil_feedback" required>
+            <div id="nome_perfil_feedback" class="d-none">
+              Nome inválido
+            </div>        
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-6">
+            <label for="cpf_perfil" class="col-form-label-sm fw-bold mb-0 texto-campo">CPF</label>            
+            <input type="text" class="form-control" id="cpf_perfil" name="cpf_perfil" value="<?php echo $cpf_perfil ?>" placeholder="CPF" onblur="verificaCPF(this)" aria-describedby="cpf_perfil_feedback" required>
+            <div id="cpf_perfil_feedback" class="d-none">
+              CPF inválido.
+            </div>        
+          </div>
+          <div class="col-6">
+            <label for="tel_perfil" class="col-form-label-sm fw-bold mb-0 texto-campo">TELEFONE / WHATSAPP</label>
+            <input type="text" class="form-control" id="tel_perfil" name="tel_perfil" value="<?php echo $tel_perfil ?>" placeholder="Telefone ou WhatsApp" onblur="mascaraTEL(this); verificaTEL(this)" aria-describedby="tel_perfil_feedback" required>
+            <div id="tel_perfil_feedback" class="d-none">
+              Telefone / WhatsApp inválido.
+            </div>        
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-12">        
+            <label for="email_perfil" class="col-form-label-sm fw-bold mb-0 texto-campo">E-MAIL</label>
+            <input type="email" class="form-control" id="email_perfil" name="email_perfil" value="<?php echo $email_perfil ?>" placeholder="E-mail" onblur="verificaEMAIL(this)" aria-describedby="email_perfil_feedback" required>
+            <div id="email_perfil_feedback" class="d-none">
+              E-mail inválido.
+            </div>        
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-6">
+            <label for="cep_perfil" class="col-form-label-sm fw-bold mb-0 texto-campo">CEP</label>
+            <input type="hidden" id="codibge_perfil" name="codibge_perfil" value="">
+            <input type="hidden" id="cep_perfil_pesquisado" name="cep_perfil_pesquisado" value="">
+            <input type="text" class="form-control" id="cep_perfil" name="cep_perfil" value="<?php echo $cep_perfil ?>" placeholder="CEP" value="" onblur="javascript:pesquisacep(this.value);" aria-describedby="cep_perfil_feedback" required>
+            <div id="cep_perfil_feedback" class="d-none">
+              CEP inválido.
+            </div>
+          </div>
+          <div class="col-6">
+            <label for="cid_perfil" class="col-form-label-sm fw-bold mb-0 texto-campo">CIDADE / UF</label>
+            <input type="text" class="form-control" id="cid_perfil" name="cid_perfil" value="<?php echo $cid_perfil ?>" placeholder="Cidade - UF" onblur="verificaCID(this)" aria-describedby="cid_perfil_feedback" required>
+            <div id="cid_perfil_feedback" class="d-none">
+              Cidade inválido.
+            </div>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-12">
+            <label for="end_perfil" class="col-form-label-sm fw-bold mb-0 texto-campo">ENDEREÇO</label>
+            <input type="hidden" id="num_perfil" name="num_perfil" value="">
+            <input type="hidden" id="compl_perfil" name="compl_perfil" value="">
+            <input type="hidden" id="bairro_perfil" name="bairro_perfil" value="">
+            <input type="hidden" id="uf_perfil" name="uf_perfil" value="">
+            <input type="text" class="form-control" id="end_perfil" name="end_perfil" value="<?php echo $end_perfil ?>" placeholder="Endereço (Rua, nº, complemento, bairro)" onblur="verificaEND(this)" aria-describedby="end_perfil_feedback" required>
+            <div id="end_perfil_feedback" class="d-none">
+              Endereço inválido.
+            </div>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-6">
+            <label for="senha_usuario" class="col-form-label-sm fw-bold mb-0 texto-campo">SENHA</label>            
+            <input type="password" class="form-control" id="senha_usuario" name="senha_usuario" value="<?php echo $senha_usuario ?>" placeholder="Senha" onblur="verificaSENHA(this)" aria-describedby="senha_usuario_feedback" required>
+            <div id="senha_usuario_feedback" class="d-none">
+              Senha inválida
+            </div>        
+          </div>
+          <div class="col-6">
+            <label for="senha2_usuario" class="col-form-label-sm fw-bold mb-0 texto-campo">CONFIRME SUA SENHA</label>            
+            <input type="password" class="form-control" id="senha2_usuario" name="senha2_usuario" value="<?php echo $senha2_usuario ?>" placeholder="Confirme sua senha" onblur="verificaSENHA2(this)" aria-describedby="senha2_usuario_feedback" required>
+            <div id="senha2_usuario_feedback" class="d-none">
+              Senha inválida
+            </div>        
+          </div>
+        </div>
+        <div class="pt-1 pb-2">
+          <hr>
+        </div>
+        <div class="row mb-3">
+          <div class="col-6">
+            <div id="msg-feedback" class="text-danger">
+              <?php echo $msg ?>
+            </div>            
+          </div>
+          <div class="col-6 d-flex justify-content-end">            
+            <button type="submit" class="btn btn-custom" id="BTN_CONFIRMAR" name="BTN_CONFIRMAR">Criar conta e continuar</button>
+          </div>
+        </div>
+      </form>      
+    </div>
+  </div>
+  <?php include($Raiz . "include/php/rodape.php"); ?>
+</body>
+</html>
