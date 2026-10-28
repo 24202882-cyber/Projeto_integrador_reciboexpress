@@ -196,7 +196,6 @@ function alteraORCAMENTO(cchave) {
   document.FORCAMENTO_EDITA.submit();
 }
 
-
 function Modal_BrowseClientes() {
   var vurl = '';
   var vpagina = '1';

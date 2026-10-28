@@ -26,7 +26,6 @@
  **************************************************
  */
 session_start();
-
 $Raiz = "../../";
 include($Raiz . "include/php/header.php"); // Configurações HEADER
 include($Raiz . "include/php/funcoes.php"); // Funcoes de Usuário PHP
@@ -56,6 +55,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
   if (isset($_POST["acao"])) {
     $acao = $_POST["acao"];
   }
+  if ($chave_orcamento != "") {
+    $_SESSION["CHAVE_ORCAMENTO"] = $chave_orcamento;
+  }
   if ($acao == "NOVO") {
     if ($chave_orcamento == "" && $chave_cliente != "") {
       abre_db();
@@ -80,6 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
       $qorcamento->execute();
       $chave_orcamento = $pdo->lastInsertId();
       fecha_diario("torcamento", "chave_orcamento", $chave_orcamento, $abre_diario = array(), $campoexcluidos = array(""));
+      $_SESSION["CHAVE_ORCAMENTO"] = $chave_orcamento;
     }
   }
   if ($acao == "EDITA") {
@@ -105,12 +108,36 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     }
   }
 }
-$chave_orcamento = str_pad($chave_orcamento, 6, "0", STR_PAD_LEFT);
+else {
+  if (isset($_SESSION["CHAVE_ORCAMENTO"])) {
+    $chave_orcamento = $_SESSION["CHAVE_ORCAMENTO"];
+    abre_db();
+    $strsql = "
+    select
+    torcamento.chave_cliente    
+    ,tcliente.nome_cliente
+    from
+    torcamento
+    left join tcliente on torcamento.chave_cliente = tcliente.chave_cliente
+    where    
+    torcamento.chave_orcamento = :vchave_orcamento and
+    torcamento.chave_perfil = :vchave_perfil and
+    torcamento.caixa_orcamento = 1
+    ";
+    $qorcamento = $pdo->prepare($strsql);
+    $qorcamento->bindParam(":vchave_orcamento", $chave_orcamento);
+    $qorcamento->bindParam(":vchave_perfil", $chave_perfil);
+    $qorcamento->execute();
+    if ($torcamento = $qorcamento->fetch(PDO::FETCH_ASSOC)) {
+      $chave_cliente = $torcamento["chave_cliente"];
+    }
+  }
+}
+$chave_orcamento_ext = str_pad($chave_orcamento, 6, "0", STR_PAD_LEFT);
 $qtd = 0;
 $dtc = date('Y-m-d');
 if ($chave_cliente != "") {
   abre_db();
-
   $strsql = "
   select
   count(1) as qtd 
@@ -163,9 +190,8 @@ if ($chave_cliente != "") {
   $qcliente->bindParam(":vchave_perfil", $chave_perfil);
   $qcliente->execute();
   if ($tcliente = $qcliente->fetch(PDO::FETCH_ASSOC)) {
-    $nome_cliente = $tcliente["nome_cliente"];
+    $nome_cliente = $tcliente["nome_cliente"];    
   }
-
 }
 $nome_cliente_compac = $nome_cliente;
 if (strlen($nome_cliente) > 20) {
@@ -181,9 +207,10 @@ if ($qtd > 1) {
 if ($qtd <= 0) {
   $resumo_qtd = "Nenhum trabalho ainda.";
 }
-
 $html_orcamentosrv = "";
-
+$contador = 0;
+$subtotal = 0;
+$total = 0;
 abre_db();
 $strsql = "
 select
@@ -204,9 +231,12 @@ $qorcamentosrv->bindParam(":vchave_perfil", $chave_perfil);
 $qorcamentosrv->execute();
 while ($torcamentosrv = $qorcamentosrv->fetch(PDO::FETCH_ASSOC)) {
   $chave_orcamentosrv = $torcamentosrv["chave_orcamentosrv"];
+  $chave_servico = $torcamentosrv["chave_servico"];
   $descr_servico = $torcamentosrv["descr_servico"];
   $qtd_orcamentosrv = $torcamentosrv["qtd_orcamentosrv"];
   $vlu_orcamentosrv = $torcamentosrv["vlu_orcamentosrv"];
+  $subtotal += (intval($qtd_orcamentosrv) * floatval($vlu_orcamentosrv));
+  $total += (intval($qtd_orcamentosrv) * floatval($vlu_orcamentosrv));  
   //$cobranca_orcamento = strtolower($torcamento["cobranca_orcamento"]);
   //$valor_orcamento = "R$ " . number_format($torcamento["valor_orcamento"], 2, ',', '.');
   //
@@ -218,19 +248,22 @@ while ($torcamentosrv = $qorcamentosrv->fetch(PDO::FETCH_ASSOC)) {
   //  <td><span class='texto13'>{$vlur_orcamentosrv}</span></td>
   //  <td class='text-end'><a href='#' onclick='javascript:alteraORCAMENTO({$chave_orcamento})'><i class='ci ci-acao-editar me-3'></i></a><a href='#' onclick='javascript:excluiORCAMENTO({$chave_orcamento})'><i class='ci ci-acao-excluir'></i></a></td>    
   //</tr>
+  $contador += 1;
   $html_orcamentosrv .= "
   <div class='col-8'>
     <span class='texto17'>{$descr_servico}</span><br>
-    <span class='texto12-regular'>por {$descr_servico} - R$ {$vlu_orcamentosrv}</span>
+    <span class='texto12-regular'>por {$descr_servico} - " . Float2Moeda(floatval($torcamentosrv["vlu_orcamentosrv"]), 2) . "</span>
   </div>
   <div class='col-4 d-flex justify-content-end'>
     <div class='row g-3 align-items-center'>
       <div class='col-auto'>
-        <input type='text' class='form-control' id='valorserv1' name='valorserv1' value='1' style='max-width:50px'>
+        <input type='hidden' id='servico{$contador}' name='servico{$contador}' value='{$chave_servico}'>
+        <input type='hidden' id='chave{$contador}' name='chave{$contador}' value='{$chave_orcamentosrv}'>
+        <input type='text' class='form-control' style='max-width:50px' id='qtd{$contador}' name='qtd{$contador}' value='{$qtd_orcamentosrv}' onblur='javascript:alteraSERVICO(this);'>
       </div>
       <div class='col-auto'>
         <span id='valorserv1' class='texto16'>
-          R$ $vlu_orcamentosrv
+          $vlu_orcamentosrv
         </span>
       </div>
     </div>
@@ -240,9 +273,6 @@ while ($torcamentosrv = $qorcamentosrv->fetch(PDO::FETCH_ASSOC)) {
   </div>  
   ";
 }
-
-
-
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -434,7 +464,7 @@ while ($torcamentosrv = $qorcamentosrv->fetch(PDO::FETCH_ASSOC)) {
       document.refresh;
     }
     else {
-      Pesquisa_Cliente();
+      Pesquisa_Servico();
     }
   }
 
@@ -445,30 +475,21 @@ while ($torcamentosrv = $qorcamentosrv->fetch(PDO::FETCH_ASSOC)) {
   }
 
   function Pesquisa_Servico() {
-    //const form = document.getElementById("FORCAMENTOSRV_EDITA");
-    //form.submit();
-    enviarFormulario();
-  }
-
-  async function enviarFormulario() {
-    const formData = new FormData();
+    const vchave_orcamento = document.getElementById("chave_orcamento").value;
     const vchave_servico = document.getElementById("chave_servico").value;
-    const vchave_orcamento = document.getElementById("chave_orcamento").value;    
-    formData.append('chave_servico', vchave_servico);
-    formData.append('chave_orcamento', vchave_orcamento);
-    // formData.append('arquivo', inputElement.files[0]); // Para arquivos
-    try {
-      const resposta = await fetch('orcamentosrv_edita.php', {
-        method: 'POST',
-        body: formData // O browser ajusta os headers automaticamente
-      });      
-      const resultado = await resposta.json();
-      console.log('Sucesso:', resultado);
-    } catch (erro) {
-      console.log('Erro:', erro);
+    if (vchave_orcamento != "" && vchave_servico != "") {
+      document.FORCAMENTOSRV_EDITA.submit();
     }
   }
 
+  function alteraSERVICO(ccampo) {
+    const numcampo = ccampo.id.slice(3);
+    document.getElementById("chave_servico").value = document.getElementById("servico" + numcampo).value;
+    document.getElementById("chave_orcamentosrv").value = document.getElementById("chave" + numcampo).value;
+    document.getElementById("qtd_orcamentosrv").value = document.getElementById("qtd" + numcampo).value;
+    document.getElementById("acao").value = "EDITA";
+    document.FORCAMENTOSRV_EDITA.submit();
+  }
 </script>
 
 <body>
@@ -501,7 +522,7 @@ while ($torcamentosrv = $qorcamentosrv->fetch(PDO::FETCH_ASSOC)) {
         <?php include($Raiz . "include/php/menu_superior.php"); ?>
         <div class="main-content">
           <div class="col-12 mt-3">
-            <span class="texto11">ORÇAMENTOS . Nº <?php echo $chave_orcamento; ?></span>
+            <span class="texto11">ORÇAMENTOS . Nº <?php echo $chave_orcamento_ext; ?></span>
           </div>
           <div class="row">
             <div class="col-sm-10">
@@ -567,11 +588,15 @@ while ($torcamentosrv = $qorcamentosrv->fetch(PDO::FETCH_ASSOC)) {
                 <div class="col-12 mb-2">
                   <div class="card">
                     <div class="card-body">
-                      <form method="post" id="FORCAMENTOSRV_EDITA" name="FORCAMENTOSRV_EDITA" action="orcamentosrv_edita.php">
+                      <form method="post" id="FORCAMENTOSRV_EDITA" name="FORCAMENTOSRV_EDITA" action="orcamentosrv_edita.php">                        
                         <input type="hidden" id="chave_orcamento" name="chave_orcamento" value="<?php echo $chave_orcamento ?>">
+                        <input type="hidden" id="chave_orcamentosrv" name="chave_orcamentosrv" value="">
                         <input type="hidden" id="chave_servico" name="chave_servico" value="">
+                        <input type="hidden" id="qtd_orcamentosrv" name="qtd_orcamentosrv" value="">
+                        <input type="hidden" id="acao" name="acao" value="NOVO">
                         <div class="row">
                           <?php echo $html_orcamentosrv ?>
+                          <!--
                           <div class="col-8">
                             <span class="texto17">Faxina completa</span><br>
                             <span class="texto12-regular">por diária - R$ 180,00</span>
@@ -609,7 +634,7 @@ while ($torcamentosrv = $qorcamentosrv->fetch(PDO::FETCH_ASSOC)) {
                           </div>
                           <div class="col-12">
                             <hr>
-                          </div>
+                          </div>-->
                           <div class="col-12 mb-3">
                             <button type="button" class="btn btn-outline-secondary" id="BTN_ADSERVICO" name="BTN_ADSERVICO" data-bs-toggle='modal' data-bs-target='#MODAL_BROWSESERVICOS' onclick="javascript:Modal_BrowseServicos();">
                               + Adicionar serviço
@@ -621,7 +646,7 @@ while ($torcamentosrv = $qorcamentosrv->fetch(PDO::FETCH_ASSOC)) {
                                 Subtotal
                               </div>
                               <div class="col-6 text-end">
-                                R$ 300,00
+                                <?php echo Float2Moeda(floatval($subtotal), 2); ?>
                               </div>
                             </div>
                           </div>
@@ -634,7 +659,7 @@ while ($torcamentosrv = $qorcamentosrv->fetch(PDO::FETCH_ASSOC)) {
                                 TOTAL
                               </div>
                               <div class="col-6 text-end">
-                                <span class="texto28">R$ 300,00</span>
+                                <span class="texto28"><?php echo Float2Moeda(floatval($total), 2); ?></span>
                               </div>
                             </div>
                           </div>

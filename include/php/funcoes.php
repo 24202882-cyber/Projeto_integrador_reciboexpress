@@ -747,7 +747,7 @@ function Float2Moeda($valor, $decimais) {
 			$val = 0;			
 		}		
 	}
-	$val = number_format($val, $decimais, ',', '.');
+	$val = "R$ " . number_format($val, $decimais, ',', '.');
 	$retorno = $val;
 	return $retorno;
 }
