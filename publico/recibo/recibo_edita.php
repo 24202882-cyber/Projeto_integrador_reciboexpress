@@ -109,8 +109,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
       $chave_cliente = $trecibo["chave_cliente"];
     }
   }
-}
-else {
+} else {
   if (isset($_SESSION["CHAVE_RECIBO"])) {
     $chave_recibo = $_SESSION["CHAVE_RECIBO"];
     abre_db();
@@ -244,7 +243,7 @@ while ($trecibosrv = $qrecibosrv->fetch(PDO::FETCH_ASSOC)) {
   $qtd_recibosrv = $trecibosrv["qtd_recibosrv"];
   $vlu_recibosrv = $trecibosrv["vlu_recibosrv"];
   $subtotal += (intval($qtd_recibosrv) * floatval($vlu_recibosrv));
-  $total += (intval($qtd_recibosrv) * floatval($vlu_recibosrv));  
+  $total += (intval($qtd_recibosrv) * floatval($vlu_recibosrv));
   //$cobranca_recibo = strtolower($trecibo["cobranca_recibo"]);
   //$valor_recibo = "R$ " . number_format($trecibo["valor_recibo"], 2, ',', '.');
   //
@@ -450,6 +449,7 @@ while ($trecibosrv = $qrecibosrv->fetch(PDO::FETCH_ASSOC)) {
     document.FRECIBOSRV_EDITA.submit();
   }
 </script>
+
 <body>
   <!-- Modal Browse Serviços -->
   <div class="modal fade" id="MODAL_BROWSESERVICOS" tabindex="-1" role="dialog" aria-labelledby="MODAL_BROWSESERVICOS_LABEL">
@@ -521,66 +521,76 @@ while ($trecibosrv = $qrecibosrv->fetch(PDO::FETCH_ASSOC)) {
               <div class="row">
                 <div class="col-12 mb-2">
                   <div class="card rounded-3 border-1 p-4" style="background-color: #FFF; border-color: #CCC;">
-                    <span class="texto12 mb-3">SERVIÇOS & DATA</span>
+                    <form method="post" id="FRECIBOSRV_EDITA" name="FRECIBOSRV_EDITA" action="recibosrv_edita.php">
+                      <input type="hidden" id="chave_recibo" name="chave_recibo" value="<?php echo $chave_recibo ?>">
+                      <input type="hidden" id="chave_recibosrv" name="chave_recibosrv" value="">
+                      <input type="hidden" id="chave_servico" name="chave_servico" value="">
+                      <input type="hidden" id="qtd_recibosrv" name="qtd_recibosrv" value="">
+                      <input type="hidden" id="acao" name="acao" value="NOVO">
+                      <span class="texto12 mb-3">SERVIÇOS & DATA</span>
+                      <div class="row">
 
-                    <div class="row">
-                      <div class="col-8">
-                        <span class="texto17">Faxina completa</span><br>
-                        <span class="texto12-regular">por diária - R$ 180,00</span>
-                      </div>
-                      <div class="col-4 d-flex justify-content-end">
-                        <div class="row g-3 align-items-center">
-                          <div class="col-auto">
-                            <input type="text" class="form-control" id="valorserv1" name="valorserv1" value="1" style="max-width:50px">
+                        <?php echo $html_recibosrv ?>
+                        
+                        <div class="col-8">
+                          <span class="texto17">Faxina completa</span><br>
+                          <span class="texto12-regular">por diária - R$ 180,00</span>
+                        </div>
+                        <div class="col-4 d-flex justify-content-end">
+                          <div class="row g-3 align-items-center">
+                            <div class="col-auto">
+                              <input type="text" class="form-control" id="valorserv1" name="valorserv1" value="1" style="max-width:50px">
+                            </div>
+                            <div class="col-auto">
+                              <span id="valorserv1" class="texto16">
+                                R$ 180,00
+                              </span>
+                            </div>
                           </div>
-                          <div class="col-auto">
-                            <span id="valorserv1" class="texto16">
+                        </div>
+                        <div class="col-12">
+                          <hr>
+                        </div>
+                        <div class="col-12 mb-3">
+                          <button type="button" class="btn btn-outline-custom" id="BTN_ADSERVICO" name="BTN_ADSERVICO" data-bs-toggle='modal' data-bs-target='#MODAL_BROWSESERVICOS' onclick="javascript:Modal_BrowseServicos();">
+                            + Adicionar serviço
+                          </button>
+                        </div>
+                        <div class="col-12 mt-3">
+                          <div class="row">
+                            <div class="col-6">
+                              Subtotal
+                            </div>
+                            <div class="col-6 text-end">
                               R$ 180,00
-                            </span>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                      <div class="col-12">
-                        <hr>
-                      </div>
-                      <div class="col-12 mb-3">                        
-                        <button type="button" class="btn btn-outline-custom" id="BTN_ADSERVICO" name="BTN_ADSERVICO" data-bs-toggle='modal' data-bs-target='#MODAL_BROWSESERVICOS' onclick="javascript:Modal_BrowseServicos();">
-                          + Adicionar serviço
-                        </button>
-                      </div>
-                      <div class="col-12 mt-3">
-                        <div class="row">
-                          <div class="col-6">
-                            Subtotal
-                          </div>
-                          <div class="col-6 text-end">
-                            R$ 180,00
+                        <div class="col-12">
+                          <hr>
+                        </div>
+
+                        <div class="col-12">
+                          <div class="row">
+                            <div class="col-6">
+                              TOTAL DO RECIBO
+                            </div>
+                            <div class="col-6 text-end">
+                              <span class="texto28">R$ 180,00</span>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                      <div class="col-12">
-                        <hr>
-                      </div>
-                      <div class="col-12">
-                        <div class="row">
-                          <div class="col-6">
-                            TOTAL DO RECIBO
-                          </div>
-                          <div class="col-6 text-end">
-                            <span class="texto28">R$ 180,00</span>
-                          </div>
+                        <div class="col-12 mt-3 mb-3">
+                          <i class="ci ci-menu-armazenamento"></i>
+                          <span class="texto-regular"> O PDF será gerado e salvo na nuvem do seu perfil ao emitir.</span>
+                        </div>
+                        <div class="col-12 mt-2">
+                          <button class="btn btn-custom" style="width: 100%" onclick="javascript:location='/publico/recibo/recibo-pronto.php';">
+                            <i class="ci ci-menu-recibos"></i> Gerar recibo e enviar para aprovação do cliente
+                          </button>
                         </div>
                       </div>
-                      <div class="col-12 mt-3 mb-3">
-                        <i class="ci ci-menu-armazenamento"></i>
-                        <span class="texto-regular"> O PDF será gerado e salvo na nuvem do seu perfil ao emitir.</span>
-                      </div>
-                      <div class="col-12 mt-2">
-                        <button class="btn btn-custom" style="width: 100%" onclick="javascript:location='/publico/recibo/recibo-pronto.php';">
-                          <i class="ci ci-menu-recibos"></i> Gerar recibo e enviar para aprovação do cliente
-                        </button>
-                      </div>
-                    </div>
+                    </form>
                   </div>
                 </div>
               </div>
@@ -599,7 +609,7 @@ while ($trecibosrv = $qrecibosrv->fetch(PDO::FETCH_ASSOC)) {
                           <span class="texto9">RECIBO Nº</span><br>
                           <span class="texto18" style="color:#E9784A">000038</span>
                         </div>
-                      </div>  
+                      </div>
                       <div class="row">
                         <div class="col-12">
                           <span class="texto9">RECEBI DE</span>
