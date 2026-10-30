@@ -21,3 +21,4 @@ Cliente Chave Secreta: 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
 
 
 Senha do mysql em producao: qEcXwV5ikqEcXwV5ik
+Senha do email reciboexpress@kraftwork.com.br: q#EcXwV5ikqEcXwV5ik

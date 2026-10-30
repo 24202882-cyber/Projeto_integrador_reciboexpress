@@ -56,6 +56,7 @@ tcliente
 where    
 chave_perfil = :vchave_perfil and
 caixa_cliente = 1
+order by nome_cliente
 ";
 $qcliente = $pdo->prepare($strsql);
 $qcliente->bindParam(":vchave_perfil", $chave_perfil);

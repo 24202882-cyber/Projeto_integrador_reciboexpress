@@ -138,8 +138,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     ,tusuario.nome_usuario
     ,tusuario.email_usuario
     ,tusuario.tipo_usuario
+    ,tperfil.cpf_perfil
 		from  
-		tusuario		
+		tusuario
+    left join tperfil on tusuario.chave_perfil = tperfil.chave_perfil 
 		where  
 		tusuario.email_usuario = :vemail_usuario and 
 		tusuario.senha_usuario = :vsenha_usuario and 
@@ -156,6 +158,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
       $_SESSION["NOME_USUARIO"] = $tusuario['nome_usuario'];
       $_SESSION["LOGIN_USUARIO"] = $tusuario['email_usuario'];
       $_SESSION["TIPO_USUARIO"] = $tusuario['tipo_usuario'];
+      $_SESSION["CPF_PERFIL"] = $tusuario['cpf_perfil'];
       $_SESSION["CHAVE_USUARIOLOGIN"] = $tusuario['chave_usuario'];
       $_SESSION["NOME_USUARIOLOGIN"] = $tusuario['nome_usuario'];
       $_SESSION["LOGIN_USUARIOLOGIN"] = $tusuario['email_usuario'];

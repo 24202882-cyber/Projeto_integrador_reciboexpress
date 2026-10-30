@@ -40,6 +40,15 @@ if (isset($_SESSION["TIPO_USUARIO"])) {
 }
 ?>
 <!-- BARRA LATERAL (SIDEBAR) -->
+<div vw class="enabled">
+  <div vw-access-button class="active"></div>
+  <div vw-plugin-wrapper>
+    <div class="plugin-wrapper"></div>
+  </div>
+</div>
+<script>
+  new window.VLibras.Widget('https://vlibras.gov.br/app');
+</script> 
 <aside class="col-12 col-md-3 col-lg-2 d-flex flex-column ps-0 menu-lateral">
   <div class="pt-4 ps-3 mb-3">
     <a href="#" class="d-flex align-items-center text-white text-decoration-none fw-bold">
@@ -95,9 +104,9 @@ if (isset($_SESSION["TIPO_USUARIO"])) {
   <hr class="text-white-50">
   <div class="ps-3">
     <div class="rounded-3 text-center pt-2" style="max-width:36px; max-height: 36px; min-width:36px; min-height: 36px; background-color: #EAF1F8; float:left">
-      <span class="texto-negrito" style="color:#163B5C">E</span>
+      <span class="texto-negrito" style="color:#163B5C"><?php echo LetraUserComprac(); ?></span>
     </div>
-    <span class="texto-menor texto-negrito ps-2">Elenir F</span><br>
-    <span class="texto-menor texto-suave ps-2">CPF ........201-..</span>
+    <span class="texto-menor texto-negrito ps-2"><?php echo NomeUserComprac(); ?></span><br>
+    <span class="texto-menor texto-suave ps-2"><?php echo CPFUserComprac(); ?></span>
   </div>
 </aside>

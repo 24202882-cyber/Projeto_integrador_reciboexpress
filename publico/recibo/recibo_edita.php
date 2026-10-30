@@ -109,7 +109,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
       $chave_cliente = $trecibo["chave_cliente"];
     }
   }
-} else {
+}
+else {
   if (isset($_SESSION["CHAVE_RECIBO"])) {
     $chave_recibo = $_SESSION["CHAVE_RECIBO"];
     abre_db();
@@ -134,8 +135,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     }
   }
 }
-
-
 $chave_recibo_ext = str_pad($chave_recibo, 6, "0", STR_PAD_LEFT);
 $qtd = 0;
 $dtc = date('Y-m-d');
@@ -215,6 +214,7 @@ if ($qtd <= 0) {
   $resumo_qtd = "Nenhum trabalho ainda.";
 }
 $html_recibosrv = "";
+$html_recibosrv_compac = "";
 $contador = 0;
 $subtotal = 0;
 $total = 0;
@@ -241,7 +241,7 @@ while ($trecibosrv = $qrecibosrv->fetch(PDO::FETCH_ASSOC)) {
   $chave_servico = $trecibosrv["chave_servico"];
   $descr_servico = $trecibosrv["descr_servico"];
   $qtd_recibosrv = $trecibosrv["qtd_recibosrv"];
-  $vlu_recibosrv = $trecibosrv["vlu_recibosrv"];
+  $vlu_recibosrv = $trecibosrv["vlu_recibosrv"];  
   $subtotal += (intval($qtd_recibosrv) * floatval($vlu_recibosrv));
   $total += (intval($qtd_recibosrv) * floatval($vlu_recibosrv));
   //$cobranca_recibo = strtolower($trecibo["cobranca_recibo"]);
@@ -270,7 +270,7 @@ while ($trecibosrv = $qrecibosrv->fetch(PDO::FETCH_ASSOC)) {
       </div>
       <div class='col-auto'>
         <span id='valorserv1' class='texto16'>
-          $vlu_recibosrv
+          " . Float2Moeda(floatval($trecibosrv["vlu_recibosrv"]), 2) . "
         </span>
       </div>
     </div>
@@ -278,6 +278,15 @@ while ($trecibosrv = $qrecibosrv->fetch(PDO::FETCH_ASSOC)) {
   <div class='col-12'>
     <hr>
   </div>  
+  ";
+
+  $html_recibosrv_compac .= "
+  <div class='col-6'>
+    <span class='texto13'>{$descr_servico}</span>
+  </div>
+  <div class='col-6 text-end'>
+    <span class='texto13'>" . strtoupper(DiaMesExtAno($dtc)) . "</span>
+  </div>
   ";
 }
 ?>
@@ -448,6 +457,33 @@ while ($trecibosrv = $qrecibosrv->fetch(PDO::FETCH_ASSOC)) {
     document.getElementById("acao").value = "EDITA";
     document.FRECIBOSRV_EDITA.submit();
   }
+
+  function gerarRECIBO() {
+    document.FRECIBOSRV_EDITA.action="recibo_email.php";
+    document.FRECIBOSRV_EDITA.submit();
+  } 
+  
+  function reciboPAGTO() {
+    const form = document.createElement('form');
+    const vchave_recibo = document.getElementById("chave_recibo").value;
+    form.method = 'POST';
+    form.action = 'recibo_status.php';
+    const input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = 'chave_recibo';
+    input.value = vchave_recibo;
+    form.appendChild(input);  
+
+    const input2 = document.createElement('input');
+    input2.type = 'hidden';
+    input2.name = 'situacao_recibo';
+    input2.value = 'PAGO';
+    form.appendChild(input2);  
+    document.body.appendChild(form);
+    form.submit();
+    document.body.removeChild(form);
+  }
+  
 </script>
 
 <body>
@@ -482,9 +518,16 @@ while ($trecibosrv = $qrecibosrv->fetch(PDO::FETCH_ASSOC)) {
             <span class="texto11">RECIBOS . EMISSÃO</span>
           </div>
           <div class="row">
-            <div class="col-12">
+            <div class="col-10">
               <span style="color:#1E2933; font-weight:700; font-size: 1.75em;">Emitir Recibo</span><br>
               <span class="texto-corpo">Confira à esquerda; o documento se atualiza à direita antes de gerar o PDF.</span>
+            </div>
+            <div class="col-sm-2">
+              <div class="d-flex flex-column h-100">
+                <button type='button' class='btn btn-custom float-end mt-auto' onclick='javascript:reciboPAGTO()'>
+                  Confirmar Pagto
+                </button>
+              </div>
             </div>
           </div>
           <div class="row">
@@ -531,7 +574,7 @@ while ($trecibosrv = $qrecibosrv->fetch(PDO::FETCH_ASSOC)) {
                       <div class="row">
 
                         <?php echo $html_recibosrv ?>
-                        
+<!--                        
                         <div class="col-8">
                           <span class="texto17">Faxina completa</span><br>
                           <span class="texto12-regular">por diária - R$ 180,00</span>
@@ -551,6 +594,7 @@ while ($trecibosrv = $qrecibosrv->fetch(PDO::FETCH_ASSOC)) {
                         <div class="col-12">
                           <hr>
                         </div>
+-->                        
                         <div class="col-12 mb-3">
                           <button type="button" class="btn btn-outline-custom" id="BTN_ADSERVICO" name="BTN_ADSERVICO" data-bs-toggle='modal' data-bs-target='#MODAL_BROWSESERVICOS' onclick="javascript:Modal_BrowseServicos();">
                             + Adicionar serviço
@@ -562,7 +606,7 @@ while ($trecibosrv = $qrecibosrv->fetch(PDO::FETCH_ASSOC)) {
                               Subtotal
                             </div>
                             <div class="col-6 text-end">
-                              R$ 180,00
+                              <?php echo Float2Moeda(floatval($subtotal), 2); ?>
                             </div>
                           </div>
                         </div>
@@ -576,7 +620,7 @@ while ($trecibosrv = $qrecibosrv->fetch(PDO::FETCH_ASSOC)) {
                               TOTAL DO RECIBO
                             </div>
                             <div class="col-6 text-end">
-                              <span class="texto28">R$ 180,00</span>
+                              <span class="texto28"><?php echo Float2Moeda(floatval($total), 2); ?></span>
                             </div>
                           </div>
                         </div>
@@ -585,7 +629,7 @@ while ($trecibosrv = $qrecibosrv->fetch(PDO::FETCH_ASSOC)) {
                           <span class="texto-regular"> O PDF será gerado e salvo na nuvem do seu perfil ao emitir.</span>
                         </div>
                         <div class="col-12 mt-2">
-                          <button class="btn btn-custom" style="width: 100%" onclick="javascript:location='/publico/recibo/recibo-pronto.php';">
+                          <button class="btn btn-custom" style="width: 100%" onclick="javascript:gerarRECIBO();">
                             <i class="ci ci-menu-recibos"></i> Gerar recibo e enviar para aprovação do cliente
                           </button>
                         </div>
@@ -607,7 +651,7 @@ while ($trecibosrv = $qrecibosrv->fetch(PDO::FETCH_ASSOC)) {
                         </div>
                         <div class="col-6 mt-2 mb-2 text-end">
                           <span class="texto9">RECIBO Nº</span><br>
-                          <span class="texto18" style="color:#E9784A">000038</span>
+                          <span class="texto18" style="color:#E9784A"><?php echo $chave_recibo_ext ?></span>
                         </div>
                       </div>
                       <div class="row">
@@ -617,25 +661,40 @@ while ($trecibosrv = $qrecibosrv->fetch(PDO::FETCH_ASSOC)) {
                       </div>
                       <div class="row">
                         <div class="col-12">
-                          <span class="texto21">Mariana Lopes</span><br>
+                          <span class="texto21"><?php echo $nome_cliente_compac ?></span><br>
                           <span class="texto9">A IMPORTÂNCIA DE</span>
                         </div>
                       </div>
                       <div class="row">
                         <div class="col-12">
-                          <span class="texto19" style="color: #697783; vertical-align: super;">R$</span><span class="texto40">180,00</span>
+                          <span class="texto19" style="color: #697783; vertical-align: super;">R$</span><span class="texto40"><?php echo number_format(floatval($total), 2, ',', '.'); ?></span>
                         </div>
                       </div>
+
                       <div class="row">
                         <div class="col-6">
-                          <span class="texto9">REFERENTE A</span><br>
+                          <span class="texto9">REFERENTE A</span><br>                          
+                        </div>
+                        <div class="col-6 text-end">
+                          <span class="texto9">REALIZADA EM</span><br>                          
+                        </div>
+                        <?php echo $html_recibosrv_compac ?>
+<!--
+                        <div class="col-6">
                           <span class="texto13">Faxina residencial</span>
                         </div>
                         <div class="col-6 text-end">
-                          <span class="texto9">REALIZADA EM</span><br>
                           <span class="texto13">17 SET 2026</span>
                         </div>
+                        <div class="col-6">
+                          <span class="texto13">Faxina residencial</span>
+                        </div>
+                        <div class="col-6 text-end">
+                          <span class="texto13">17 SET 2026</span>
+                        </div>
+-->
                       </div>
+
                       <div class="row">
                         <div class="col-12">
                           <hr>
@@ -643,8 +702,8 @@ while ($trecibosrv = $qrecibosrv->fetch(PDO::FETCH_ASSOC)) {
                       </div>
                       <div class="row">
                         <div class="col-6">
-                          <span class="texto15">Elenir</span><br>
-                          <span class="texto11-regular">CPF ...,...,201-..</span>
+                          <span class="texto15"><?php echo NomeUserComprac(); ?></span><br>
+                          <span class="texto11-regular"><?php echo CPFUserComprac(); ?></span>
                         </div>
                         <div class="col-6 d-flex flex-column justify-content-end text-end">
                           <span class="texto9">PRÉVIA</span>

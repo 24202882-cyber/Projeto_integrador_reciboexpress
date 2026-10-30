@@ -53,6 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $qtd_orcamentosrv = 1;
         $valor_servico = 0;
         $caixa_orcamentosrv = 1;
+        $valor_servico = 0;
         $strsql = "
         select
         tservico.valor_servico 
@@ -70,6 +71,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         if ($tservico = $qservico->fetch(PDO::FETCH_ASSOC)) {
           $valor_servico = $tservico["valor_servico"];
         }
+        $vvlu_orcamentosrv = $valor_servico;
+        $vvlt_orcamentosrv = $qtd_orcamentosrv * $valor_servico; 
         $strsql = "
         insert 
         into 
@@ -93,12 +96,44 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $qorcamentosrv->bindParam(":vchave_orcamento", $chave_orcamento);
         $qorcamentosrv->bindParam(":vchave_servico", $chave_servico);
         $qorcamentosrv->bindParam(":vqtd_orcamentosrv", $qtd_orcamentosrv);
-        $qorcamentosrv->bindParam(":vvlu_orcamentosrv", $valor_servico);
-        $qorcamentosrv->bindParam(":vvlt_orcamentosrv", $valor_servico);
+        $qorcamentosrv->bindParam(":vvlu_orcamentosrv", $vvlu_orcamentosrv);
+        $qorcamentosrv->bindParam(":vvlt_orcamentosrv", $vvlt_orcamentosrv);
         $qorcamentosrv->bindParam(":vcaixa_orcamentosrv", $caixa_orcamentosrv);
         $qorcamentosrv->execute();
         $chave_orcamentosrv = $pdo->lastInsertId();
         fecha_diario("torcamentosrv", "chave_orcamentosrv", $chave_orcamentosrv, $abre_diario = array(), $campoexcluidos = array(""));
+   
+        $valor_orcamento = 0;
+        $strsql = "
+        select
+        sum(torcamentosrv.vlt_orcamentosrv) as valor_orcamento
+        from
+        torcamentosrv
+        where 
+        torcamentosrv.chave_orcamento = :vchave_orcamento and      
+        torcamentosrv.caixa_orcamentosrv = 1
+        ";
+        $qorcamentosrv = $pdo->prepare($strsql);
+        $qorcamentosrv->bindParam(":vchave_orcamento", $chave_orcamento);
+        $qorcamentosrv->execute();
+        if ($torcamentosrv = $qorcamentosrv->fetch(PDO::FETCH_ASSOC)) {
+          $valor_orcamento = $torcamentosrv["valor_orcamento"];
+        }      
+        $strsql = "
+        update 
+        torcamento        
+        set 
+        valor_orcamento = :vvalor_orcamento
+        where 
+        torcamento.chave_orcamento = :vchave_orcamento and        
+        torcamento.caixa_orcamento = 1
+        ";
+        $qorcamento = $pdo->prepare($strsql);
+        $qorcamento->bindParam(":vchave_orcamento", $chave_orcamento);
+        $qorcamento->bindParam(":vvalor_orcamento", $valor_orcamento);        
+        $qorcamento->execute();        
+        fecha_diario("torcamento", "chave_orcamento", $chave_orcamento, $abre_diario, $campoexcluidos = array(""));
+
         header("Location: /publico/orcamento/orcamento_edita.php", false);
         die();
       }
@@ -109,7 +144,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
       $chave_servico = $_POST["chave_servico"];
       $qtd_orcamentosrv = $_POST["qtd_orcamentosrv"];
       if ($chave_orcamento != "" && $chave_orcamentosrv != "") {
-        abre_db();        
+        abre_db();
+        $valor_servico = 0;
         $strsql = "
         select
         tservico.valor_servico 
@@ -125,11 +161,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $qservico->bindParam(":vchave_perfil", $chave_perfil);
         $qservico->execute();
         if ($tservico = $qservico->fetch(PDO::FETCH_ASSOC)) {
-          $valor_servico = $tservico["valor_servico"];
+          $valor_servico = floatval($tservico["valor_servico"]);
         }
         $abre_diario = abre_diario("torcamentosrv", "chave_orcamentosrv", $chave_orcamentosrv, $campoexcluidos = array(""));
-        //inner join torcamento on torcamentosrv.chave_orcamento = torcamento.chave_orcamento 
-        //torcamento.chave_perfil = :vchave_perfil and
+        $vvlu_orcamentosrv = $valor_servico;
+        $vvlt_orcamentosrv = $qtd_orcamentosrv * $valor_servico;        
         $strsql = "
         update 
         torcamentosrv        
@@ -145,15 +181,104 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $qorcamentosrv->bindParam(":vchave_orcamentosrv", $chave_orcamentosrv);
         //$qorcamentosrv->bindParam(":vchave_perfil", $chave_perfil);        
         $qorcamentosrv->bindParam(":vqtd_orcamentosrv", $qtd_orcamentosrv);
-        $qorcamentosrv->bindParam(":vvlu_orcamentosrv", $valor_servico);
-        $qorcamentosrv->bindParam(":vvlt_orcamentosrv", $valor_servico);        
+        $qorcamentosrv->bindParam(":vvlu_orcamentosrv", $vvlu_orcamentosrv);
+        $qorcamentosrv->bindParam(":vvlt_orcamentosrv", $vvlt_orcamentosrv);        
         $qorcamentosrv->execute();        
         fecha_diario("torcamentosrv", "chave_orcamentosrv", $chave_orcamentosrv, $abre_diario, $campoexcluidos = array(""));
+
+        $valor_orcamento = 0;
+        $strsql = "
+        select
+        sum(torcamentosrv.vlt_orcamentosrv) as valor_orcamento
+        from
+        torcamentosrv
+        where 
+        torcamentosrv.chave_orcamento = :vchave_orcamento and 
+        torcamentosrv.caixa_orcamentosrv = 1
+        ";
+        $qorcamentosrv = $pdo->prepare($strsql);
+        $qorcamentosrv->bindParam(":vchave_orcamento", $chave_orcamento);
+        $qorcamentosrv->execute();
+        if ($torcamentosrv = $qorcamentosrv->fetch(PDO::FETCH_ASSOC)) {
+          $valor_orcamento = $torcamentosrv["valor_orcamento"];
+        }      
+        $strsql = "
+        update 
+        torcamento        
+        set 
+        valor_orcamento = :vvalor_orcamento
+        where 
+        torcamento.chave_orcamento = :vchave_orcamento and        
+        torcamento.caixa_orcamento = 1
+        ";
+        $qorcamento = $pdo->prepare($strsql);
+        $qorcamento->bindParam(":vchave_orcamento", $chave_orcamento);
+        $qorcamento->bindParam(":vvalor_orcamento", $valor_orcamento);        
+        $qorcamento->execute();        
+        fecha_diario("torcamento", "chave_orcamento", $chave_orcamento, $abre_diario, $campoexcluidos = array(""));
+
         header("Location: /publico/orcamento/orcamento_edita.php", false);
         die();
       }
     }
-        
+    if ($acao == "EXCLUI") {     
+      $chave_orcamento = $_SESSION["CHAVE_ORCAMENTO"];
+      $chave_orcamentosrv = $_POST["chave_orcamentosrv"];
+      if ($chave_orcamento != "" && $chave_orcamentosrv != "") {
+        abre_db();        
+        $abre_diario = abre_diario("torcamentosrv", "chave_orcamentosrv", $chave_orcamentosrv, $campoexcluidos = array(""));
+        $strsql = "
+        update 
+        torcamentosrv        
+        set 
+        caixa_orcamentosrv = 0
+        where 
+        torcamentosrv.chave_orcamentosrv = :vchave_orcamentosrv and        
+        torcamentosrv.caixa_orcamentosrv = 1
+        ";
+        $qorcamentosrv = $pdo->prepare($strsql);
+        $qorcamentosrv->bindParam(":vchave_orcamentosrv", $chave_orcamentosrv);
+        $qorcamentosrv->execute();        
+        fecha_diario("torcamentosrv", "chave_orcamentosrv", $chave_orcamentosrv, $abre_diario, $campoexcluidos = array(""));
+
+
+        $valor_orcamento = 0;
+        $strsql = "
+        select
+        sum(torcamentosrv.vlt_orcamentosrv) as valor_orcamento
+        from
+        torcamentosrv
+        where 
+        torcamentosrv.chave_orcamento = :vchave_orcamento and      
+        torcamentosrv.caixa_orcamentosrv = 1
+        ";
+        $qorcamentosrv = $pdo->prepare($strsql);
+        $qorcamentosrv->bindParam(":vchave_orcamento", $chave_orcamento);
+        $qorcamentosrv->execute();
+        if ($torcamentosrv = $qorcamentosrv->fetch(PDO::FETCH_ASSOC)) {
+          $valor_orcamento = $torcamentosrv["valor_orcamento"];
+        }      
+        $strsql = "
+        update 
+        torcamento        
+        set 
+        valor_orcamento = :vvalor_orcamento
+        where 
+        torcamento.chave_orcamento = :vchave_orcamento and        
+        torcamento.caixa_orcamento = 1
+        ";
+        $qorcamento = $pdo->prepare($strsql);
+        $qorcamento->bindParam(":vchave_orcamento", $chave_orcamento);
+        $qorcamento->bindParam(":vvalor_orcamento", $valor_orcamento);        
+        $qorcamento->execute();        
+        fecha_diario("torcamento", "chave_orcamento", $chave_orcamento, $abre_diario, $campoexcluidos = array(""));
+
+
+        header("Location: /publico/orcamento/orcamento_edita.php", false);
+        die();
+      }
+    }
+
     // 4. Retorna a resposta de sucesso em formato JSON
     echo json_encode([
       'status' => 'sucesso',

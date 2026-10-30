@@ -5,7 +5,7 @@
  ***** 
  ***** APLICAÇÃO
  ***** Recibo Express
- ***** Arquivo: /publico/orcamento/index.php
+ ***** Arquivo: /publico/orcamento/orcamento_edita.php
  ***** Conteúdo: 07-orcamento
  ***** Data criação: set/2026
  ***** Disponível em: reciboexpress.com.br
@@ -27,8 +27,9 @@
  */
 session_start();
 $Raiz = "../../";
-include($Raiz . "include/php/header.php"); // Configurações HEADER
-include($Raiz . "include/php/funcoes.php"); // Funcoes de Usuário PHP
+include($Raiz . "include/php/header.php");
+include($Raiz . "include/php/funcoes.php");
+include($Raiz . "include/php/key.php");
 include($Raiz . "conexao/db.php");
 VerificaSessao();
 // Variáveis de controle
@@ -42,6 +43,9 @@ $chave_perfil = $_SESSION["CHAVE_PERFIL"];
 $chave_orcamento = "";
 $chave_cliente = "";
 $nome_cliente = "";
+$email_cliente = "";
+$tel_cliente = "";
+$situacao_orcamento = "CRIADO";
 $acao = "";
 // EOF Variáveis de controle
 $aftergopage = "";
@@ -90,7 +94,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $strsql = "
     select
     torcamento.chave_cliente    
-    ,tcliente.nome_cliente
+    ,tcliente.nome_cliente    
     from
     torcamento
     left join tcliente on torcamento.chave_cliente = tcliente.chave_cliente
@@ -107,8 +111,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
       $chave_cliente = $torcamento["chave_cliente"];
     }
   }
-}
-else {
+} else {
   if (isset($_SESSION["CHAVE_ORCAMENTO"])) {
     $chave_orcamento = $_SESSION["CHAVE_ORCAMENTO"];
     abre_db();
@@ -158,7 +161,7 @@ if ($chave_cliente != "") {
 
   $strsql = "
   select
-  torcamento.dtc_orcamento
+  torcamento.dtc_orcamento  
   from
   torcamento  
   where    
@@ -178,6 +181,8 @@ if ($chave_cliente != "") {
   $strsql = "
   select
   tcliente.nome_cliente 
+  ,tcliente.email_cliente
+  ,tcliente.tel_cliente
   from
   tcliente
   where    
@@ -190,7 +195,9 @@ if ($chave_cliente != "") {
   $qcliente->bindParam(":vchave_perfil", $chave_perfil);
   $qcliente->execute();
   if ($tcliente = $qcliente->fetch(PDO::FETCH_ASSOC)) {
-    $nome_cliente = $tcliente["nome_cliente"];    
+    $nome_cliente = $tcliente["nome_cliente"];
+    $email_cliente = $tcliente["email_cliente"];
+    $tel_cliente = $tcliente["tel_cliente"];
   }
 }
 $nome_cliente_compac = $nome_cliente;
@@ -207,6 +214,114 @@ if ($qtd > 1) {
 if ($qtd <= 0) {
   $resumo_qtd = "Nenhum trabalho ainda.";
 }
+
+$strsql = "
+select
+torcamento.situacao_orcamento
+from
+torcamento  
+where    
+torcamento.chave_orcamento = :vchave_orcamento and
+torcamento.chave_perfil = :vchave_perfil and
+torcamento.caixa_orcamento = 1
+order by torcamento.chave_orcamento
+";
+$qorcamento = $pdo->prepare($strsql);
+$qorcamento->bindParam(":vchave_orcamento", $chave_orcamento);
+$qorcamento->bindParam(":vchave_perfil", $chave_perfil);
+$qorcamento->execute();
+if ($torcamento = $qorcamento->fetch(PDO::FETCH_ASSOC)) {
+  $situacao_orcamento = $torcamento["situacao_orcamento"];
+}
+
+$passo = "1";
+$passo1 = "1";
+$passo2 = "2";
+$passo3 = "3";
+$passo4 = "4";
+$passo5 = "5";
+$html_botao_passo = "";
+
+// passo 1
+if ($situacao_orcamento == "" || $situacao_orcamento == "CRIADO") {
+  $passo1 = "<i class='bi bi-check2'></i>";
+  $passo2 = "2";
+  $passo3 = "3";
+  $passo4 = "4";
+  $passo5 = "5";
+  $passo = "1";
+}
+// passo 2
+if ($situacao_orcamento == "ENVIADO") {
+  $passo1 = "<i class='bi bi-check2'></i>";
+  $passo2 = "<i class='bi bi-check2'></i>";
+  $passo3 = "3";
+  $passo4 = "4";
+  $passo5 = "5";
+  $passo = "2";
+}
+// passo 3
+if ($situacao_orcamento == "APROVADO") {
+  $passo1 = "<i class='bi bi-check2'></i>";
+  $passo2 = "<i class='bi bi-check2'></i>";
+  $passo3 = "<i class='bi bi-check2'></i>";
+  $passo4 = "4";
+  $passo5 = "5";
+  $passo = "3";
+}
+// passo 4
+if ($situacao_orcamento == "REALIZADO") {
+  $passo1 = "<i class='bi bi-check2'></i>";
+  $passo2 = "<i class='bi bi-check2'></i>";
+  $passo3 = "<i class='bi bi-check2'></i>";
+  $passo4 = "<i class='bi bi-check2'></i>";
+  $passo5 = "5";
+  $passo = "4";
+}
+
+// passo 4
+if ($situacao_orcamento == "RECIBO") {
+  $passo1 = "<i class='bi bi-check2'></i>";
+  $passo2 = "<i class='bi bi-check2'></i>";
+  $passo3 = "<i class='bi bi-check2'></i>";
+  $passo4 = "<i class='bi bi-check2'></i>";
+  $passo5 = "<i class='bi bi-check2'></i>";
+  $passo = "5";
+}
+
+$urlaprova_orcamento = "";
+if ($passo == "1") {
+  $urlaprova_orcamento = "id1={$chave_perfil}&id2={$chave_orcamento}&id3={$situacao_orcamento}";
+  $urlaprova_orcamento = criptografar($urlaprova_orcamento);
+  $html_botao_passo = "
+  <button type='button' class='btn btn-custom float-end mt-auto' onclick='javascript:orcamentoENVIADO()'>
+    Confirmar Envio
+  </button>
+  ";
+}
+
+if ($passo == "2") {
+  $html_botao_passo = "
+  <button type='button' class='btn btn-custom float-end mt-auto' onclick='javascript:orcamentoAPROVADO()'>
+    Confirmar Aprovado
+  </button>  ";
+}
+
+if ($passo == "3") {
+  $html_botao_passo = "
+  <button type='button' class='btn btn-custom float-end mt-auto' onclick='javascript:orcamentoREALIZADO()'>
+    Confirmar Realizado
+  </button>  ";
+}
+
+if ($passo == "4") {
+  $html_botao_passo = "
+  <button type='button' class='btn btn-custom float-end mt-auto' onclick='javascript:orcamentoRECIBO()'>
+    Confirmar Recibo
+  </button>  ";
+}
+
+
 $html_orcamentosrv = "";
 $contador = 0;
 $subtotal = 0;
@@ -236,7 +351,7 @@ while ($torcamentosrv = $qorcamentosrv->fetch(PDO::FETCH_ASSOC)) {
   $qtd_orcamentosrv = $torcamentosrv["qtd_orcamentosrv"];
   $vlu_orcamentosrv = $torcamentosrv["vlu_orcamentosrv"];
   $subtotal += (intval($qtd_orcamentosrv) * floatval($vlu_orcamentosrv));
-  $total += (intval($qtd_orcamentosrv) * floatval($vlu_orcamentosrv));  
+  $total += (intval($qtd_orcamentosrv) * floatval($vlu_orcamentosrv));
   //$cobranca_orcamento = strtolower($torcamento["cobranca_orcamento"]);
   //$valor_orcamento = "R$ " . number_format($torcamento["valor_orcamento"], 2, ',', '.');
   //
@@ -261,10 +376,11 @@ while ($torcamentosrv = $qorcamentosrv->fetch(PDO::FETCH_ASSOC)) {
         <input type='hidden' id='chave{$contador}' name='chave{$contador}' value='{$chave_orcamentosrv}'>
         <input type='text' class='form-control' style='max-width:50px' id='qtd{$contador}' name='qtd{$contador}' value='{$qtd_orcamentosrv}' onblur='javascript:alteraSERVICO(this);'>
       </div>
-      <div class='col-auto'>
-        <span id='valorserv1' class='texto16'>
-          $vlu_orcamentosrv
+      <div class='col-auto'>        
+        <span id='valorserv1' class='texto16 me-3'>
+          " . Float2Moeda(floatval($torcamentosrv["vlu_orcamentosrv"]), 2) . "
         </span>
+        <a href='#' onclick='javascript:excluiSERVICO({$chave_orcamentosrv})'><i class='ci ci-acao-excluir'></i></a>
       </div>
     </div>
   </div>
@@ -490,6 +606,117 @@ while ($torcamentosrv = $qorcamentosrv->fetch(PDO::FETCH_ASSOC)) {
     document.getElementById("acao").value = "EDITA";
     document.FORCAMENTOSRV_EDITA.submit();
   }
+
+  function excluiSERVICO(ccampo) {
+    document.getElementById("chave_orcamentosrv").value = ccampo;
+    document.getElementById("acao").value = "EXCLUI";
+    document.FORCAMENTOSRV_EDITA.submit();
+  }
+
+  function enviarEMAIL() {
+    document.FRECIBOSRV_EDITA.action = "recibo_email.php";
+    document.FRECIBOSRV_EDITA.submit();
+  }
+
+  function orcamentoENVIADO() {
+    const form = document.createElement('form');
+    const vchave_orcamento = document.getElementById("chave_orcamento").value;
+    form.method = 'POST';
+    form.action = 'orcamento_status.php';
+    const input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = 'chave_orcamento';
+    input.value = vchave_orcamento;
+    form.appendChild(input);  
+
+    const input2 = document.createElement('input');
+    input2.type = 'hidden';
+    input2.name = 'situacao_orcamento';
+    input2.value = 'ENVIADO';
+    form.appendChild(input2);  
+    document.body.appendChild(form);
+    form.submit();
+    document.body.removeChild(form);
+  }
+
+  function orcamentoAPROVADO() {
+    const form = document.createElement('form');
+    const vchave_orcamento = document.getElementById("chave_orcamento").value;
+    form.method = 'POST';
+    form.action = 'orcamento_status.php';
+    const input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = 'chave_orcamento';
+    input.value = vchave_orcamento;
+    form.appendChild(input);  
+
+    const input2 = document.createElement('input');
+    input2.type = 'hidden';
+    input2.name = 'situacao_orcamento';
+    input2.value = 'APROVADO';
+    form.appendChild(input2);  
+    document.body.appendChild(form);
+    form.submit();
+    document.body.removeChild(form);
+  }  
+
+  function orcamentoREALIZADO() {
+    const form = document.createElement('form');
+    const vchave_orcamento = document.getElementById("chave_orcamento").value;
+    form.method = 'POST';
+    form.action = 'orcamento_status.php';
+    const input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = 'chave_orcamento';
+    input.value = vchave_orcamento;
+    form.appendChild(input);  
+
+    const input2 = document.createElement('input');
+    input2.type = 'hidden';
+    input2.name = 'situacao_orcamento';
+    input2.value = 'REALIZADO';
+    form.appendChild(input2);  
+    document.body.appendChild(form);
+    form.submit();
+    document.body.removeChild(form);
+  }
+
+  function orcamentoRECIBO() {
+    const form = document.createElement('form');
+    const vchave_orcamento = document.getElementById("chave_orcamento").value;
+    form.method = 'POST';
+    form.action = 'orcamento_status.php';
+    const input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = 'chave_orcamento';
+    input.value = vchave_orcamento;
+    form.appendChild(input);  
+
+    const input2 = document.createElement('input');
+    input2.type = 'hidden';
+    input2.name = 'situacao_orcamento';
+    input2.value = 'RECIBO';
+    form.appendChild(input2);  
+    document.body.appendChild(form);
+    form.submit();
+    document.body.removeChild(form);
+  }
+
+  function orcamentoENVIAR() {
+    const form = document.createElement('form');
+    const vchave_orcamento = document.getElementById("chave_orcamento").value;
+    form.method = 'POST';
+    form.action = 'orcamento_email.php';
+    const input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = 'chave_orcamento';
+    input.value = vchave_orcamento;
+    form.appendChild(input);  
+    document.body.appendChild(form);
+    form.submit();
+    document.body.removeChild(form);
+  }  
+
 </script>
 
 <body>
@@ -531,9 +758,7 @@ while ($torcamentosrv = $qorcamentosrv->fetch(PDO::FETCH_ASSOC)) {
             </div>
             <div class="col-sm-2">
               <div class="d-flex flex-column h-100">
-                <button class="btn btn-custom float-end mt-auto">
-                  Criar Orçamento
-                </button>
+                <?php echo $html_botao_passo; ?> 
               </div>
             </div>
           </div>
@@ -543,7 +768,7 @@ while ($torcamentosrv = $qorcamentosrv->fetch(PDO::FETCH_ASSOC)) {
                 <!-- Passo 1: Concluído -->
                 <div class="stepper-item completed d-flex align-items-center">
                   <div class="step-counter d-flex align-items-center justify-content-center fw-bold">
-                    <i class="bi bi-check2"></i>
+                    <?php echo $passo1; ?>
                   </div>
                   <span class="step-name fw-bold ms-2">Criado</span>
                 </div>
@@ -551,32 +776,40 @@ while ($torcamentosrv = $qorcamentosrv->fetch(PDO::FETCH_ASSOC)) {
                 <div class="stepper-line completed flex-grow-1 mx-3"></div>
 
                 <!-- Passo 2: Pendente -->
-                <div class="stepper-item d-flex align-items-center">
-                  <div class="step-counter d-flex align-items-center justify-content-center fw-bold">2</div>
+                <div class="stepper-item <?php echo ($passo2 == "2" ? "" : "completed ") ?> d-flex align-items-center">
+                  <div class="step-counter d-flex align-items-center justify-content-center fw-bold">
+                    <?php echo $passo2; ?>
+                  </div>
                   <span class="step-name ms-2">Enviado</span>
                 </div>
 
                 <div class="stepper-line flex-grow-1 mx-3"></div>
 
                 <!-- Passo 3: Pendente -->
-                <div class="stepper-item d-flex align-items-center">
-                  <div class="step-counter d-flex align-items-center justify-content-center fw-bold">3</div>
+                <div class="stepper-item <?php echo ($passo3 == "3" ? "" : "completed ") ?> d-flex align-items-center">
+                  <div class="step-counter d-flex align-items-center justify-content-center fw-bold">
+                    <?php echo $passo3; ?>
+                  </div>
                   <span class="step-name ms-2">Aprovado</span>
                 </div>
 
                 <div class="stepper-line flex-grow-1 mx-3"></div>
 
                 <!-- Passo 4: Pendente -->
-                <div class="stepper-item d-flex align-items-center">
-                  <div class="step-counter d-flex align-items-center justify-content-center fw-bold">4</div>
+                <div class="stepper-item <?php echo ($passo4 == "4" ? "" : "completed ") ?> d-flex align-items-center">
+                  <div class="step-counter d-flex align-items-center justify-content-center fw-bold">
+                    <?php echo $passo4; ?>
+                  </div>
                   <span class="step-name ms-2">Realizado</span>
                 </div>
 
                 <div class="stepper-line flex-grow-1 mx-3"></div>
 
                 <!-- Passo 5: Pendente -->
-                <div class="stepper-item d-flex align-items-center">
-                  <div class="step-counter d-flex align-items-center justify-content-center fw-bold">5</div>
+                <div class="stepper-item <?php echo ($passo5 == "5" ? "" : "completed ") ?> d-flex align-items-center">
+                  <div class="step-counter d-flex align-items-center justify-content-center fw-bold">
+                    <?php echo $passo5; ?>
+                  </div>
                   <span class="step-name ms-2">Recibo</span>
                 </div>
               </div>
@@ -588,7 +821,7 @@ while ($torcamentosrv = $qorcamentosrv->fetch(PDO::FETCH_ASSOC)) {
                 <div class="col-12 mb-2">
                   <div class="card">
                     <div class="card-body">
-                      <form method="post" id="FORCAMENTOSRV_EDITA" name="FORCAMENTOSRV_EDITA" action="orcamentosrv_edita.php">                        
+                      <form method="post" id="FORCAMENTOSRV_EDITA" name="FORCAMENTOSRV_EDITA" action="orcamentosrv_edita.php">
                         <input type="hidden" id="chave_orcamento" name="chave_orcamento" value="<?php echo $chave_orcamento ?>">
                         <input type="hidden" id="chave_orcamentosrv" name="chave_orcamentosrv" value="">
                         <input type="hidden" id="chave_servico" name="chave_servico" value="">
@@ -694,13 +927,118 @@ while ($torcamentosrv = $qorcamentosrv->fetch(PDO::FETCH_ASSOC)) {
                   </div>
                 </div>
               </div>
+              <?php if ($passo == "3") { ?> 
+              <div class="row">
+                <div class="col-12 mb-2">
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-12 mt-2 mb-2">
+                          <div class="mb-3">
+                            <span class="texto12">PRÓXIMA ETAPA</span>
+                          </div>
+                          <div class="mb-3">
+                            <span class="texto12-regular">O orçamento foi </span><span class="texto12" style="color:#000">aprovado.</span><span class="texto12-regular"> Marque o serviço como realizado para gerar o recibo.</span>
+                          </div>
+                          <div class="mt-2 pt-2">
+                            <button type="button" class="btn btn-custom w-100" onclick="javascript:orcamentoREALIZADO()">Marcar realizado e emitir</button>
+                          </div>                         
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <?php } ?> 
             </div>
+            <?php if ($passo == "1") { ?> 
+            <div class="row mt-3">
+              <div class="col-12">
+                <div class="row">
+                  <div class="col-12 mb-2">
+                    <div class="card">
+                      <div class="card-body">
+                        <div class="col">
+                          <span class="texto12">ENVIAR ORÇAMENTO PARA O CLIENTE</span><br>
+                          <span class="texto12-regular">Disponibilize a proposta diretamente pelos canais de contato da Mariana.</span>
+                        </div>
+                        <div class="col">
+                          <div class="d-flex justify-content-center align-items-center border-bottom main-content gap-3 p-3" style="--bs-border-color:#DDE4E9">
+                            <div class="col-3 gap-3 rounded-3 p-3" style="background-color: #F8FAFC">
+                              <div class="d-flex justify-content-start align-items-center gap-3 mb-3">
+                                <div class="rounded-2 p-2" style="min-height:32px; min-width: 32px; background-color: #e5f7ed;">
+                                  <i class="ci ci-whatsapp fs-4" style="background-color: #25D366"></i>
+                                </div>
+                                <div>
+                                  <span class="texto12" style="color: #0F172A'">WhatsApp</span><br>
+                                  <span class="texto11-regular"><?php echo $tel_cliente ?></span>
+                                </div>
+                              </div>
+                              <div>
+                                <button type="button" class="btn btn-custom-lima w-100 rounded-pill">Enviar pelo WhatsApp</button>
+                              </div>
+                            </div>
+                            <div class="col-3 gap-3 rounded-3 p-3" style="background-color: #F8FAFC">
+                              <div class="d-flex justify-content-start align-items-center gap-3 mb-3">
+                                <div class="rounded-2 p-2" style="min-height:32px; min-width: 32px; background-color: #e8f0fc;">
+                                  <i class="ci ci-envelope fs-4" style="background-color: #2563EB"></i>
+                                </div>
+                                <div>
+                                  <span class="texto12" style="color: #0F172A'">E-mail</span><br>
+                                  <span class="texto11-regular"><?php echo $email_cliente ?></span>
+                                </div>
+                              </div>
+                              <div>
+                                <button type="button" class="btn btn-primary w-100 rounded-pill" onclick="javascript:orcamentoENVIAR();">Enviar por E-mail</button>
+                              </div>
+                            </div>
+                          </div>
+
+                        </div>
+                        <hr>
+                        <div class="col">
+                          <span class="texto12">LINK PÚBLICO PARA APROVAÇÃO DO CLIENTE</span>
+                        </div>
+                        <div clas="row">
+                          <div class="col d-flex justify-content-between align-items-center gap-3">                            
+                            <input type="text" class="form-control" id="link_aprovacao" name="link_aprovacao" value="https://reciboexpress.kraftwork.com.br/publico/orcamento/orcamento_status.php?id1=<?php echo $urlaprova_orcamento ?>">
+                            <button type="button" class="btn btn-light" id="BTN_COPIAR_LINK" name="BTN_COPIAR_LINK"><span class="text-nowrap">Copiar Link</span></button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <?php } ?> 
           </div>
         </div>
       </main>
     </div>
   </div>
   <!-- FIM DA ÁREA DE CONTEÚDO -->
+<script>
+  const btn_coipar_link = document.getElementById('BTN_COPIAR_LINK');
+  const link_aprovacao = document.getElementById('link_aprovacao');
+  btn_coipar_link.addEventListener('click', async () => {
+    try {
+      // Copia o valor do input para a área de transferência
+      await navigator.clipboard.writeText(link_aprovacao.value);
+      // Feedback visual temporário para o usuário
+      btn_coipar_link.innerHTML = 'Copiado!';
+      setTimeout(() => {
+        btn_coipar_link.innerHTML = "<span class='text-nowrap'>Copiar Link</span>";
+      }, 2000);
+    }
+    catch (err) {
+      // Fallback para navegadores antigos se o Clipboard API falhar
+      link_aprovacao.select();
+      document.execCommand('copy');
+      alert('Link copiado com sucesso!');
+    }
+  });
+</script>   
   <?php include($Raiz . "include/php/rodape.php"); ?>
 </body>
 

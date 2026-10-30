@@ -57,24 +57,47 @@ torcamento
 left join tcliente on torcamento.chave_cliente = tcliente.chave_cliente
 where    
 torcamento.chave_perfil = :vchave_perfil and
-torcamento.caixa_orcamento = 1
+torcamento.caixa_orcamento = 1 
+order by torcamento.chave_orcamento desc
 ";
 $qorcamento = $pdo->prepare($strsql);
 $qorcamento->bindParam(":vchave_perfil", $chave_perfil);
 $qorcamento->execute();
 while ($torcamento = $qorcamento->fetch(PDO::FETCH_ASSOC)) {
   $chave_orcamento = $torcamento["chave_orcamento"];
+  $chave_orcamento_ext = str_pad($chave_orcamento, 6, "0", STR_PAD_LEFT);
   $nome_cliente = $torcamento["nome_cliente"];
   $dtc_orcamento = $torcamento["dtc_orcamento"];
   $valor_orcamento = $torcamento["valor_orcamento"];
+  $situacao_orcamento = $torcamento["situacao_orcamento"];
   //$cobranca_orcamento = strtolower($torcamento["cobranca_orcamento"]);
   //$valor_orcamento = "R$ " . number_format($torcamento["valor_orcamento"], 2, ',', '.');
+  $html_coluna_situacao = "<span class='texto12'></span>";
+  if ($situacao_orcamento == "CRIADO") {
+    $html_coluna_situacao = "<span class='texto12' style='color:#EA580C'><i class='ci ci-marcador-amarelo'></i> {$situacao_orcamento}</span>";
+  }
+  if ($situacao_orcamento == "ENVIADO") {
+    $html_coluna_situacao = "<span class='texto12' style='color:#2563EB'><i class='ci ci-marcador-azul'></i> {$situacao_orcamento}</span>";
+  }
+  if ($situacao_orcamento == "APROVADO") {
+    $html_coluna_situacao = "<span class='texto12' style='color:#16A34A'><i class='ci ci-marcador-verde'></i> {$situacao_orcamento}</span>";
+  }
+  if ($situacao_orcamento == "REALIZADO") {
+    $html_coluna_situacao = "<span class='texto12' style='color:#16A34A'><i class='ci ci-marcador-verde'></i> {$situacao_orcamento}</span>";
+  }
+  if ($situacao_orcamento == "RECIBO") {
+    $html_coluna_situacao = "<span class='texto12' style='color:#2563EB'><i class='ci ci-marcador-azul'></i> {$situacao_orcamento}</span>";
+  }
+  if ($situacao_orcamento == "RECUSADO") {
+    $html_coluna_situacao = "<span class='texto12' style='color:#d81818'><i class='ci ci-marcador-vermelho'></i> {$situacao_orcamento}</span>";
+  }
   $html .= "
   <tr>
-    <td><span class='texto11'>{$chave_orcamento}</span></td>
+    <td><span class='texto11'>{$chave_orcamento_ext}</span></td>
     <td><span class='texto13'>{$nome_cliente}</span></td>
     <td><span class='texto13'>{$dtc_orcamento}</span></td>
     <td><span class='texto13'>{$valor_orcamento}</span></td>
+    <td>{$html_coluna_situacao}</td>
     <td class='text-end'><a href='#' onclick='javascript:alteraORCAMENTO({$chave_orcamento})'><i class='ci ci-acao-editar me-3'></i></a><a href='#' onclick='javascript:excluiORCAMENTO({$chave_orcamento})'><i class='ci ci-acao-excluir'></i></a></td>    
   </tr>
   ";
@@ -357,6 +380,7 @@ function Pesquisa_Cliente() {
                           <th scope="col"><span class="texto11">CLIENTE</span></th>
                           <th scope="col"><span class="texto11">CADASTRO</span></th>
                           <th scope="col"><span class="texto11">VALOR</span></th>
+                          <th scope="col"><span class="texto11">STATUS</span></th>
                           <th class="text-end" scope="col"><span class="texto11">AÇÕES</span></th>
                         </tr>
                       </thead>

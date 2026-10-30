@@ -9,6 +9,8 @@ class ComposerStaticInit8485a5d903026c85001fed86e485bb8d
     public static $files = array (
         'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
         '5897ea0ac4cccf14d323035e65887801' => __DIR__ . '/..' . '/symfony/polyfill-php82/bootstrap.php',
+        '0174385c3be07e86008907d06ee66531' => __DIR__ . '/..' . '/sabberworm/php-css-parser/src/Rule/Rule.php',
+        '98aea6e41b9cb79b379b10f37ba1f0b7' => __DIR__ . '/..' . '/sabberworm/php-css-parser/src/RuleSet/RuleContainer.php',
         '1f87db08236948d07391152dccb70f04' => __DIR__ . '/..' . '/google/apiclient-services/autoload.php',
         'a8d3953fd9959404dd22d3dfcd0a79f0' => __DIR__ . '/..' . '/google/apiclient/src/aliases.php',
     );
@@ -18,6 +20,8 @@ class ComposerStaticInit8485a5d903026c85001fed86e485bb8d
         array (
             'Symfony\\Polyfill\\Php82\\' => 23,
             'Symfony\\Polyfill\\Php80\\' => 23,
+            'Svg\\' => 4,
+            'Sabberworm\\CSS\\' => 15,
         ),
         'P' =>
         array (
@@ -25,10 +29,12 @@ class ComposerStaticInit8485a5d903026c85001fed86e485bb8d
             'Psr\\Http\\Message\\' => 17,
             'Psr\\Http\\Client\\' => 16,
             'Psr\\Cache\\' => 10,
+            'PHPMailer\\PHPMailer\\' => 20,
         ),
         'M' =>
         array (
             'Monolog\\' => 8,
+            'Masterminds\\' => 12,
         ),
         'L' =>
         array (
@@ -45,7 +51,12 @@ class ComposerStaticInit8485a5d903026c85001fed86e485bb8d
         ),
         'F' =>
         array (
+            'FontLib\\' => 8,
             'Firebase\\JWT\\' => 13,
+        ),
+        'D' =>
+        array (
+            'Dompdf\\' => 7,
         ),
     );
 
@@ -57,6 +68,14 @@ class ComposerStaticInit8485a5d903026c85001fed86e485bb8d
         'Symfony\\Polyfill\\Php80\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-php80',
+        ),
+        'Svg\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/dompdf/php-svg-lib/src/Svg',
+        ),
+        'Sabberworm\\CSS\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/sabberworm/php-css-parser/src',
         ),
         'Psr\\Log\\' =>
         array (
@@ -75,9 +94,17 @@ class ComposerStaticInit8485a5d903026c85001fed86e485bb8d
         array (
             0 => __DIR__ . '/..' . '/psr/cache/src',
         ),
+        'PHPMailer\\PHPMailer\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
+        ),
         'Monolog\\' =>
         array (
             0 => __DIR__ . '/..' . '/monolog/monolog/src/Monolog',
+        ),
+        'Masterminds\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/masterminds/html5/src',
         ),
         'League\\OAuth2\\Client\\' =>
         array (
@@ -108,9 +135,17 @@ class ComposerStaticInit8485a5d903026c85001fed86e485bb8d
         array (
             0 => __DIR__ . '/..' . '/google/apiclient/src',
         ),
+        'FontLib\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/dompdf/php-font-lib/src/FontLib',
+        ),
         'Firebase\\JWT\\' =>
         array (
             0 => __DIR__ . '/..' . '/firebase/php-jwt/src',
+        ),
+        'Dompdf\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/dompdf/dompdf/src',
         ),
     );
 
@@ -118,6 +153,7 @@ class ComposerStaticInit8485a5d903026c85001fed86e485bb8d
         'AllowDynamicProperties' => __DIR__ . '/..' . '/symfony/polyfill-php82/Resources/stubs/AllowDynamicProperties.php',
         'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+        'Dompdf\\Cpdf' => __DIR__ . '/..' . '/dompdf/dompdf/lib/Cpdf.php',
         'Google_AccessToken_Revoke' => __DIR__ . '/..' . '/google/apiclient/src/aliases.php',
         'Google_AccessToken_Verify' => __DIR__ . '/..' . '/google/apiclient/src/aliases.php',
         'Google_AuthHandler_AuthHandlerFactory' => __DIR__ . '/..' . '/google/apiclient/src/aliases.php',

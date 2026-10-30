@@ -31,19 +31,8 @@ $Raiz = "../../";
 include($Raiz . "include/php/header.php"); // Configurações HEADER
 include($Raiz . "include/php/funcoes.php"); // Funcoes de Usuário PHP
 include($Raiz . "conexao/db.php");
-// Variáveis de controle
 $ok = true;
 $html = "";
-$html_tit = "";
-$html_msg = "";
-$html_lnk = "";
-$html_btn = "";
-$email_usuario = "";
-// EOF Variáveis de controle
-$aftergopage = "";
-if ($_SERVER['REQUEST_METHOD'] == "POST") {
-
-}
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -51,8 +40,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 <head>
   <title>Recibo Express - Histórico</title>
   <?php include($Raiz . "include/html/header.html"); ?>
-
-
   <style>
     /* Estilos base inspirados na imagem */
     :root {
@@ -148,33 +135,34 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     background-color: var(--step-active-color);
   }
 
-/* Container externo arredondado */
-.toggle-switch-container {
-  background-color: #f8f9fa !important;
-  border-color: #6c757d !important;
-  line-height: 1;
-}
+  /* Container externo arredondado */
+  .toggle-switch-container {
+    background-color: #f8f9fa !important;
+    border-color: #6c757d !important;
+    line-height: 1;
+  }
 
-/* Estilo padrão do botão inativo */
-.toggle-btn {
-  color: #6c757d;
-  border: none;
-  line-height: 1.25;
-  transition: all 0.2s ease-in-out;
-}
+  /* Estilo padrão do botão inativo */
+  .toggle-btn {
+    color: #6c757d;
+    border: none;
+    line-height: 1.25;
+    transition: all 0.2s ease-in-out;
+  }
 
-/* Estilo do botão SELECIONADO (ativo) */
-.btn-check:checked + .toggle-btn {
-  background-color: #17324d; /* Azul escuro */
-  color: #ffffff;             /* Texto branco */
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
-}
+  /* Estilo do botão SELECIONADO (ativo) */
+  .btn-check:checked+.toggle-btn {
+    background-color: #17324d;
+    /* Azul escuro */
+    color: #ffffff;
+    /* Texto branco */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+  }
 
-/* Hover na opção inativa */
-.toggle-btn:hover:not(.btn-check:checked + .toggle-btn) {
-  color: #17324d;
-}
-
+  /* Hover na opção inativa */
+  .toggle-btn:hover:not(.btn-check:checked + .toggle-btn) {
+    color: #17324d;
+  }
 </style>
 
 <body>
@@ -232,62 +220,60 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
               <div class="card">
                 <div class="card-body">
 
-<table class="table">
-  <thead>
-    <tr>
-      <th scope="col"><span class="texto11">ORÇAMENTO</span></th>
-      <th scope="col"><span class="texto11">DATA</span></th>
-      <th scope="col"><span class="texto11">SERVIÇO</span></th>
-      <th scope="col"><span class="texto11">VALOR</span></th>
-      <th scope="col"><span class="texto11">STATUS</span></th>
-      <th class="text-end" scope="col"><span class="texto11">AÇÕES / PDF</span></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><span class="texto11 pe-3">#0038</span><span class="texto13"> Mariana Lopes</span></td>
-      <td><span class="texto13">17 SET</span></td>
-      <td><span class="texto13-regular" stule="color:#111827">Faxina residencial detalhada</span></td>
-      <td><span class="texto13">R$ 180,00</span></td>
-      <td><span class="texto12" style="color:#EA580C"><i class="ci ci-marcador-amarelo"></i> AGUARDANDO</span></td>
-      <td class="text-end"><span class="texto12-regular pe-3" style="color:#111827">Ver <i class="ci ci-acao-download" style="background-color:#111827""></i></span><span class="texto11"> PDF</span></td>
-    </tr>
-    <tr>
-      <td><span class="texto11 pe-3">#0035</span><span class="texto13"> Carlos Almeida</span></td>
-      <td><span class="texto13">14 SET</span></td>
-      <td><span class="texto13-regular" stule="color:#111827">Manutenção elétrica geral</span></td>
-      <td><span class="texto13">R$ 320,00</span></td>
-      <td><span class="texto12" style="color:#2563EB"><i class="ci ci-marcador-azul"></i>ENVIADO</span></td>
-      <td class="text-end"><span class="texto12-regular pe-3" style="color:#111827">Enviar <i class="ci ci-acao-download" style="background-color:#111827""></i></span><span class="texto11"> PDF</span></td>
-    </tr>
-    <tr>
-      <td><span class="texto11 pe-3">#0037</span><span class="texto13"> Mariana Lopes</span></td>
-      <td><span class="texto13">09 SET</span></td>
-      <td><span class="texto13-regular" stule="color:#111827">Faxina residencial quinzenal</span></td>
-      <td><span class="texto13">R$ 180,00</span></td>
-      <td><span class="texto12" style="color:#16A34A"><i class="ci ci-marcador-verde"></i>APROVADO</span></td>
-      <td class="text-end"><span class="texto12-regular pe-3" style="color:#111827">Ver <i class="ci ci-acao-download" style="background-color:#111827""></i></span><span class="texto11"> PDF</span></td>
-    </tr>
-    <tr>
-      <td><span class="texto11 pe-3">#0036</span><span class="texto13"> Roberto Dias</span></td>
-      <td><span class="texto13">05 SET</span></td>
-      <td><span class="texto13-regular" stule="color:#111827">Faxina residencial quinzenal</span></td>
-      <td><span class="texto13">R$ 850,00</span></td>
-      <td><span class="texto12" style="color:#EA580C"><i class="ci ci-marcador-amarelo"></i>RECUSADO</span></td>
-      <td class="text-end"><span class="texto12-regular pe-3" style="color:#111827">Ver <i class="ci ci-acao-download" style="background-color:#111827""></i></span><span class="texto11"> PDF</span></td>
-    </tr>
-    <tr>
-      <td><span class="texto11 pe-3">#0034</span><span class="texto13"> Beatriz Nunes</span></td>
-      <td><span class="texto13">02 SET</span></td>
-      <td><span class="texto13-regular" stule="color:#111827">Cozinha · diária para eventos</span></td>
-      <td><span class="texto13">R$ 220,00</span></td>
-      <td><span class="texto12" style="color:#16A34A"><i class="ci ci-marcador-verde"></i>APROVADO</span></td>
-      <td class="text-end"><span class="texto12-regular pe-3" style="color:#111827">Ver <i class="ci ci-acao-download" style="background-color:#111827""></i></span><span class="texto11"> PDF</span></td>
-    </tr>
-
-  </tbody>
-</table>
-
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col"><span class="texto11">ORÇAMENTO</span></th>
+                        <th scope="col"><span class="texto11">DATA</span></th>
+                        <th scope="col"><span class="texto11">SERVIÇO</span></th>
+                        <th scope="col"><span class="texto11">VALOR</span></th>
+                        <th scope="col"><span class="texto11">STATUS</span></th>
+                        <th class="text-end" scope="col"><span class="texto11">AÇÕES / PDF</span></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><span class="texto11 pe-3">#0038</span><span class="texto13"> Mariana Lopes</span></td>
+                        <td><span class="texto13">17 SET</span></td>
+                        <td><span class="texto13-regular" stule="color:#111827">Faxina residencial detalhada</span></td>
+                        <td><span class="texto13">R$ 180,00</span></td>
+                        <td><span class="texto12" style="color:#EA580C"><i class="ci ci-marcador-amarelo"></i> AGUARDANDO</span></td>
+                        <td class="text-end"><span class="texto12-regular pe-3" style="color:#111827">Ver <i class="ci ci-acao-download" style="background-color:#111827""></i></span><span class=" texto11"> PDF</span></td>
+                      </tr>
+                      <tr>
+                        <td><span class="texto11 pe-3">#0035</span><span class="texto13"> Carlos Almeida</span></td>
+                        <td><span class="texto13">14 SET</span></td>
+                        <td><span class="texto13-regular" stule="color:#111827">Manutenção elétrica geral</span></td>
+                        <td><span class="texto13">R$ 320,00</span></td>
+                        <td><span class="texto12" style="color:#2563EB"><i class="ci ci-marcador-azul"></i>ENVIADO</span></td>
+                        <td class="text-end"><span class="texto12-regular pe-3" style="color:#111827">Enviar <i class="ci ci-acao-download" style="background-color:#111827""></i></span><span class=" texto11"> PDF</span></td>
+                      </tr>
+                      <tr>
+                        <td><span class="texto11 pe-3">#0037</span><span class="texto13"> Mariana Lopes</span></td>
+                        <td><span class="texto13">09 SET</span></td>
+                        <td><span class="texto13-regular" stule="color:#111827">Faxina residencial quinzenal</span></td>
+                        <td><span class="texto13">R$ 180,00</span></td>
+                        <td><span class="texto12" style="color:#16A34A"><i class="ci ci-marcador-verde"></i>APROVADO</span></td>
+                        <td class="text-end"><span class="texto12-regular pe-3" style="color:#111827">Ver <i class="ci ci-acao-download" style="background-color:#111827""></i></span><span class=" texto11"> PDF</span></td>
+                      </tr>
+                      <tr>
+                        <td><span class="texto11 pe-3">#0036</span><span class="texto13"> Roberto Dias</span></td>
+                        <td><span class="texto13">05 SET</span></td>
+                        <td><span class="texto13-regular" stule="color:#111827">Faxina residencial quinzenal</span></td>
+                        <td><span class="texto13">R$ 850,00</span></td>
+                        <td><span class="texto12" style="color:#EA580C"><i class="ci ci-marcador-vermelho"></i>RECUSADO</span></td>
+                        <td class="text-end"><span class="texto12-regular pe-3" style="color:#111827">Ver <i class="ci ci-acao-download" style="background-color:#111827""></i></span><span class=" texto11"> PDF</span></td>
+                      </tr>
+                      <tr>
+                        <td><span class="texto11 pe-3">#0034</span><span class="texto13"> Beatriz Nunes</span></td>
+                        <td><span class="texto13">02 SET</span></td>
+                        <td><span class="texto13-regular" stule="color:#111827">Cozinha · diária para eventos</span></td>
+                        <td><span class="texto13">R$ 220,00</span></td>
+                        <td><span class="texto12" style="color:#16A34A"><i class="ci ci-marcador-verde"></i>APROVADO</span></td>
+                        <td class="text-end"><span class="texto12-regular pe-3" style="color:#111827">Ver <i class="ci ci-acao-download" style="background-color:#111827""></i></span><span class=" texto11"> PDF</span></td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </div>

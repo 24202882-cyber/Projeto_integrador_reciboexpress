@@ -58,21 +58,32 @@ left join tcliente on trecibo.chave_cliente = tcliente.chave_cliente
 where    
 trecibo.chave_perfil = :vchave_perfil and
 trecibo.caixa_recibo = 1
+order by trecibo.chave_recibo desc
 ";
 $qrecibo = $pdo->prepare($strsql);
 $qrecibo->bindParam(":vchave_perfil", $chave_perfil);
 $qrecibo->execute();
 while ($trecibo = $qrecibo->fetch(PDO::FETCH_ASSOC)) {
   $chave_recibo = $trecibo["chave_recibo"];
+  $chave_orcamento_ext = "";
+  $chave_orcamento = $trecibo["chave_orcamento"];
+  if (intval($chave_orcamento) > 0) {
+    $chave_orcamento_ext = str_pad($chave_orcamento, 6, "0", STR_PAD_LEFT);
+  }
   $nome_cliente = $trecibo["nome_cliente"];
   $dtc_recibo = $trecibo["dtc_recibo"];
+  $dte_recibo = $trecibo["dtc_recibo"];
   $valor_recibo = $trecibo["valor_recibo"];
+  $situacao_recibo = $trecibo["situacao_recibo"];
   $html .= "
   <tr>
     <td><span class='texto11'>{$chave_recibo}</span></td>
+    <td><span class='texto11'>{$chave_orcamento_ext}</span></td>
     <td><span class='texto13'>{$nome_cliente}</span></td>
     <td><span class='texto13'>{$dtc_recibo}</span></td>
     <td><span class='texto13'>{$valor_recibo}</span></td>
+    <td><span class='texto13'>{$situacao_recibo}</span></td>
+    <td><span class='texto13'>{$dte_recibo}</span></td>
     <td class='text-end'><a href='#' onclick='javascript:alteraRECIBO({$chave_recibo})'><i class='ci ci-acao-editar me-3'></i></a><a href='#' onclick='javascript:excluiRECIBO({$chave_recibo})'><i class='ci ci-acao-excluir'></i></a></td>    
   </tr>
   ";
@@ -352,9 +363,12 @@ function Pesquisa_Cliente() {
                       <thead>
                         <tr>
                           <th scope="col"><span class="texto11">RECIBO</span></th>
+                          <th scope="col"><span class="texto11">ORÇAMENTO</span></th>
                           <th scope="col"><span class="texto11">CLIENTE</span></th>
                           <th scope="col"><span class="texto11">CADASTRO</span></th>
                           <th scope="col"><span class="texto11">VALOR</span></th>
+                          <th scope="col"><span class="texto11">SITUAÇÃO</span></th>
+                          <th scope="col"><span class="texto11">EMITIDO</span></th>
                           <th class="text-end" scope="col"><span class="texto11">AÇÕES</span></th>
                         </tr>
                       </thead>

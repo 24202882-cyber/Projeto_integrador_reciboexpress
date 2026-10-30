@@ -5,8 +5,8 @@
  ***** 
  ***** APLICAÇÃO
  ***** Recibo Express
- ***** Arquivo: /publico/orcamento/orcamentosrv_edita.php
- ***** Conteúdo: 07-orcamento
+ ***** Arquivo: /publico/recibo/recibosrv_edita.php
+ ***** Conteúdo: 07-recibo
  ***** Data criação: set/2026
  ***** Disponível em: reciboexpress.com.br
  *****
@@ -36,7 +36,7 @@ VerificaSessao();
 $ok = true;
 $html = "";
 $chave_perfil = $_SESSION["CHAVE_PERFIL"];
-$chave_orcamento = "1";
+$chave_recibo = "1";
 $chave_servico = "1";
 $acao = "NOVO";
 // EOF Variáveis de controle
@@ -46,13 +46,14 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
       $acao = $_POST["acao"];
     }    
     if ($acao == "NOVO") {
-      $chave_orcamento = $_POST["chave_orcamento"];
+      $chave_recibo = $_POST["chave_recibo"];
       $chave_servico = $_POST["chave_servico"];
-      if ($chave_orcamento != "" && $chave_servico != "") {
+      if ($chave_recibo != "" && $chave_servico != "") {
         abre_db();
-        $qtd_orcamentosrv = 1;
         $valor_servico = 0;
-        $caixa_orcamentosrv = 1;
+        $qtd_recibosrv = 1;
+        $valor_servico = 0;
+        $caixa_recibosrv = 1;
         $strsql = "
         select
         tservico.valor_servico 
@@ -68,47 +69,50 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $qservico->bindParam(":vchave_perfil", $chave_perfil);
         $qservico->execute();
         if ($tservico = $qservico->fetch(PDO::FETCH_ASSOC)) {
-          $valor_servico = $tservico["valor_servico"];
+          $valor_servico = floatval($tservico["valor_servico"]);
         }
+        $vvlu_recibosrv = $valor_servico;
+        $vvlt_recibosrv = $qtd_recibosrv * $valor_servico;
         $strsql = "
         insert 
         into 
-        torcamentosrv
-        (chave_orcamento
+        trecibosrv
+        (chave_recibo
         ,chave_servico
-        ,qtd_orcamentosrv
-        ,vlu_orcamentosrv
-        ,vlt_orcamentosrv
-        ,caixa_orcamentosrv
+        ,qtd_recibosrv
+        ,vlu_recibosrv
+        ,vlt_recibosrv
+        ,caixa_recibosrv
         ) 
         values 
-        (:vchave_orcamento
+        (:vchave_recibo
         ,:vchave_servico
-        ,:vqtd_orcamentosrv
-        ,:vvlu_orcamentosrv
-        ,:vvlt_orcamentosrv
-        ,:vcaixa_orcamentosrv
+        ,:vqtd_recibosrv
+        ,:vvlu_recibosrv
+        ,:vvlt_recibosrv
+        ,:vcaixa_recibosrv
         )";
-        $qorcamentosrv = $pdo->prepare($strsql);
-        $qorcamentosrv->bindParam(":vchave_orcamento", $chave_orcamento);
-        $qorcamentosrv->bindParam(":vchave_servico", $chave_servico);
-        $qorcamentosrv->bindParam(":vqtd_orcamentosrv", $qtd_orcamentosrv);
-        $qorcamentosrv->bindParam(":vvlu_orcamentosrv", $valor_servico);
-        $qorcamentosrv->bindParam(":vvlt_orcamentosrv", $valor_servico);
-        $qorcamentosrv->bindParam(":vcaixa_orcamentosrv", $caixa_orcamentosrv);
-        $qorcamentosrv->execute();
-        $chave_orcamentosrv = $pdo->lastInsertId();
-        fecha_diario("torcamentosrv", "chave_orcamentosrv", $chave_orcamentosrv, $abre_diario = array(), $campoexcluidos = array(""));
-        header("Location: /publico/orcamento/orcamento_edita.php", false);
+        $qrecibosrv = $pdo->prepare($strsql);
+        $qrecibosrv->bindParam(":vchave_recibo", $chave_recibo);
+        $qrecibosrv->bindParam(":vchave_servico", $chave_servico);
+        $qrecibosrv->bindParam(":vqtd_recibosrv", $qtd_recibosrv);
+        $qrecibosrv->bindParam(":vvlu_recibosrv", $vvlu_recibosrv);
+        $qrecibosrv->bindParam(":vvlt_recibosrv", $vvlt_recibosrv);
+        $qrecibosrv->bindParam(":vcaixa_recibosrv", $caixa_recibosrv);
+        $qrecibosrv->execute();
+        $chave_recibosrv = $pdo->lastInsertId();
+        fecha_diario("trecibosrv", "chave_recibosrv", $chave_recibosrv, $abre_diario = array(), $campoexcluidos = array(""));
+        header("Location: /publico/recibo/recibo_edita.php", false);
         die();
       }
     }
     if ($acao == "EDITA") {     
-      $chave_orcamento = $_SESSION["CHAVE_ORCAMENTO"];
-      $chave_orcamentosrv = $_POST["chave_orcamentosrv"];
+      $chave_recibo = $_SESSION["CHAVE_RECIBO"];
+      $chave_recibosrv = $_POST["chave_recibosrv"];
       $chave_servico = $_POST["chave_servico"];
-      $qtd_orcamentosrv = $_POST["qtd_orcamentosrv"];
-      if ($chave_orcamento != "" && $chave_orcamentosrv != "") {
+      $qtd_recibosrv = $_POST["qtd_recibosrv"];
+      if ($chave_recibo != "" && $chave_recibosrv != "") {
+        $valor_servico = 0;
         abre_db();        
         $strsql = "
         select
@@ -125,31 +129,31 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $qservico->bindParam(":vchave_perfil", $chave_perfil);
         $qservico->execute();
         if ($tservico = $qservico->fetch(PDO::FETCH_ASSOC)) {
-          $valor_servico = $tservico["valor_servico"];
+          $valor_servico = floatval($tservico["valor_servico"]);
         }
-        $abre_diario = abre_diario("torcamentosrv", "chave_orcamentosrv", $chave_orcamentosrv, $campoexcluidos = array(""));
-        //inner join torcamento on torcamentosrv.chave_orcamento = torcamento.chave_orcamento 
-        //torcamento.chave_perfil = :vchave_perfil and
+        $abre_diario = abre_diario("trecibosrv", "chave_recibosrv", $chave_recibosrv, $campoexcluidos = array(""));
+
+        $vlu_servico = $valor_servico;
+        $vlt_servico = $valor_servico * $qtd_recibosrv;
         $strsql = "
         update 
-        torcamentosrv        
+        trecibosrv        
         set 
-        qtd_orcamentosrv = :vqtd_orcamentosrv
-        ,vlu_orcamentosrv = :vvlu_orcamentosrv
-        ,vlt_orcamentosrv = :vvlt_orcamentosrv
+        qtd_recibosrv = :vqtd_recibosrv
+        ,vlu_recibosrv = :vvlu_recibosrv
+        ,vlt_recibosrv = :vvlt_recibosrv
         where 
-        torcamentosrv.chave_orcamentosrv = :vchave_orcamentosrv and        
-        torcamentosrv.caixa_orcamentosrv = 1
+        trecibosrv.chave_recibosrv = :vchave_recibosrv and        
+        trecibosrv.caixa_recibosrv = 1
         ";
-        $qorcamentosrv = $pdo->prepare($strsql);
-        $qorcamentosrv->bindParam(":vchave_orcamentosrv", $chave_orcamentosrv);
-        //$qorcamentosrv->bindParam(":vchave_perfil", $chave_perfil);        
-        $qorcamentosrv->bindParam(":vqtd_orcamentosrv", $qtd_orcamentosrv);
-        $qorcamentosrv->bindParam(":vvlu_orcamentosrv", $valor_servico);
-        $qorcamentosrv->bindParam(":vvlt_orcamentosrv", $valor_servico);        
-        $qorcamentosrv->execute();        
-        fecha_diario("torcamentosrv", "chave_orcamentosrv", $chave_orcamentosrv, $abre_diario, $campoexcluidos = array(""));
-        header("Location: /publico/orcamento/orcamento_edita.php", false);
+        $qrecibosrv = $pdo->prepare($strsql);
+        $qrecibosrv->bindParam(":vchave_recibosrv", $chave_recibosrv);
+        $qrecibosrv->bindParam(":vqtd_recibosrv", $qtd_recibosrv);
+        $qrecibosrv->bindParam(":vvlu_recibosrv", $vlu_servico);
+        $qrecibosrv->bindParam(":vvlt_recibosrv", $vlt_servico);        
+        $qrecibosrv->execute();        
+        fecha_diario("trecibosrv", "chave_recibosrv", $chave_recibosrv, $abre_diario, $campoexcluidos = array(""));
+        header("Location: /publico/recibo/recibo_edita.php", false);
         die();
       }
     }
@@ -159,11 +163,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
       'status' => 'sucesso',
       'mensagem' => 'Dados recebidos com sucesso!',
       'dados' => [
-        'chave_orcamento' => $chave_orcamento,
+        'chave_recibo' => $chave_recibo,
         'chave_servico' => $chave_servico,
-        'qtd_orcamentosrv' => $qtd_orcamentosrv,
-        'vlu_orcamentosrv' => $valor_servico,
-        'vlt_orcamentosrv' => $valor_servico
+        'qtd_recibosrv' => $qtd_recibosrv,
+        'vlu_recibosrv' => $valor_servico,
+        'vlt_recibosrv' => $valor_servico
       ]
     ]);
   }

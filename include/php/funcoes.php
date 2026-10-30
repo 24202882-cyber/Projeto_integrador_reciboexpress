@@ -356,8 +356,8 @@ function cnpj($cnpj) {
 //********************
 function so_numeros($cnumero, $cdefault) {
 	$sonumeros = preg_replace('/\D/', '', $cnumero);
-	if ($sonumeros == '') {
-		if ($cdefault != '') {
+	if ($sonumeros == "") {
+		if ($cdefault != "") {
 			$sonumeros = $cdefault;
 		}
 	}
@@ -1130,4 +1130,137 @@ function MesExtAno($data)
   }	
 	return $retorno;
 }
+
+function DiaMesExtAno($data)
+{
+  $retorno = "";
+	$nummes = 0;
+  $arrmes = "janfevmarabrmaijunjulagosetoutnovdez";
+	if ($data != "") {
+		try {
+			$nummes = date_format(date_create($data),'m');
+		}
+		catch (Exception $e) {
+			$nummes = 0;
+		}		
+	}
+  if ($nummes > 0) {
+    $retorno = date_format(date_create($data),'d') . ' ' . substr($arrmes,($nummes * 3) - 3, 3) . " " . date_format(date_create($data),'Y');
+  }	
+	return $retorno;
+}
+
+function NomeUserComprac() {
+  $retorno = "";
+  $i = 0;
+  if (isset($_SESSION["NOME_USUARIO"])) {
+    if (trim($_SESSION["NOME_USUARIO"]) != "") {
+      $nomecompleto = trim($_SESSION["NOME_USUARIO"]);
+      $nomecompac = "";
+      $caractereupper = true;
+      for ($i = 0; $i <= strlen($nomecompleto)-1; $i++) {
+        if ($caractereupper) {
+          $nomecompac .= mb_strtoupper($nomecompleto[$i], 'UTF-8');
+        }
+        else {
+          $nomecompac .= mb_strtolower($nomecompleto[$i], 'UTF-8');
+        }
+        if ($nomecompleto[$i] == " ") {
+          $caractereupper = true;
+        }
+        else {
+          $caractereupper = false;
+        }
+      }
+      $i = strpos($nomecompac, " ");
+      if ($i > 0) {
+        $nomecompac = substr($nomecompac, 0, $i+2);
+      }
+      else {
+        $nomecompac = substr($nomecompac, 0, 10);
+      }
+      $retorno = $nomecompac;      
+    }
+  }
+  return $retorno;
+}
+
+function LetraUserComprac() {
+  $retorno = "";
+  if (isset($_SESSION["NOME_USUARIO"])) {
+    if (trim($_SESSION["NOME_USUARIO"]) != "") {
+      $nomecompleto = trim($_SESSION["NOME_USUARIO"]);
+      $nomecompac = mb_strtoupper($nomecompleto[0], 'UTF-8');
+      $retorno = $nomecompac;
+    }
+  }
+  return $retorno;
+}
+
+function CPFUserComprac() {
+  $retorno = "";
+  $cpfcompac = "";
+  if (isset($_SESSION["CPF_PERFIL"])) {
+    if ($_SESSION["CPF_PERFIL"] != "") {
+      $cpfcompac = $_SESSION["CPF_PERFIL"];
+      $cpfcompac = so_numeros($cpfcompac, "");
+      $cpfcompac = str_replace(".", "", $cpfcompac);
+      $cpfcompac = substr($cpfcompac, 6, 3);
+      $cpfcompac = "...,...," . $cpfcompac . "-..";      
+      $retorno = "CPF " . $cpfcompac;
+    }
+  }
+  return $retorno;
+}
+
+function obterPeriodoDoDia($dataHora = null): string 
+{
+  if ($dataHora instanceof DateTimeInterface) {
+    $hora = (int) $dataHora->format('H');
+  }
+  else if (is_numeric($dataHora)) {
+    $hora = (int) date('H', $dataHora);
+  }
+  else if (is_string($dataHora)) {
+    $hora = (int) date('H', strtotime($dataHora));
+  }
+  else {
+    $hora = (int) date('H'); // Hora atual
+  }
+  // Regras dos períodos do dia:
+  // 05:00 às 11:59 -> Manhã
+  // 12:00 às 17:59 -> Tarde
+  // 18:00 às 04:59 -> Noite
+  if ($hora >= 5 && $hora < 12) {
+    return 'manhã';
+  }
+  else if ($hora >= 12 && $hora < 18) {
+    return 'tarde';
+  }
+  else {
+    return 'noite';
+  }
+}
+
+function getNomeMesArray($data): string 
+{
+  $meses = [
+    1 => 'Janeiro',
+    2 => 'Fevereiro',
+    3 => 'Março',
+    4 => 'Abril',
+    5 => 'Maio',
+    6 => 'Junho',
+    7 => 'Julho',
+    8 => 'Agosto',
+    9 => 'Setembro',
+    10 => 'Outubro',
+    11 => 'Novembro',
+    12 => 'Dezembro'
+  ];
+  $dateTime = ($data instanceof \DateTimeInterface) ? $data : new \DateTime($data);
+  $numeroMes = (int) $dateTime->format('n');
+  return $meses[$numeroMes];
+}
+
 ?>

@@ -142,6 +142,7 @@ tservico
 where    
 chave_perfil = :vchave_perfil and
 caixa_servico = 1
+order by chave_servico
 ";
 $qservico = $pdo->prepare($strsql);
 $qservico->bindParam(":vchave_perfil", $chave_perfil);

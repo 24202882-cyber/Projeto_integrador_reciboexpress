@@ -5,8 +5,8 @@
 ***** 
 ***** APLICAÇÃO
 ***** Recibo Express
-***** Arquivo: /acesso/acesso_logout.php
-***** Conteúdo: Logout do usuário
+***** Arquivo: /acesso/sair.php
+***** Conteúdo: Logout ou encerramento da sessão do usuário
 ***** Data criação: set/2026
 ***** Disponível em: reciboexpress.com.br
 *****
@@ -30,36 +30,17 @@ $Raiz = "../";
 include($Raiz . "include/php/header.php"); // Configurações HEADER
 include($Raiz . "include/php/funcoes.php"); // Funcoes de Usuário PHP
 include($Raiz . "conexao/db.php");
-
-/*
-  // Inclusão do acesso
-  $strsql = "
-  insert 
-  into 
-  tusuarioacesso
-  (chave_usuario
-  ,acao_usuarioacesso
-  ,ip_usuarioacesso
-  ) values 
-  (:vchave_usuario
-  ,:vacao_usuarioacesso
-  ,:vip_usuarioacesso
-  )";
-  $qusuarioacesso = $pdo->prepare($strsql);
-  $qusuarioacesso->bindParam(":vchave_usuario", $_SESSION["CHAVE_USUARIO"]);
-  $qusuarioacesso->bindParam(":vacao_usuarioacesso", $acao_usuarioacesso);		
-  $qusuarioacesso->bindParam(":vip_usuarioacesso", $_SERVER['REMOTE_ADDR']);		
-  $qusuarioacesso->execute();
-  // EOF Inclusao do acesso
-*/
-
+$_SESSION["CHAVE_PERFIL"] = "";
 $_SESSION["CHAVE_USUARIO"] = "";
 $_SESSION["NOME_USUARIO"] = "";
 $_SESSION["LOGIN_USUARIO"] = "";
 $_SESSION["TIPO_USUARIO"] = "";
+$_SESSION["CPF_PERFIL"] = "";
 $_SESSION["CHAVE_USUARIOLOGIN"] = "";
 $_SESSION["NOME_USUARIOLOGIN"] = "";
 $_SESSION["LOGIN_USUARIOLOGIN"] = "";
+$_SESSION["SESSAO_INICIO"] = "";
+$_SESSION["SESSAO_EXPIRA"] = "";
 fecha_db();
 session_destroy();
 header("Location: /index.php");

@@ -819,6 +819,19 @@ table th a:hover {
   color: #1A5275;
 }
 
+.btn-custom-lima {
+  background-color: #25D366; /* Your personal color */
+  border-color: #25D366;
+  color: #fff;
+}
+
+/* Ensure hover and active states also look good */
+.btn-custom-lima:hover {
+  background-color: #24d06e;
+  border-color: #24d06e;
+  color: #fff;
+}
+
 h1 {
   font-weight:700;
 }
@@ -1007,6 +1020,14 @@ titulo-cartao {
   margin-right:8px;
 }
 
+.ci-marcador-vermelho {
+  -webkit-mask-image: url('/design/marcador.svg');
+  mask-image: url('/design/marcador.svg');
+  background-color:#d81818;
+  font-size:0.5em;
+  margin-right:8px;
+}
+
 .ci-marcador-branco {
   -webkit-mask-image: url('/design/marcador.svg');
   mask-image: url('/design/marcador.svg');
@@ -1129,6 +1150,17 @@ titulo-cartao {
   -webkit-mask-image: url('/design/gear.svg');
   mask-image: url('/design/gear.svg'); 
 }
+
+.ci-whatsapp {
+  -webkit-mask-image: url('/design/whatsapp.svg');
+  mask-image: url('/design/whatsapp.svg'); 
+}
+
+.ci-envelope {
+  -webkit-mask-image: url('/design/envelope.svg');
+  mask-image: url('/design/envelope.svg'); 
+}
+
 .body-admin {
   background-color: #0F1F2E;
 }
