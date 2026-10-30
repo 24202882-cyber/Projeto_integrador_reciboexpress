@@ -1150,6 +1150,25 @@ function DiaMesExtAno($data)
 	return $retorno;
 }
 
+function DiaMesExt($data)
+{
+  $retorno = "";
+	$nummes = 0;
+  $arrmes = "janfevmarabrmaijunjulagosetoutnovdez";
+	if ($data != "") {
+		try {
+			$nummes = date_format(date_create($data),'m');
+		}
+		catch (Exception $e) {
+			$nummes = 0;
+		}		
+	}
+  if ($nummes > 0) {
+    $retorno = date_format(date_create($data),'d') . ' ' . substr($arrmes,($nummes * 3) - 3, 3);
+  }	
+	return $retorno;
+}
+
 function NomeUserComprac() {
   $retorno = "";
   $i = 0;

@@ -26,13 +26,86 @@
  **************************************************
  */
 session_start();
-
 $Raiz = "../../";
-include($Raiz . "include/php/header.php"); // Configurações HEADER
-include($Raiz . "include/php/funcoes.php"); // Funcoes de Usuário PHP
+include($Raiz . "include/php/header.php");
+include($Raiz . "include/php/funcoes.php");
 include($Raiz . "conexao/db.php");
+VerificaSessao();
 $ok = true;
+$chave_perfil = $_SESSION["CHAVE_PERFIL"];
 $html = "";
+
+abre_db();
+$strsql = "
+select
+torcamento.*
+,tcliente.nome_cliente
+,(select tservico.descr_servico from torcamentosrv left join tservico on torcamentosrv.chave_servico = tservico.chave_servico where torcamento.chave_orcamento = torcamentosrv.chave_orcamento and torcamentosrv.caixa_orcamentosrv = 1 order by torcamentosrv.chave_orcamentosrv limit 1) as descr_servico
+from
+torcamento 
+left join tcliente on torcamento.chave_cliente = tcliente.chave_cliente
+where    
+torcamento.chave_perfil = :vchave_perfil and
+torcamento.caixa_orcamento = 1 
+order by torcamento.chave_orcamento desc
+";
+$qorcamento = $pdo->prepare($strsql);
+$qorcamento->bindParam(":vchave_perfil", $chave_perfil);
+$qorcamento->execute();
+while ($torcamento = $qorcamento->fetch(PDO::FETCH_ASSOC)) {
+  $chave_orcamento = $torcamento["chave_orcamento"];
+  $chave_orcamento_ext = str_pad($chave_orcamento, 6, "0", STR_PAD_LEFT);
+  $nome_cliente = $torcamento["nome_cliente"];
+  $dtc_orcamento = $torcamento["dtc_orcamento"];
+  $dtu_orcamento = $torcamento["dtu_orcamento"];
+  $dtu_orcamento = strtoupper(DiaMesExt($dtu_orcamento));
+  $valor_orcamento = $torcamento["valor_orcamento"];  
+  $valor_orcamento = Float2Moeda(floatval($valor_orcamento), 2);
+  $descr_servico = $torcamento["descr_servico"];  
+  $situacao_orcamento = $torcamento["situacao_orcamento"];
+  $urlpdf_orcamento = $torcamento["urlpdf_orcamento"];
+  if (strlen($nome_cliente) > 15) {
+    $nome_cliente = substr($nome_cliente, 0, 15) . '...';
+  }
+  $html_coluna_situacao = "<span class='texto12'></span>";
+  if ($situacao_orcamento == "CRIADO") {
+    $html_coluna_situacao = "<span class='texto12' style='color:#EA580C'><i class='ci ci-marcador-amarelo'></i> {$situacao_orcamento}</span>";
+  }
+  if ($situacao_orcamento == "ENVIADO") {
+    $html_coluna_situacao = "<span class='texto12' style='color:#2563EB'><i class='ci ci-marcador-azul'></i> {$situacao_orcamento}</span>";
+  }
+  if ($situacao_orcamento == "APROVADO") {
+    $html_coluna_situacao = "<span class='texto12' style='color:#16A34A'><i class='ci ci-marcador-verde'></i> {$situacao_orcamento}</span>";
+  }
+  if ($situacao_orcamento == "REALIZADO") {
+    $html_coluna_situacao = "<span class='texto12' style='color:#16A34A'><i class='ci ci-marcador-verde'></i> {$situacao_orcamento}</span>";
+  }
+  if ($situacao_orcamento == "RECIBO") {
+    $html_coluna_situacao = "<span class='texto12' style='color:#2563EB'><i class='ci ci-marcador-azul'></i> {$situacao_orcamento}</span>";
+  }
+  if ($situacao_orcamento == "RECUSADO") {
+    $html_coluna_situacao = "<span class='texto12' style='color:#d81818'><i class='ci ci-marcador-vermelho'></i> {$situacao_orcamento}</span>";
+  }
+  $pdf = "";  
+  if ($urlpdf_orcamento != "") {
+    $pdf = "    
+    <a class='link-padrao' href='https://reciboexpress.kraftwork.com.br/publico/pdfs/{$urlpdf_orcamento}'>
+    <span class='texto12-regular pe-3' style='color:#111827'>Ver <i class='ci ci-acao-download' style='background-color:#111827''></i></span>
+    <span class='texto11'> PDF</span></a>";
+  }
+  $html .= "
+  <tr>
+    <td data-id_dbg='{$chave_orcamento}' class='SELECIONA_LINHA'><span class='texto11 pe-3'>{$chave_orcamento_ext}</span><span class='texto13'> {$nome_cliente}</span></td>
+    <td><span class='texto13'>{$dtu_orcamento}</span></td>
+    <td><span class='texto13-regular' stule='color:#111827'>{$descr_servico}</span></td>
+    <td><span class='texto13'>{$valor_orcamento}</span></td>
+    <td><span class='texto12' style='color:#EA580C'>{$html_coluna_situacao}</td>
+    <td class='text-end'>
+      {$pdf}
+    </td>
+  </tr>
+  ";
+}
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -219,61 +292,67 @@ $html = "";
             <div class="col-12">
               <div class="card">
                 <div class="card-body">
-
-                  <table class="table">
-                    <thead>
-                      <tr>
-                        <th scope="col"><span class="texto11">ORÇAMENTO</span></th>
-                        <th scope="col"><span class="texto11">DATA</span></th>
-                        <th scope="col"><span class="texto11">SERVIÇO</span></th>
-                        <th scope="col"><span class="texto11">VALOR</span></th>
-                        <th scope="col"><span class="texto11">STATUS</span></th>
-                        <th class="text-end" scope="col"><span class="texto11">AÇÕES / PDF</span></th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td><span class="texto11 pe-3">#0038</span><span class="texto13"> Mariana Lopes</span></td>
-                        <td><span class="texto13">17 SET</span></td>
-                        <td><span class="texto13-regular" stule="color:#111827">Faxina residencial detalhada</span></td>
-                        <td><span class="texto13">R$ 180,00</span></td>
-                        <td><span class="texto12" style="color:#EA580C"><i class="ci ci-marcador-amarelo"></i> AGUARDANDO</span></td>
-                        <td class="text-end"><span class="texto12-regular pe-3" style="color:#111827">Ver <i class="ci ci-acao-download" style="background-color:#111827""></i></span><span class=" texto11"> PDF</span></td>
-                      </tr>
-                      <tr>
-                        <td><span class="texto11 pe-3">#0035</span><span class="texto13"> Carlos Almeida</span></td>
-                        <td><span class="texto13">14 SET</span></td>
-                        <td><span class="texto13-regular" stule="color:#111827">Manutenção elétrica geral</span></td>
-                        <td><span class="texto13">R$ 320,00</span></td>
-                        <td><span class="texto12" style="color:#2563EB"><i class="ci ci-marcador-azul"></i>ENVIADO</span></td>
-                        <td class="text-end"><span class="texto12-regular pe-3" style="color:#111827">Enviar <i class="ci ci-acao-download" style="background-color:#111827""></i></span><span class=" texto11"> PDF</span></td>
-                      </tr>
-                      <tr>
-                        <td><span class="texto11 pe-3">#0037</span><span class="texto13"> Mariana Lopes</span></td>
-                        <td><span class="texto13">09 SET</span></td>
-                        <td><span class="texto13-regular" stule="color:#111827">Faxina residencial quinzenal</span></td>
-                        <td><span class="texto13">R$ 180,00</span></td>
-                        <td><span class="texto12" style="color:#16A34A"><i class="ci ci-marcador-verde"></i>APROVADO</span></td>
-                        <td class="text-end"><span class="texto12-regular pe-3" style="color:#111827">Ver <i class="ci ci-acao-download" style="background-color:#111827""></i></span><span class=" texto11"> PDF</span></td>
-                      </tr>
-                      <tr>
-                        <td><span class="texto11 pe-3">#0036</span><span class="texto13"> Roberto Dias</span></td>
-                        <td><span class="texto13">05 SET</span></td>
-                        <td><span class="texto13-regular" stule="color:#111827">Faxina residencial quinzenal</span></td>
-                        <td><span class="texto13">R$ 850,00</span></td>
-                        <td><span class="texto12" style="color:#EA580C"><i class="ci ci-marcador-vermelho"></i>RECUSADO</span></td>
-                        <td class="text-end"><span class="texto12-regular pe-3" style="color:#111827">Ver <i class="ci ci-acao-download" style="background-color:#111827""></i></span><span class=" texto11"> PDF</span></td>
-                      </tr>
-                      <tr>
-                        <td><span class="texto11 pe-3">#0034</span><span class="texto13"> Beatriz Nunes</span></td>
-                        <td><span class="texto13">02 SET</span></td>
-                        <td><span class="texto13-regular" stule="color:#111827">Cozinha · diária para eventos</span></td>
-                        <td><span class="texto13">R$ 220,00</span></td>
-                        <td><span class="texto12" style="color:#16A34A"><i class="ci ci-marcador-verde"></i>APROVADO</span></td>
-                        <td class="text-end"><span class="texto12-regular pe-3" style="color:#111827">Ver <i class="ci ci-acao-download" style="background-color:#111827""></i></span><span class=" texto11"> PDF</span></td>
-                      </tr>
-                    </tbody>
-                  </table>
+                  <form action="/publico/orcamento/orcamento_edita.php" id="FORCAMENTO_EDITA" name="FORCAMENTO_EDITA" method="POST">
+                    <input type="hidden" id="chave_orcamento" name="chave_orcamento" value="">
+                    <input type="hidden" id="acao" name="acao" value="EDITAR">
+                    <table class='table table-hover'>
+                      <thead>
+                        <tr>
+                          <th scope="col"><span class="texto11">ORÇAMENTO</span></th>
+                          <th scope="col"><span class="texto11">DATA</span></th>
+                          <th scope="col"><span class="texto11">SERVIÇO</span></th>
+                          <th scope="col"><span class="texto11">VALOR</span></th>
+                          <th scope="col"><span class="texto11">STATUS</span></th>
+                          <th class="text-end" scope="col"><span class="texto11">AÇÕES / PDF</span></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <?php echo $html ?>
+  <!--                      
+                        <tr>
+                          <td><span class="texto11 pe-3">#0038</span><span class="texto13"> Mariana Lopes</span></td>
+                          <td><span class="texto13">17 SET</span></td>
+                          <td><span class="texto13-regular" stule="color:#111827">Faxina residencial detalhada</span></td>
+                          <td><span class="texto13">R$ 180,00</span></td>
+                          <td><span class="texto12" style="color:#EA580C"><i class="ci ci-marcador-amarelo"></i> AGUARDANDO</span></td>
+                          <td class="text-end"><span class="texto12-regular pe-3" style="color:#111827">Ver <i class="ci ci-acao-download" style="background-color:#111827""></i></span><span class=" texto11"> PDF</span></td>
+                        </tr>
+                        <tr>
+                          <td><span class="texto11 pe-3">#0035</span><span class="texto13"> Carlos Almeida</span></td>
+                          <td><span class="texto13">14 SET</span></td>
+                          <td><span class="texto13-regular" stule="color:#111827">Manutenção elétrica geral</span></td>
+                          <td><span class="texto13">R$ 320,00</span></td>
+                          <td><span class="texto12" style="color:#2563EB"><i class="ci ci-marcador-azul"></i>ENVIADO</span></td>
+                          <td class="text-end"><span class="texto12-regular pe-3" style="color:#111827">Enviar <i class="ci ci-acao-download" style="background-color:#111827""></i></span><span class=" texto11"> PDF</span></td>
+                        </tr>
+                        <tr>
+                          <td><span class="texto11 pe-3">#0037</span><span class="texto13"> Mariana Lopes</span></td>
+                          <td><span class="texto13">09 SET</span></td>
+                          <td><span class="texto13-regular" stule="color:#111827">Faxina residencial quinzenal</span></td>
+                          <td><span class="texto13">R$ 180,00</span></td>
+                          <td><span class="texto12" style="color:#16A34A"><i class="ci ci-marcador-verde"></i>APROVADO</span></td>
+                          <td class="text-end"><span class="texto12-regular pe-3" style="color:#111827">Ver <i class="ci ci-acao-download" style="background-color:#111827""></i></span><span class=" texto11"> PDF</span></td>
+                        </tr>
+                        <tr>
+                          <td><span class="texto11 pe-3">#0036</span><span class="texto13"> Roberto Dias</span></td>
+                          <td><span class="texto13">05 SET</span></td>
+                          <td><span class="texto13-regular" stule="color:#111827">Faxina residencial quinzenal</span></td>
+                          <td><span class="texto13">R$ 850,00</span></td>
+                          <td><span class="texto12" style="color:#EA580C"><i class="ci ci-marcador-vermelho"></i>RECUSADO</span></td>
+                          <td class="text-end"><span class="texto12-regular pe-3" style="color:#111827">Ver <i class="ci ci-acao-download" style="background-color:#111827""></i></span><span class=" texto11"> PDF</span></td>
+                        </tr>
+                        <tr>
+                          <td><span class="texto11 pe-3">#0034</span><span class="texto13"> Beatriz Nunes</span></td>
+                          <td><span class="texto13">02 SET</span></td>
+                          <td><span class="texto13-regular" stule="color:#111827">Cozinha · diária para eventos</span></td>
+                          <td><span class="texto13">R$ 220,00</span></td>
+                          <td><span class="texto12" style="color:#16A34A"><i class="ci ci-marcador-verde"></i>APROVADO</span></td>
+                          <td class="text-end"><span class="texto12-regular pe-3" style="color:#111827">Ver <i class="ci ci-acao-download" style="background-color:#111827""></i></span><span class=" texto11"> PDF</span></td>
+                        </tr>
+  -->                      
+                      </tbody>
+                    </table>
+                  </form>
                 </div>
               </div>
             </div>
@@ -284,6 +363,19 @@ $html = "";
   </div>
   <!-- FIM DA ÁREA DE CONTEÚDO -->
   <?php include($Raiz . "include/php/rodape.php"); ?>
+  <script type="text/javascript">
+    $(document).ready(function () {
+      $(".SELECIONA_LINHA").click(function () {
+        document.getElementById("chave_orcamento").value = $(this).data("id_dbg");
+        document.getElementById("acao").value = "EDITA";
+        document.getElementById("FORCAMENTO_EDITA").submit();
+      });
+/*      $("#BTN_INCLUIR").click(function () {
+        document.getElementById("chave_cliente").value = "0";
+        document.getElementById("FCLIENTE").submit();
+      });*/
+    });
+  </script>
 </body>
 
 </html>

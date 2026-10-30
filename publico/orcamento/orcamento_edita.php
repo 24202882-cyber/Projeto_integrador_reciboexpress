@@ -717,10 +717,17 @@ while ($torcamentosrv = $qorcamentosrv->fetch(PDO::FETCH_ASSOC)) {
     document.body.removeChild(form);
   }  
 
+  function orcamentoWHATSAPP() {
+    const inputLink = document.getElementById("link_aprovacao").value;    
+    const numeroTelefone = document.getElementById("tel_cliente").value;    
+    const mensagem = `Olá, Segue o link para você visualizar e aprovar o seu orçamento:\n\n${inputLink}`;    
+    const btn_whatsapp = document.getElementById("BTN_WHATSAPP");    
+    const urlWhatsApp = `https://api.whatsapp.com/send?phone=${numeroTelefone}&text=${encodeURIComponent(mensagem)}`;
+    window.open(urlWhatsApp, '_blank');
+  }
 </script>
 
 <body>
-
   <!-- Modal Browse Serviços -->
   <div class="modal fade" id="MODAL_BROWSESERVICOS" tabindex="-1" role="dialog" aria-labelledby="MODAL_BROWSESERVICOS_LABEL">
     <div class="modal-dialog modal-lg">
@@ -827,6 +834,7 @@ while ($torcamentosrv = $qorcamentosrv->fetch(PDO::FETCH_ASSOC)) {
                         <input type="hidden" id="chave_servico" name="chave_servico" value="">
                         <input type="hidden" id="qtd_orcamentosrv" name="qtd_orcamentosrv" value="">
                         <input type="hidden" id="acao" name="acao" value="NOVO">
+                        <input type="hidden" id="tel_cliente" name="tel_cliente" value="<?php echo $tel_cliente; ?>">                        
                         <div class="row">
                           <?php echo $html_orcamentosrv ?>
                           <!--
@@ -975,7 +983,7 @@ while ($torcamentosrv = $qorcamentosrv->fetch(PDO::FETCH_ASSOC)) {
                                 </div>
                               </div>
                               <div>
-                                <button type="button" class="btn btn-custom-lima w-100 rounded-pill">Enviar pelo WhatsApp</button>
+                                <button type="button" id="BTN_WHATSAPP" name="BTN_WHATSAPP" class="btn btn-custom-lima w-100 rounded-pill" onclick="javascript:orcamentoWHATSAPP();">Enviar pelo WhatsApp</button>
                               </div>
                             </div>
                             <div class="col-3 gap-3 rounded-3 p-3" style="background-color: #F8FAFC">
@@ -1038,7 +1046,6 @@ while ($torcamentosrv = $qorcamentosrv->fetch(PDO::FETCH_ASSOC)) {
       alert('Link copiado com sucesso!');
     }
   });
-</script>   
   <?php include($Raiz . "include/php/rodape.php"); ?>
 </body>
 
