@@ -47,12 +47,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-
 <head>
   <title>Recibo Express - Administração do Sistema - Testes Automarizados</title>
   <?php include($Raiz . "include/html/header.html"); ?>
-
-
   <style>
     /* Estilos base inspirados na imagem */
     :root {
@@ -100,7 +97,29 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     }
   </style>
 </head>
+<script>
+  //window.carregarResultadosTestes = function() {
+async function carregarResultadosTestes() {
+  const response = await fetch('/api/run-tests', { method: 'POST' });
+  const { data } = await response.json();
 
+  // Atualiza os Cards Superiores
+  document.getElementById('total-suites').innerText = data.testSuites;
+  document.getElementById('total-tests').innerText = data.totalTests;
+  document.getElementById('duracao').innerText = `${data.duration} s`;
+
+  // Renderiza a lista de arquivos .spec na tabela
+  const container = document.getElementById('lista-testes');
+  container.innerHTML = data.testResults.map(spec => `
+    <div class="teste-row">
+      <span class="status-dot ${spec.status}"></span>
+      <span class="nome-arquivo">${spec.name}</span>
+      <span class="duracao">${spec.duration} ms</span>
+      <button onclick="verDetalhes('${spec.name}')">Visualizar</button>
+    </div>
+  `).join('');
+}
+</script>
 <body class="body-admin">
   <div class="container">
     <div class="row">
@@ -197,7 +216,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                             </div>
                             <div class="d-grid gap-2 d-md-flex justify-content-end align-items-center">                              
                               <span class="texto12-admin-regular" style="color:#94A3B8">9 ms</span>
-                              <button class="btn btn-sm btn-custom" onclick="javascript:location='testes_detalhados.php'">Visualizar</button>
+                              <button class="btn btn-sm btn-custom" onclick="javascript:carregarResultadosTestes();">Visualizar</button>
                             </div>
                           </div>
                         </td>
@@ -286,6 +305,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                           </div>
                         </td>
                       </tr>
+                      <div id="lista-testes">
+                        <div id="total-sites"></div>
+                        <div id="total-tests"></div>
+                        <div id="duracao"></div>
+                      </div>
                     </tbody>
                   </table>
                 </div>
