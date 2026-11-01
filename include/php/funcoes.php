@@ -1169,6 +1169,20 @@ function DiaMesExt($data)
 	return $retorno;
 }
 
+function HoraMin($data)
+{
+  $retorno = "";
+	if ($data != "") {
+		try {
+			$retorno = date_format(date_create($data),'H:m');
+		}
+		catch (Exception $e) {
+			$nummes = 0;
+		}		
+	}
+	return $retorno;
+}
+
 function NomeUserComprac() {
   $retorno = "";
   $i = 0;

@@ -125,6 +125,67 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     header("Location: /publico/cliente");
     die();
   }
+  else {
+    //echo "aqui " . $chave_cliente . ' ' . $acao;
+    //die();
+    if ($chave_cliente != "NOVO" && $chave_cliente != "" && $acao == "GRAVAR") {
+      $nome_cliente = $_POST["nome_cliente"];
+      $end_cliente = $_POST["end_cliente"];
+      $num_cliente = $_POST["num_cliente"];
+      $compl_cliente = $_POST["compl_cliente"];
+      $bairro_cliente = $_POST["bairro_cliente"];
+      $cid_cliente = $_POST["cid_cliente"];
+      $uf_cliente = $_POST["uf_cliente"];
+      $cep_cliente = $_POST["cep_cliente"];
+      $codibge_cliente = $_POST["codibge_cliente"];
+      $cpf_cliente = $_POST["cpf_cliente"];
+      $tel_cliente = $_POST["tel_cliente"];
+      $email_cliente = $_POST["email_cliente"];
+
+      abre_db();
+      $abre_diario = abre_diario("tcliente", "chave_cliente", $chave_cliente, $campoexcluidos = array(""));
+      $strsql = "
+      update 
+      tcliente 
+      set 
+      nome_cliente = :vnome_cliente
+      ,end_cliente = :vend_cliente
+      ,num_cliente = :vnum_cliente
+      ,compl_cliente = :vcompl_cliente
+      ,bairro_cliente = :vbairro_cliente
+      ,cid_cliente = :vcid_cliente
+      ,uf_cliente = :vuf_cliente
+      ,cep_cliente = :vcep_cliente
+      ,codibge_cliente = :vcodibge_cliente
+      ,cpf_cliente = :vcpf_cliente
+      ,tel_cliente = :vtel_cliente
+      ,email_cliente = :vemail_cliente      
+      where 
+      chave_cliente = :vchave_cliente and 
+      chave_perfil = :vchave_perfil and 
+      caixa_cliente = 1
+      ";
+      $qcliente = $pdo->prepare($strsql);
+      $qcliente->bindParam(":vchave_cliente", $chave_cliente);
+      $qcliente->bindParam(":vchave_perfil", $chave_perfil);
+      $qcliente->bindParam(":vnome_cliente", $nome_cliente);
+      $qcliente->bindParam(":vend_cliente", $end_cliente);
+      $qcliente->bindParam(":vnum_cliente", $num_cliente);
+      $qcliente->bindParam(":vcompl_cliente", $compl_cliente);
+      $qcliente->bindParam(":vbairro_cliente", $bairro_cliente);
+      $qcliente->bindParam(":vcid_cliente", $cid_cliente);
+      $qcliente->bindParam(":vuf_cliente", $uf_cliente);
+      $qcliente->bindParam(":vcep_cliente", $cep_cliente);
+      $qcliente->bindParam(":vcodibge_cliente", $codibge_cliente);
+      $qcliente->bindParam(":vcpf_cliente", $cpf_cliente);
+      $qcliente->bindParam(":vtel_cliente", $tel_cliente);
+      $qcliente->bindParam(":vemail_cliente", $email_cliente);
+      $qcliente->execute();
+      fecha_diario("tcliente", "chave_cliente", $chave_cliente, $abre_diario, $campoexcluidos = array(""));    
+      header("Location: /publico/cliente");
+      die();
+    }
+  }
 }
 
 $cod_cliente = "";

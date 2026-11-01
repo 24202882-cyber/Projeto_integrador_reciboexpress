@@ -162,10 +162,10 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
     <br />
     <br />
     <br />
-    <a href='https://reciboexpress.kraftwork.com.br/publico/orcamento/orcamento_status.php?id1={$urlaprova_orcamento}&id2=" . criptografar("APROVADO") . "' style='background-color: #25d366; color: #ffffff; border: none; padding: 12px 28px; border-radius: 25px; font-size: 16px; font-family: Arial, sans-serif; font-weight: 500; cursor: pointer; margin-right: 12px; display: inline-block;'>
+    <a href='https://reciboexpress.guiadomestico.com.br/publico/orcamento/orcamento_status.php?id1={$urlaprova_orcamento}&id2=" . criptografar("APROVADO") . "' style='background-color: #25d366; color: #ffffff; border: none; padding: 12px 28px; border-radius: 25px; font-size: 16px; font-family: Arial, sans-serif; font-weight: 500; cursor: pointer; margin-right: 12px; display: inline-block;'>
       Aprovar
     </a>
-    <a href='https://reciboexpress.kraftwork.com.br/publico/orcamento/orcamento_status.php?id1={$urlaprova_orcamento}&id2=" . criptografar("RECUSADO") . "' style='background-color: #dc3545; color: #ffffff; border: none; padding: 12px 28px; border-radius: 25px; font-size: 16px; font-family: Arial, sans-serif; font-weight: 500; cursor: pointer; display: inline-block;'>
+    <a href='https://reciboexpress.guiadomestico.com.br/publico/orcamento/orcamento_status.php?id1={$urlaprova_orcamento}&id2=" . criptografar("RECUSADO") . "' style='background-color: #dc3545; color: #ffffff; border: none; padding: 12px 28px; border-radius: 25px; font-size: 16px; font-family: Arial, sans-serif; font-weight: 500; cursor: pointer; display: inline-block;'>
       Reprovar
     </a>";   
   }
@@ -364,7 +364,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                     <small class="d-block text-muted"><strong>Próximo passo:</strong> Nossa equipe entrará em contato em breve para alinhar os detalhes do início do atendimento.</small>
                   </div>
                   <!-- Botão de Ação -->
-                  <a href="https://reciboexpress.kraftwork.com.br" class="btn btn-primary px-4 py-2 rounded-pill shadow-sm" style="background-color: #163b5c; border-color: #163b5c;">
+                  <a href="https://reciboexpress.guiadomestico.com.br" class="btn btn-primary px-4 py-2 rounded-pill shadow-sm" style="background-color: #163b5c; border-color: #163b5c;">
                     Voltar ao Painel
                   </a>
                 </div>
@@ -403,7 +403,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                     <a href="mailto:suporte@reciboexpress.com.br" class="btn btn-outline-secondary px-4 py-2 rounded-pill shadow-sm">
                       Solicitar Ajuste
                     </a>
-                    <a href="https://reciboexpress.kraftwork.com.br" class="btn btn-primary px-4 py-2 rounded-pill shadow-sm" style="background-color: #163b5c; border-color: #163b5c;">
+                    <a href="https://reciboexpress.guiadomestico.com.br" class="btn btn-primary px-4 py-2 rounded-pill shadow-sm" style="background-color: #163b5c; border-color: #163b5c;">
                       Voltar ao Painel
                     </a>
                   </div>

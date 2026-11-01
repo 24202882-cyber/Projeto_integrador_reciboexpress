@@ -40,10 +40,15 @@ $html_lnk = "";
 $html_btn = "";
 $chave_perfil = $_SESSION["CHAVE_PERFIL"];
 $chave_recibo = "";
+$dte_recibo = "";
+$urlpdf_recibo = "";
 $chave_cliente = "";
 $nome_cliente = "";
 $cpf_cliente = "";
 $cep_cliente = "";
+$situacao_recibo = "";
+$valor_recibo = 0;
+$tel_cliente = "";
 $acao = "";
 // EOF Variáveis de controle
 $aftergopage = "";
@@ -91,8 +96,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     abre_db();
     $strsql = "
     select
-    trecibo.chave_cliente    
+    trecibo.chave_cliente
+    ,trecibo.valor_recibo
+    ,trecibo.situacao_recibo
+    ,trecibo.dte_recibo
+    ,trecibo.urlpdf_recibo
     ,tcliente.nome_cliente
+    ,tcliente.tel_cliente
     from
     trecibo
     left join tcliente on trecibo.chave_cliente = tcliente.chave_cliente
@@ -107,6 +117,12 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $qrecibo->execute();
     if ($trecibo = $qrecibo->fetch(PDO::FETCH_ASSOC)) {
       $chave_cliente = $trecibo["chave_cliente"];
+      $situacao_recibo = $trecibo["situacao_recibo"];
+      $valor_recibo = $trecibo["valor_recibo"];
+      $nome_cliente = $trecibo["nome_cliente"];
+      $dte_recibo = $trecibo["dte_recibo"];
+      $urlpdf_recibo = $trecibo["urlpdf_recibo"];
+      $tel_cliente = $trecibo["tel_cliente"];
     }
   }
 }
@@ -116,8 +132,13 @@ else {
     abre_db();
     $strsql = "
     select
-    trecibo.chave_cliente    
+    trecibo.chave_cliente
+    ,trecibo.valor_recibo
+    ,trecibo.situacao_recibo
+    ,trecibo.dte_recibo
+    ,trecibo.urlpdf_recibo
     ,tcliente.nome_cliente
+    ,tcliente.tel_cliente
     from
     trecibo
     left join tcliente on trecibo.chave_cliente = tcliente.chave_cliente
@@ -132,6 +153,12 @@ else {
     $qrecibo->execute();
     if ($trecibo = $qrecibo->fetch(PDO::FETCH_ASSOC)) {
       $chave_cliente = $trecibo["chave_cliente"];
+      $situacao_recibo = $trecibo["situacao_recibo"];
+      $valor_recibo = $trecibo["valor_recibo"];
+      $nome_cliente = $trecibo["nome_cliente"];
+      $dte_recibo = $trecibo["dte_recibo"];
+      $urlpdf_recibo = $trecibo["urlpdf_recibo"];
+      $tel_cliente = $trecibo["tel_cliente"];
     }
   }
 }
@@ -484,6 +511,15 @@ while ($trecibosrv = $qrecibosrv->fetch(PDO::FETCH_ASSOC)) {
     document.body.removeChild(form);
   }
   
+function reciboWHATSAPP() {  
+  const numeroTelefone = document.getElementById("tel_cliente").value;    
+  let inputLink = 'https://reciboexpress.guiadomestico.com.br/publico/pdfs/' + document.getElementById("urlpdf_recibo").value;
+  const mensagem = `Olá, Segue o link para você visualizar seu recibo:\n\n${inputLink}`;    
+  const btn_whatsapp = document.getElementById("BTN_WHATSAPP");    
+  const urlWhatsApp = `https://api.whatsapp.com/send?phone=${numeroTelefone}&text=${encodeURIComponent(mensagem)}`;
+  window.open(urlWhatsApp, '_blank');
+}
+
 </script>
 
 <body>
@@ -514,6 +550,7 @@ while ($trecibosrv = $qrecibosrv->fetch(PDO::FETCH_ASSOC)) {
         <!-- Cabeçalho da Página -->
         <?php include($Raiz . "include/php/menu_superior.php"); ?>
         <div class="main-content">
+          <?php if ($situacao_recibo == 'CRIADO') { ?>
           <div class="col-12 mt-3">
             <span class="texto11">RECIBOS . EMISSÃO</span>
           </div>
@@ -570,9 +607,10 @@ while ($trecibosrv = $qrecibosrv->fetch(PDO::FETCH_ASSOC)) {
                       <input type="hidden" id="chave_servico" name="chave_servico" value="">
                       <input type="hidden" id="qtd_recibosrv" name="qtd_recibosrv" value="">
                       <input type="hidden" id="acao" name="acao" value="NOVO">
+                      <input type="hidden" id="urlpdf_recibo" name="urlpdf_recibo" value="<?php echo 'https://reciboexpress.guiadomestico.com.br/publico/pdfs/' . $urlpdf_recibo ?>">
+                      <input type="hidden" id="tel_cliente" name="tel_cliente" value="<?php echo $tel_cliente ?>">
                       <span class="texto12 mb-3">SERVIÇOS & DATA</span>
                       <div class="row">
-
                         <?php echo $html_recibosrv ?>
 <!--                        
                         <div class="col-8">
@@ -716,6 +754,66 @@ while ($trecibosrv = $qrecibosrv->fetch(PDO::FETCH_ASSOC)) {
               </div>
             </div>
           </div>
+          <?php
+          }
+          else { ?>
+          <form method="post" id="FRECIBOSRV_EDITA" name="FRECIBOSRV_EDITA" action="recibo_edita.php">
+            <input type="hidden" id="chave_recibo" name="chave_recibo" value="<?php echo $chave_recibo ?>">
+            <input type="hidden" id="chave_recibosrv" name="chave_recibosrv" value="">
+            <input type="hidden" id="chave_servico" name="chave_servico" value="">
+            <input type="hidden" id="qtd_recibosrv" name="qtd_recibosrv" value="">
+            <input type="hidden" id="acao" name="acao" value="NOVO">
+            <input type="hidden" id="urlpdf_recibo" name="urlpdf_recibo" value="<?php echo 'https://reciboexpress.guiadomestico.com.br/publico/pdfs/' . $urlpdf_recibo ?>">
+            <input type="hidden" id="tel_cliente" name="tel_cliente" value="<?php echo $tel_cliente ?>">
+            <div class="col-12 mt-3 text-center">
+              <img src="/identidade/logo-reciboexpress.svg" style="min-height: 48px; min-width: 48px;">            
+            </div>
+            <div class="col-12 mt-3 text-center">            
+              <span class="texto11">RECIBO PRONTO . SALVO NA NÚVEM</span>
+            </div>
+            <div class="col-12 mt-3 text-center">            
+              <span style='font-size: 48px; font-weight: 700; color: #000'>R$ <?php echo number_format(floatval($valor_recibo), 2, ',', '.') ?></span>
+            </div>
+            <div class="col-12 text-center">            
+              <span class="texto17-regular"><?php echo $nome_cliente ?></span>
+            </div>
+            <div class="col-12 text-center">            
+              <span class="texto13">Nº <?php echo $chave_recibo_ext . " . " . strtoupper(DiaMesExtAno($dte_recibo)) . " " . HoraMin($dte_recibo); ?></span>
+            </div>
+            <div class="col-12 mt-3 text-center">            
+              <div class="d-flex justify-content-center align-items-center main-content gap-3 p-3">              
+                <button type="button" class="btn btn-custom-lima" id="BTN_WHATSAPP" name="BTN_WHATSAPP" onclick="javascript:reciboWHATSAPP();">Enviar pelo WhatsApp</button>
+                <button type="button" class="btn btn-light" id="BTN_BAIXAR_PDF" name="BTN_BAIXAR_PDF"><i class="ci ci-acao-download"></i> Baixar PDF</button>
+                <button type="button" class="btn btn-light" id="BTN_COPIAR_LINK" name="BTN_COPIAR_LINK"><i class="ci ci-acao-link"></i> Copiar Link</button>
+              </div>
+              <div class="d-flex justify-content-center align-items-center main-content gap-3 p-3">                            
+                <button type="button" class="btn btn-sm btn-light" id="BTN_VISAOGERAL" name="BTN_VISAOGERAL"><i class="ci ci-acao-visao-geral"></i> Ir para Visão Geral</button>
+              </div>
+            </div>
+          </form>
+  <script>
+    const btn_copiar_link = document.getElementById('BTN_COPIAR_LINK');
+    const urlpdf_recibo = document.getElementById('urlpdf_recibo');
+    btn_copiar_link.addEventListener('click', async () => {
+      try {
+        // Copia o valor do input para a área de transferência
+        await navigator.clipboard.writeText(urlpdf_recibo.value);
+        // Feedback visual temporário para o usuário
+        btn_copiar_link.innerHTML = 'Copiado!';
+        setTimeout(() => {
+          btn_copiar_link.innerHTML = "<span class='text-nowrap'>Copiar Link</span>";
+        }, 2000);
+      }
+      catch (err) {
+        // Fallback para navegadores antigos se o Clipboard API falhar
+        urlpdf_recibo.select();
+        document.execCommand('copy');
+        alert('Link copiado com sucesso!');
+      }
+    });
+  </script>  
+
+          <?php } ?>
       </main>
     </div>
   </div>

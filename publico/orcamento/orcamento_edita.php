@@ -1009,7 +1009,7 @@ while ($torcamentosrv = $qorcamentosrv->fetch(PDO::FETCH_ASSOC)) {
                         </div>
                         <div clas="row">
                           <div class="col d-flex justify-content-between align-items-center gap-3">                            
-                            <input type="text" class="form-control" id="link_aprovacao" name="link_aprovacao" value="https://reciboexpress.kraftwork.com.br/publico/orcamento/orcamento_status.php?id1=<?php echo $urlaprova_orcamento ?>">
+                            <input type="text" class="form-control" id="link_aprovacao" name="link_aprovacao" value="https://reciboexpress.guiadomestico.com.br/publico/orcamento/orcamento_status.php?id1=<?php echo $urlaprova_orcamento ?>">
                             <button type="button" class="btn btn-light" id="BTN_COPIAR_LINK" name="BTN_COPIAR_LINK"><span class="text-nowrap">Copiar Link</span></button>
                           </div>
                         </div>
@@ -1026,26 +1026,27 @@ while ($torcamentosrv = $qorcamentosrv->fetch(PDO::FETCH_ASSOC)) {
     </div>
   </div>
   <!-- FIM DA ÁREA DE CONTEÚDO -->
-<script>
-  const btn_coipar_link = document.getElementById('BTN_COPIAR_LINK');
-  const link_aprovacao = document.getElementById('link_aprovacao');
-  btn_coipar_link.addEventListener('click', async () => {
-    try {
-      // Copia o valor do input para a área de transferência
-      await navigator.clipboard.writeText(link_aprovacao.value);
-      // Feedback visual temporário para o usuário
-      btn_coipar_link.innerHTML = 'Copiado!';
-      setTimeout(() => {
-        btn_coipar_link.innerHTML = "<span class='text-nowrap'>Copiar Link</span>";
-      }, 2000);
-    }
-    catch (err) {
-      // Fallback para navegadores antigos se o Clipboard API falhar
-      link_aprovacao.select();
-      document.execCommand('copy');
-      alert('Link copiado com sucesso!');
-    }
-  });
+  <script>
+    const btn_copiar_link = document.getElementById('BTN_COPIAR_LINK');
+    const link_aprovacao = document.getElementById('link_aprovacao');
+    btn_copiar_link.addEventListener('click', async () => {
+      try {
+        // Copia o valor do input para a área de transferência
+        await navigator.clipboard.writeText(link_aprovacao.value);
+        // Feedback visual temporário para o usuário
+        btn_copiar_link.innerHTML = 'Copiado!';
+        setTimeout(() => {
+          btn_copiar_link.innerHTML = "<span class='text-nowrap'>Copiar Link</span>";
+        }, 2000);
+      }
+      catch (err) {
+        // Fallback para navegadores antigos se o Clipboard API falhar
+        link_aprovacao.select();
+        document.execCommand('copy');
+        alert('Link copiado com sucesso!');
+      }
+    });
+  </script>
   <?php include($Raiz . "include/php/rodape.php"); ?>
 </body>
 

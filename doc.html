@@ -1,0 +1,186 @@
+<?php
+
+session_start();
+
+$Raiz = "";
+include($Raiz . "include/php/header.php"); // Configurações HEADER
+include($Raiz . "include/php/funcoes.php"); // Funcoes de Usuário PHP
+include($Raiz . "conexao/db.php");
+
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <title>Recibo Express - doc.txt</title>
+  <?php include($Raiz . "include/html/header.html"); ?>
+</head>
+
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col">
+<pre>
+Consegue me confirmar estes dados:
+Sao estes que preciso saber o que foi utilizado pra deixar tudo coerente
+
+Framework Web
+================
+Bootstrap versão 5.3.8
+----------------
+O Bootstrap é um framework front-end gratuito e de código aberto que serve para criar sites, sistemas e aplicativos de forma rápida e responsiva.
+Criado originalmente pelo Twitter em 2011, ele funciona como um "kit de ferramentas" que reúne códigos prontos de HTML, CSS e JavaScript
+
+Principais recursos
+
+• Sistema de Grid (Grade): Permite organizar a página em linhas e colunas (divididas em até 12 blocos), facilitando o alinhamento.
+• Componentes prontos: Botões, barras de navegação (navbar), formulários, modais, carrosséis e alertas já estilizados e funcionais.
+• Conceito Mobile First: As estruturas são desenhadas pensando primeiro em telas de celulares e se adaptam automaticamente para tablets e computadores maiores.
+• JavaScript integrado: Oferece interatividade (como menus que abrem e fecham ou janelas modais) sem a necessidade de escrever scripts complexos
+
+Vantagens e desvantagens
+
+Vantagens
+
+• Velocidade: Reduz drasticamente o tempo necessário para tirar um projeto ou protótipo do papel.
+• Padronização: Garante que o site tenha boa aparência e funcione bem nos principais navegadores.
+• Fácil de usar: Pode ser adicionado rapidamente ao projeto através de uma CDN (um link direto na internet) sem precisar baixar arquivos pesados.
+
+Desvantagens
+
+• Visual "com cara de Bootstrap": Como muitos sites usam os mesmos botões e layouts padrão, é preciso fazer uma personalização profunda para criar um design totalmente único.
+• Peso dos arquivos: Importar a biblioteca inteira pode carregar códigos CSS e JS que o seu site nem chega a usar.
+
+
+
+Linguagens de Programação Utilizadas no Projeto
+================
+PHP versão 8.2
+----------------
+O PHP (um acrônimo recursivo para PHP: Hypertext Preprocessor — originalmente conhecido como Personal Home Page) é uma linguagem de programação de código aberto (open source) e de uso geral, criada em 1994 por Rasmus Lerdorf.
+Ele é voltado principalmente para o desenvolvimento web no lado do servidor (backend).
+
+Como o PHP funciona?
+
+• Linguagem Server-Side: Quando você acessa um site feito em PHP, o seu navegador (cliente) não lê o código PHP diretamente. A requisição é enviada para o servidor, que processa o código PHP, interage com o banco de dados (se necessário) e devolve uma página limpa em HTML para o seu navegador exibir.
+• Integração com HTML: Você pode misturar códigos PHP diretamente dentro de arquivos HTML, facilitando a criação de páginas dinâmicas.
+• Segurança: Como o processamento acontece todo no servidor, o usuário final não consegue ver o código-fonte original escrito em PHP, apenas o resultado final.
+
+Para que serve?
+
+• Criação de sites dinâmicos: Lidar com formulários de contato, sistemas de login, carrinhos de compras e áreas de membros.
+• Sistemas de Gestão de Conteúdo (CMS): É a base de grandes plataformas como o WordPress, Drupal e Magento.
+• APIs e integração com bancos de dados: Conecta-se facilmente com MySQL, PostgreSQL, MongoDB e outros bancos para salvar e recuperar informações.
+• Linha de comando (CLI): Pode ser executado no terminal para automação de tarefas e scripts no sistema operacional.
+
+Principais características
+
+• Gratuito e de código aberto: Qualquer pessoa pode usar, modificar e contribuir com a linguagem.
+• Grande popularidade: Estima-se que cerca de 70% dos sites na internet que utilizam uma linguagem de programação no servidor empregam o PHP.
+• Ecossistema maduro: Possui uma vasta comunidade, farta documentação e frameworks poderosos (como Laravel e Symfony).
+
+
+================
+Node.JS 22 (TLS JOD) 22.1.0
+Esta é a versão do runtime nodejs utilizada na aplicação com Typescript versão 7.
+----------------
+O Node.js é um ambiente de execução (ou runtime) que permite rodar código JavaScript fora do navegador.
+Ele foi criado a partir do motor V8 do Google Chrome (o mesmo que interpreta o JavaScript nos navegadores), permitindo que a linguagem seja utilizada para desenvolver aplicações no lado do servidor (back-end) e scripts em nível de sistema operacional
+
+
+================
+Javascript (Vanilla) e JQuery 1.11.3
+----------------
+JavaScript Vanilla (ou JS puro) é a própria linguagem de programação JavaScript executada diretamente pelo navegador, sem o uso de bibliotecas externas, frameworks ou complementos. Além das bibliotecas Javascript incluídas no framework Bootstrap, a aplicação da uso de Javascript Vanilla e da biblioteca jQuery versão 1.11.13, que é uma biblioteca escrita em JavaScript, criada para simplificar a escrita de códigos e agilizar tarefas comuns na web — como manipular elementos HTML (o DOM), tratar eventos de cliques, criar animações e fazer requisições Ajax.
+
+================
+Banco de Dados MySQL 11.4.2
+----------------
+O MySQL (utilizamos a versão 11.4.2) é um Sistema de Gerenciamento de Banco de Dados Relacional (SGBD) de código aberto (open-source), desenvolvido e mantido pela Oracle Corporation.
+Ele serve para armazenar, organizar e gerenciar grandes volumes de dados divididos em tabelas (com linhas e colunas) que se relacionam entre si.
+
+Principais Características
+
+• Usa SQL: Emprega a Structured Query Language (Linguagem de Consulta Estruturada) para criar, buscar, atualizar e deletar dados.
+• Modelo Relacional: Organiza os dados em tabelas interligadas (por exemplo, relacionar uma tabela de clientes com uma tabela de pedidos).
+• Código Aberto: Possui licença GNU GPL (além de opções comerciais oferecidas pela Oracle).
+• Alto Desempenho e Confiabilidade: Muito utilizado em aplicações web, comércio eletrônico e sistemas de grande porte.
+• Pilha LAMP: É um dos pilares do famoso conjunto tecnológico LAMP (Linux, Apache, MySQL, PHP/Python/Perl).
+
+================
+Nuvem - Qual utilizado
+----------------
+
+================
+API´s
+----------------
+VIACEP: 
+ViaCEP é um webservice gratuito e de alto desempenho para consulta de Códigos de Endereçamento Postal (CEP) do Brasil.
+
+Para que serve?
+
+• Preenchimento automático: É muito usado por desenvolvedores em sites e sistemas (através de JavaScript, Python, Java, etc.) para que, quando o usuário digite o CEP, o formulário complete automaticamente campos como logradouro (rua), bairro, cidade e estado (UF).
+• Formatos de resposta: A API aceita requisições simples via HTTP e devolve os dados em formatos como JSON ou XML.
+• Base de dados: Utiliza a base oficial de CEPs do Brasil.
+
+OAUTH 2.0:
+O Login com o Google é um recurso de autenticação que permite aos usuários entrarem em sites e aplicativos usando suas próprias contas do Google, sem a necessidade de criar um novo cadastro ou digitar uma nova senha. O sistema faz uso de protocolos e APIs do Google baseados no padrão OAuth 2.0 e no protocolo de identidade OpenID Connect.
+
+Qual API é utilizada?
+
+• Google Identity (Google Sign-In / Google Identity Services): É a biblioteca e a API oficial atual do Google para gerenciar a autenticação de usuários na web e em aplicativos.
+• OAuth 2.0: Usada em segundo plano para autorizar o aplicativo a acessar dados básicos do perfil do usuário (como nome, e-mail e foto) com a permissão dele.
+• Credential Manager (no Android): No ecossistema móvel mais recente do Android, o Google utiliza o Gerenciador de credenciais do Android para integrar o login federado.
+
+VLIBRAS:
+Acessibilidade - VLibras + WCAG
+
+O VLibras é uma suíte gratuita e de código aberto de ferramentas que traduzem automaticamente conteúdos do português para a Língua Brasileira de Sinais (Libras).
+Desenvolvido pelo governo federal em parceria com a Universidade Federal da Paraíba (UFPB) por meio do LAVID, o sistema usa inteligência artificial e um Avatar 3D para sinalizar textos, áudios e vídeos.
+
+====================
+Controle de Versão - Git e Github
+--------------------
+O Git é um sistema de controle de versão distribuído que rastreia alterações em arquivos de código, permitindo que você salve diferentes versões do seu projeto e retorne a pontos anteriores se algo der errado.
+O GitHub é uma plataforma online baseada na nuvem que hospeda os seus repositórios do Git, facilitando o trabalho em equipe, a revisão de códigos e o compartilhamento de projetos.
+
+O projeto utiliza git version 2.56.0.windows.1.
+
+O que é o Git?
+
+• Controle de versão: Funciona como um "botão de desfazer" avançado para o seu código. Ele registra cada alteração feita.
+• Trabalho local: O Git roda diretamente no seu computador, permitindo que você crie pontos de salvamento (commits) e ramificações (branches) para testar ideias sem quebrar o código principal.
+• Origem: Foi criado por Linus Torvalds em 2005 (o mesmo criador do Linux).
+
+O que é o GitHub?
+
+• Hospedagem na nuvem: É o site/plataforma onde você envia (push) o seu repositório local do Git para guardá-lo online.
+• Colaboração: Permite que várias pessoas trabalhem no mesmo projeto ao mesmo tempo, usando ferramentas como Pull Requests (solicitações para revisar e mesclar códigos).
+• Portfólio: Muitos desenvolvedores usam a plataforma para mostrar seus códigos abertos e projetos para o mercado de trabalho.
+
+========================
+VITEST
+------------------------
+
+O Vitest é um framework de testes automatizados rápido, moderno e compatível com a API do Jest, criado nativamente para o ecossistema do Vite. Ele pode ser usado em projetos JavaScript e TypeScript, tanto no frontend quanto no backend.
+
+Principais características
+
+• Velocidade superior: Aproveita o pipeline de transformação e o motor de desenvolvimento rápido do Vite, executando testes de forma muito ágil.
+• Compatibilidade com o Jest: Utiliza uma API familiar (como expect, describe, it, mocks e cobertura de código), o que facilita a migração de projetos existentes.
+• Suporte nativo a ESM e TypeScript: Funciona com módulos modernos (ES Modules) e TypeScript por padrão, sem a necessidade de configurações complexas de bundlers ou loaders.
+• Modo Watch Inteligente: Reexecuta automaticamente apenas os testes relacionados aos arquivos modificados, de forma semelhante ao Hot Module Replacement (HMR).
+• Vitest UI: Oferece uma interface gráfica interativa opcional (@vitest/ui) para visualizar resultados, relatórios de cobertura e rastreamento de módulos diretamente no navegador.
+
+Quando usar o Vitest?
+
+• Projetos novos: É a escolha recomendada para novas aplicações construídas com Vite (como Vue, React, Svelte, Solid) ou projetos modernos em Node.js/TypeScript.
+• Projetos legados com Jest: Se a equipe já possui uma base enorme de testes configurada no Jest e o projeto utiliza Webpack ou pacotes muito complexos, a migração pode não ser prioritária, embora continue sendo uma opção viável.
+</pre>
+      </div>
+    </div>
+  </div> 
+</body>
+
+</html>
+

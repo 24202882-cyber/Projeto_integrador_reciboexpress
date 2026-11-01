@@ -41,7 +41,8 @@ VerificaSessao();
 $ok = true;
 $html = "";
 $chave_perfil = $_SESSION["CHAVE_PERFIL"];
-$chave_orcamento = "";
+$chave_perfil = 14;
+$chave_orcamento = 13;
 $chave_cliente = "";
 $nome_cliente = "";
 $cpf_cliente = "";
@@ -309,10 +310,10 @@ $email_corpo .= $html;
 $email_corpo .= "<br />";
 $email_corpo .= "<br />";
 $email_corpo .= "<br />";
-$email_corpo .= "<a href='https://reciboexpress.kraftwork.com.br/publico/orcamento/orcamento_status.php?id1={$urlaprova_orcamento}&id2=" . criptografar("APROVADO") . "' style='background-color: #25d366; color: #ffffff; border: none; padding: 12px 28px; border-radius: 25px; font-size: 16px; font-family: Arial, sans-serif; font-weight: 500; cursor: pointer; margin-right: 12px; display: inline-block;'>";
+$email_corpo .= "<a href='https://reciboexpress.guiadomestico.com.br/publico/orcamento/orcamento_status.php?id1={$urlaprova_orcamento}&id2=" . criptografar("APROVADO") . "' style='background-color: #25d366; color: #ffffff; border: none; padding: 12px 28px; border-radius: 25px; font-size: 16px; font-family: Arial, sans-serif; font-weight: 500; cursor: pointer; margin-right: 12px; display: inline-block;'>";
 $email_corpo .= "  Aprovar";
 $email_corpo .= "</a>";
-$email_corpo .= "<a href='https://reciboexpress.kraftwork.com.br/publico/orcamento/orcamento_status.php?id1={$urlaprova_orcamento}&id2=" . criptografar("RECUSADO") . "' style='background-color: #dc3545; color: #ffffff; border: none; padding: 12px 28px; border-radius: 25px; font-size: 16px; font-family: Arial, sans-serif; font-weight: 500; cursor: pointer; display: inline-block;'>";
+$email_corpo .= "<a href='https://reciboexpress.guiadomestico.com.br/publico/orcamento/orcamento_status.php?id1={$urlaprova_orcamento}&id2=" . criptografar("RECUSADO") . "' style='background-color: #dc3545; color: #ffffff; border: none; padding: 12px 28px; border-radius: 25px; font-size: 16px; font-family: Arial, sans-serif; font-weight: 500; cursor: pointer; display: inline-block;'>";
 $email_corpo .= "  Reprovar";
 $email_corpo .= "</a>";
 $email_corpo .= "<br />";
@@ -339,14 +340,14 @@ try {
   $mail->CharSet = 'UTF-8';
   $mail->Encoding = 'base64';
   $mail->isSMTP();
-  //$mail->SMTPDebug = 4;  <- desativado por exibe todos os processos em tela.
-  $mail->Host = "smtp.uni5.net";
+  //$mail->SMTPDebug = 4; 
+  $mail->Host = "smtpi.uni5.net";
   $mail->Port = 587;
   $mail->SMTPAuth = true;
   $mail->SMTPSecure = 'tls';
-  $mail->Username = "reciboexpress@kraftwork.com.br"; // SMTP username
+  $mail->Username = "reciboexpress@guiadomestico.com.br"; // SMTP username
   $mail->Password = 'q#EcXwV5ikqEcXwV5ik'; // SMTP password  
-  $mail->From = "reciboexpress@kraftwork.com.br";
+  $mail->From = "reciboexpress@guiadomestico.com.br";
   $mail->FromName = "Recibo Express"; // Nome de quem envia o email
   $mail->AddAddress($email_cliente, $nome_cliente);  
   $mail->addReplyTo($email_usuario, 'Recibo Express');

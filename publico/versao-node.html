@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <title>Recibo Express - Versão NODE.JS</title>
+  <?php include($Raiz . "include/html/header.html"); ?>
+</head>
+<script type="text/javascript">
+
+const fs = require('fs');
+const path = require('path');
+
+try {
+  // 1. Tenta carregar o package.json do typescript no node_modules local
+  const tsPackage = require('typescript/package.json');
+  console.log('Versão do TypeScript (Projeto):', tsPackage.version);
+} catch (err) {
+  console.log('TypeScript não encontrado em node_modules local.');
+
+  // 2. Tenta obter a versão via API do próprio compilador
+  try {
+    const ts = require('typescript');
+    console.log('Versão do TypeScript via API:', ts.version);
+  } catch (e) {
+    console.log('Não foi possível importar a biblioteca TypeScript.');
+  }
+}
+
+</script>
+
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        Node.js
+
+      </div>
+    </div>
+  </div> 
+</body>
+
+</html>
+

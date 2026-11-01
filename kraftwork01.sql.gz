@@ -1,0 +1,738 @@
+-- phpMyAdmin SQL Dump
+-- version 4.3.7
+-- http://www.phpmyadmin.net
+--
+-- Host: mysql14-farm2.uni5.net
+-- Tempo de geração: 30/10/2026 às 14:49
+-- Versão do servidor: 5.6.51-log
+-- Versão do PHP: 5.3.29
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+
+--
+-- Banco de dados: `kraftwork01`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `tautoexec`
+--
+
+CREATE TABLE IF NOT EXISTS `tautoexec` (
+  `chave_autoexec` int(11) NOT NULL,
+  `descr_autoexec` varchar(128) DEFAULT NULL,
+  `tabela_autoexec` varchar(128) DEFAULT NULL,
+  `codigo_autoexec` text,
+  `caixa_autoexec` int(11) NOT NULL DEFAULT '1'
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `tcliente`
+--
+
+CREATE TABLE IF NOT EXISTS `tcliente` (
+  `chave_cliente` int(11) NOT NULL,
+  `chave_perfil` int(11) NOT NULL,
+  `cod_cliente` varchar(256) NOT NULL,
+  `nome_cliente` varchar(50) DEFAULT NULL,
+  `end_cliente` varchar(50) DEFAULT NULL,
+  `num_cliente` varchar(20) NOT NULL,
+  `compl_cliente` varchar(50) NOT NULL,
+  `bairro_cliente` varchar(50) NOT NULL,
+  `cid_cliente` varchar(50) NOT NULL,
+  `uf_cliente` varchar(2) NOT NULL,
+  `cep_cliente` varchar(10) NOT NULL,
+  `codibge_cliente` varchar(15) DEFAULT NULL,
+  `cpf_cliente` varchar(20) NOT NULL,
+  `tel_cliente` varchar(20) NOT NULL,
+  `email_cliente` varchar(128) NOT NULL,
+  `dtn_cliente` date NOT NULL,
+  `dtc_cliente` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `caixa_cliente` int(11) NOT NULL DEFAULT '1'
+) ENGINE=MyISAM AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
+
+--
+-- Fazendo dump de dados para tabela `tcliente`
+--
+
+INSERT INTO `tcliente` (`chave_cliente`, `chave_perfil`, `cod_cliente`, `nome_cliente`, `end_cliente`, `num_cliente`, `compl_cliente`, `bairro_cliente`, `cid_cliente`, `uf_cliente`, `cep_cliente`, `codibge_cliente`, `cpf_cliente`, `tel_cliente`, `email_cliente`, `dtn_cliente`, `dtc_cliente`, `caixa_cliente`) VALUES
+(14, 14, '', 'ELENIR FREITAS DE SOUSA', 'RUA DURVAL FURTADO DE MELLO, 7 JARDIM SÃƒO BENTO N', '', '', 'JARDIM SÃƒO BENTO NOVO', 'SÃƒO PAULO / SP', 'SP', '05881-080', NULL, '554.450.201-34', '(11) 98236-3076', 'elenircombr@gmail.com', '0000-00-00', '2026-10-26 18:26:54', 1),
+(15, 14, '4pw9P0E9TdUlYgmpjUonqDVxN0w3NlVxS0VROW1mcVNMZEhXRFA5azc3YnVIYjczS1RNckFKRWU1MTQ9', 'ELENIR 2', 'RUA SALVADOR LEME, BOM RETIRO', '', '', 'BOM RETIRO', 'SÃƒO PAULO / SP', 'SP', '01124-020', NULL, '228.649.135-69', '(11) 98236-3076', 'email@elenir.com.br', '0000-00-00', '2026-10-26 18:27:04', 1),
+(16, 14, '', 'a2', '', '', '', '', '', '', '', '', '', '', '', '0000-00-00', '0000-00-00 00:00:00', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `tdiario`
+--
+
+CREATE TABLE IF NOT EXISTS `tdiario` (
+  `chave_diario` int(11) NOT NULL,
+  `nometab_diario` varchar(30) NOT NULL,
+  `chavetab_diario` varchar(10) NOT NULL,
+  `tipo_diario` varchar(12) NOT NULL DEFAULT 'INCLUSAO',
+  `usuario_diario` varchar(50) NOT NULL,
+  `dta_diario` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `obs_diario` longtext NOT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=261 DEFAULT CHARSET=latin1;
+
+--
+-- Fazendo dump de dados para tabela `tdiario`
+--
+
+INSERT INTO `tdiario` (`chave_diario`, `nometab_diario`, `chavetab_diario`, `tipo_diario`, `usuario_diario`, `dta_diario`, `obs_diario`) VALUES
+(1, 'tcli', '2', 'INCLUSAO', 'SITE', '2026-10-12 13:45:41', '<chave_cli>\r\n  2\r\n<nome_cli>\r\n  1\r\n<end_cli>\r\n  Endereço\r\n<num_cli>\r\n  \r\n<compl_cli>\r\n  \r\n<bairro_cli>\r\n  \r\n<cid_cli>\r\n  5\r\n<uf_cli>\r\n  \r\n<cep_cli>\r\n  4\r\n<cpf_cli>\r\n  2\r\n<tel_cli>\r\n  3\r\n<email_cli>\r\n  email@example.com\r\n<dtn_cli>\r\n  0000-00-00\r\n<dtc_cli>\r\n  0000-00-00 00:00:00\r\n<caixa_cli>\r\n  1'),
+(2, 'tcli', '3', 'INCLUSAO', 'SITE', '2026-10-12 13:47:36', '<chave_cli>\r\n  3\r\n<nome_cli>\r\n  11\r\n<end_cli>\r\n  Endereço\r\n<num_cli>\r\n  \r\n<compl_cli>\r\n  \r\n<bairro_cli>\r\n  \r\n<cid_cli>\r\n  55\r\n<uf_cli>\r\n  \r\n<cep_cli>\r\n  44\r\n<cpf_cli>\r\n  22\r\n<tel_cli>\r\n  33\r\n<email_cli>\r\n  email@example.com\r\n<dtn_cli>\r\n  0000-00-00\r\n<dtc_cli>\r\n  0000-00-00 00:00:00\r\n<caixa_cli>\r\n  1'),
+(3, 'tcli', '4', 'INCLUSAO', 'SITE', '2026-10-12 14:14:12', '<chave_cli>\r\n  4\r\n<nome_cli>\r\n  \r\n<end_cli>\r\n  Endereço\r\n<num_cli>\r\n  \r\n<compl_cli>\r\n  \r\n<bairro_cli>\r\n  \r\n<cid_cli>\r\n  \r\n<uf_cli>\r\n  \r\n<cep_cli>\r\n  \r\n<cpf_cli>\r\n  \r\n<tel_cli>\r\n  \r\n<email_cli>\r\n  email@example.com\r\n<dtn_cli>\r\n  0000-00-00\r\n<dtc_cli>\r\n  0000-00-00 00:00:00\r\n<caixa_cli>\r\n  1'),
+(4, 'tcliente', '5', 'INCLUSAO', 'SITE', '2026-10-23 00:00:08', '<chave_cliente>\r\n  5\r\n<nome_cliente>\r\n  ELENIR\r\n<end_cliente>\r\n  RUA SALVADOR LEME, BOM RETIRO\r\n<num_cliente>\r\n  \r\n<compl_cliente>\r\n  \r\n<bairro_cliente>\r\n  BOM RETIRO\r\n<cid_cliente>\r\n  SÃO PAULO / SP\r\n<uf_cliente>\r\n  SP\r\n<cep_cliente>\r\n  01124-020\r\n<codibge_cliente>\r\n  \r\n<cpf_cliente>\r\n  \r\n<tel_cliente>\r\n  \r\n<email_cliente>\r\n  \r\n<dtn_cliente>\r\n  0000-00-00\r\n<dtc_cliente>\r\n  0000-00-00 00:00:00\r\n<caixa_cliente>\r\n  1'),
+(5, 'tcliente', '6', 'INCLUSAO', 'SITE', '2026-10-23 00:03:33', '<chave_cliente>\r\n  6\r\n<nome_cliente>\r\n  elenir\r\n<end_cliente>\r\n  RUA DURVAL FURTADO DE MELLO, JARDIM SÃO BENTO NOVO\r\n<num_cliente>\r\n  \r\n<compl_cliente>\r\n  \r\n<bairro_cliente>\r\n  JARDIM SÃO BENTO NOVO\r\n<cid_cliente>\r\n  SÃO PAULO / SP\r\n<uf_cliente>\r\n  SP\r\n<cep_cliente>\r\n  05881-080\r\n<codibge_cliente>\r\n  \r\n<cpf_cliente>\r\n  55445020134\r\n<tel_cliente>\r\n  \r\n<email_cliente>\r\n  elenircombr@gmail.com\r\n<dtn_cliente>\r\n  0000-00-00\r\n<dtc_cliente>\r\n  0000-00-00 00:00:00\r\n<caixa_cliente>\r\n  1'),
+(6, 'tcliente', '7', 'INCLUSAO', 'SITE', '2026-10-23 13:40:36', '<chave_cliente>\r\n  7\r\n<nome_cliente>\r\n  asdasdasd\r\n<end_cliente>\r\n  ...\r\n<num_cliente>\r\n  \r\n<compl_cliente>\r\n  \r\n<bairro_cliente>\r\n  ...\r\n<cid_cliente>\r\n  ...\r\n<uf_cliente>\r\n  ..\r\n<cep_cliente>\r\n  01158080\r\n<codibge_cliente>\r\n  \r\n<cpf_cliente>\r\n  554.450.201-34\r\n<tel_cliente>\r\n  asdasdasd\r\n<email_cliente>\r\n  asdasdasd@email.com.br\r\n<dtn_cliente>\r\n  0000-00-00\r\n<dtc_cliente>\r\n  0000-00-00 00:00:00\r\n<caixa_cliente>\r\n  1'),
+(7, 'tcliente', '8', 'INCLUSAO', 'SITE', '2026-10-23 23:55:37', '<chave_cliente>\r\n  8\r\n<nome_cliente>\r\n  elenir sousa\r\n<end_cliente>\r\n  RUA SALVADOR LEME, BOM RETIRO\r\n<num_cliente>\r\n  \r\n<compl_cliente>\r\n  \r\n<bairro_cliente>\r\n  BOM RETIRO\r\n<cid_cliente>\r\n  SÃO PAULO / SP\r\n<uf_cliente>\r\n  SP\r\n<cep_cliente>\r\n  01124-020\r\n<codibge_cliente>\r\n  \r\n<cpf_cliente>\r\n  556666\r\n<tel_cliente>\r\n  aasdasd\r\n<email_cliente>\r\n  elenir@elenir.com.br\r\n<dtn_cliente>\r\n  0000-00-00\r\n<dtc_cliente>\r\n  0000-00-00 00:00:00\r\n<caixa_cliente>\r\n  1'),
+(8, 'tcliente', '9', 'INCLUSAO', 'SITE', '2026-10-24 00:46:00', '<chave_cliente>\r\n  9\r\n<nome_cliente>\r\n  a\r\n<end_cliente>\r\n  aaa\r\n<num_cliente>\r\n  \r\n<compl_cliente>\r\n  \r\n<bairro_cliente>\r\n  \r\n<cid_cliente>\r\n  aa\r\n<uf_cliente>\r\n  \r\n<cep_cliente>\r\n  333\r\n<codibge_cliente>\r\n  \r\n<cpf_cliente>\r\n  2222\r\n<tel_cliente>\r\n  2\r\n<email_cliente>\r\n  2@2.com.br\r\n<dtn_cliente>\r\n  0000-00-00\r\n<dtc_cliente>\r\n  0000-00-00 00:00:00\r\n<caixa_cliente>\r\n  1'),
+(9, 'tcliente', '10', 'INCLUSAO', 'SITE', '2026-10-24 12:52:14', '<chave_cliente>\r\n  10\r\n<nome_cliente>\r\n  ELENIR FREITAS DE SOUSA\r\n<end_cliente>\r\n  RUA DURVAL FURTADO DE MELLO, 7 -JARDIM SÃO BENTO N\r\n<num_cliente>\r\n  \r\n<compl_cliente>\r\n  \r\n<bairro_cliente>\r\n  JARDIM SÃO BENTO NOVO\r\n<cid_cliente>\r\n  SÃO PAULO / SP\r\n<uf_cliente>\r\n  SP\r\n<cep_cliente>\r\n  05881-080\r\n<codibge_cliente>\r\n  \r\n<cpf_cliente>\r\n  554.450.201-34\r\n<tel_cliente>\r\n  11982363076\r\n<email_cliente>\r\n  elenir@elenir.com.br\r\n<dtn_cliente>\r\n  0000-00-00\r\n<dtc_cliente>\r\n  0000-00-00 00:00:00\r\n<caixa_cliente>\r\n  1'),
+(10, 'tcliente', '11', 'INCLUSAO', 'SITE', '2026-10-24 14:11:15', '<chave_cliente>\r\n  11\r\n<nome_cliente>\r\n  ADASDADADAS\r\n<end_cliente>\r\n  RUA SALVADOR LEME, BOM RETIRO\r\n<num_cliente>\r\n  \r\n<compl_cliente>\r\n  \r\n<bairro_cliente>\r\n  \r\n<cid_cliente>\r\n  SÃO PAULO / SP\r\n<uf_cliente>\r\n  \r\n<cep_cliente>\r\n  01124-020\r\n<codibge_cliente>\r\n  \r\n<cpf_cliente>\r\n  020.335.381-17\r\n<tel_cliente>\r\n  \r\n<email_cliente>\r\n  \r\n<dtn_cliente>\r\n  0000-00-00\r\n<dtc_cliente>\r\n  0000-00-00 00:00:00\r\n<caixa_cliente>\r\n  1'),
+(11, 'tcliente', '12', 'INCLUSAO', 'SITE', '2026-10-24 14:39:31', '<chave_cliente>\r\n  12\r\n<nome_cliente>\r\n  ELENIR FREITAS DE SOUSA\r\n<end_cliente>\r\n  RUA SALVADOR LEME, 129, APTO 152 - BOM RETIRO\r\n<num_cliente>\r\n  \r\n<compl_cliente>\r\n  \r\n<bairro_cliente>\r\n  \r\n<cid_cliente>\r\n  SÃO PAULO / SP\r\n<uf_cliente>\r\n  \r\n<cep_cliente>\r\n  01124-020\r\n<codibge_cliente>\r\n  \r\n<cpf_cliente>\r\n  554.450.201-34\r\n<tel_cliente>\r\n  (11) 98236-3076\r\n<email_cliente>\r\n  elenir@elenir.com.br\r\n<dtn_cliente>\r\n  0000-00-00\r\n<dtc_cliente>\r\n  0000-00-00 00:00:00\r\n<caixa_cliente>\r\n  1'),
+(12, 'tcliente', '13', 'INCLUSAO', 'SITE', '2026-10-24 15:10:25', '<chave_cliente>\r\n  13\r\n<nome_cliente>\r\n  ELENIR FREITAS DE SOUSA\r\n<end_cliente>\r\n  RUA SALVADOR LEME, 129 - APTO 152 - BOM RETIRO\r\n<num_cliente>\r\n  \r\n<compl_cliente>\r\n  \r\n<bairro_cliente>\r\n  BOM RETIRO\r\n<cid_cliente>\r\n  SÃO PAULO / SP\r\n<uf_cliente>\r\n  SP\r\n<cep_cliente>\r\n  01124-020\r\n<codibge_cliente>\r\n  \r\n<cpf_cliente>\r\n  554.450.201-34\r\n<tel_cliente>\r\n  (11) 98236-3076\r\n<email_cliente>\r\n  elenircombr@gmail.com\r\n<dtn_cliente>\r\n  0000-00-00\r\n<dtc_cliente>\r\n  0000-00-00 00:00:00\r\n<caixa_cliente>\r\n  1'),
+(13, 'tcliente', '14', 'INCLUSAO', 'SITE', '2026-10-24 15:13:23', '<chave_cliente>\r\n  14\r\n<nome_cliente>\r\n  ELENIR FREITAS DE SOUSA\r\n<end_cliente>\r\n  RUA DURVAL FURTADO DE MELLO, 7 JARDIM SÃO BENTO NO\r\n<num_cliente>\r\n  \r\n<compl_cliente>\r\n  \r\n<bairro_cliente>\r\n  JARDIM SÃO BENTO NOVO\r\n<cid_cliente>\r\n  SÃO PAULO / SP\r\n<uf_cliente>\r\n  SP\r\n<cep_cliente>\r\n  05881-080\r\n<codibge_cliente>\r\n  \r\n<cpf_cliente>\r\n  554.450.201-34\r\n<tel_cliente>\r\n  (11) 98236-3076\r\n<email_cliente>\r\n  elenircombr@gmail.com\r\n<dtn_cliente>\r\n  0000-00-00\r\n<dtc_cliente>\r\n  0000-00-00 00:00:00\r\n<caixa_cliente>\r\n  1'),
+(14, 'tusuario', '1', 'INCLUSAO', 'SITE', '2026-10-24 15:13:23', '<chave_usuario>\r\n  1\r\n<chave_cliente>\r\n  14\r\n<nome_usuario>\r\n  ELENIR FREITAS DE SOUSA\r\n<email_usuario>\r\n  elenircombr@gmail.com\r\n<senha_usuario>\r\n  senha22\r\n<tipo_usuario>\r\n  USUARIO\r\n<ativo_usuario>\r\n  1\r\n<caixa_usuario>\r\n  1'),
+(15, 'tcliente', '15', 'INCLUSAO', 'SITE', '2026-10-24 15:37:05', '<chave_cliente>\r\n  15\r\n<cod_cliente>\r\n  4pw9P0E9TdUlYgmpjUonqDVxN0w3NlVxS0VROW1mcVNMZEhXRFA5azc3YnVIYjczS1RNckFKRWU1MTQ9\r\n<nome_cliente>\r\n  ELENIR 2\r\n<end_cliente>\r\n  RUA SALVADOR LEME, BOM RETIRO\r\n<num_cliente>\r\n  \r\n<compl_cliente>\r\n  \r\n<bairro_cliente>\r\n  BOM RETIRO\r\n<cid_cliente>\r\n  SÃO PAULO / SP\r\n<uf_cliente>\r\n  SP\r\n<cep_cliente>\r\n  01124-020\r\n<codibge_cliente>\r\n  \r\n<cpf_cliente>\r\n  228.649.135-69\r\n<tel_cliente>\r\n  (11) 98236-3076\r\n<email_cliente>\r\n  email@elenir.com.br\r\n<dtn_cliente>\r\n  0000-00-00\r\n<dtc_cliente>\r\n  0000-00-00 00:00:00\r\n<caixa_cliente>\r\n  1'),
+(16, 'tusuario', '2', 'INCLUSAO', 'SITE', '2026-10-24 15:37:05', '<chave_usuario>\r\n  2\r\n<chave_cliente>\r\n  15\r\n<cod_usuario>\r\n  \r\n<nome_usuario>\r\n  ELENIR 2\r\n<email_usuario>\r\n  email@elenir.com.br\r\n<senha_usuario>\r\n  senha22\r\n<tipo_usuario>\r\n  USUARIO\r\n<ativo_usuario>\r\n  1\r\n<caixa_usuario>\r\n  1'),
+(17, 'tperfil', '16', 'INCLUSAO', 'SITE', '2026-10-25 23:30:15', '<chave_perfil>\r\n  16\r\n<cod_perfil>\r\n  g1JfVlRD4MalNa1zEW5cqk5CLzhSUXU2dFQrZmxCRFFhRVpCQmNGcTFabXJHUXZlZ2ZST1J3TVZ6Y2s9\r\n<nome_perfil>\r\n  ABC\r\n<end_perfil>\r\n  RUA SALVADOR LEME, BOM RETIRO\r\n<num_perfil>\r\n  \r\n<compl_perfil>\r\n  \r\n<bairro_perfil>\r\n  BOM RETIRO\r\n<cid_perfil>\r\n  SÃO PAULO / SP\r\n<uf_perfil>\r\n  SP\r\n<cep_perfil>\r\n  01124-020\r\n<codibge_perfil>\r\n  \r\n<cpf_perfil>\r\n  513.247.213-32\r\n<tel_perfil>\r\n  (11) 98236-3077\r\n<email_perfil>\r\n  elenircombr2@gmail.com\r\n<dtn_perfil>\r\n  0000-00-00\r\n<dtc_perfil>\r\n  0000-00-00 00:00:00\r\n<caixa_perfil>\r\n  1'),
+(18, 'tusuario', '3', 'INCLUSAO', 'SITE', '2026-10-25 23:30:15', '<chave_usuario>\r\n  3\r\n<chave_perfil>\r\n  16\r\n<cod_usuario>\r\n  \r\n<nome_usuario>\r\n  ABC\r\n<email_usuario>\r\n  elenircombr2@gmail.com\r\n<senha_usuario>\r\n  senha22\r\n<tipo_usuario>\r\n  USUARIO\r\n<ativo_usuario>\r\n  1\r\n<caixa_usuario>\r\n  1'),
+(19, 'tperfil', '14', 'ALTERACAO', 'SITE', '2026-10-26 13:17:35', '<nome_perfil>\r\n  <->ELENIR FREITAS DE SOUSA</->\r\n  <+>ELENIR FREITAS DE SOUSA 222</+>\r\n<bairro_perfil>\r\n  <->JARDIM SÃO BENTO NOVO</->\r\n  <+></+>\r\n<uf_perfil>\r\n  <->SP</->\r\n  <+></+>'),
+(20, 'tperfil', '14', 'ALTERACAO', 'SITE', '2026-10-26 13:17:42', '<nome_perfil>\r\n  <->ELENIR FREITAS DE SOUSA 222</->\r\n  <+>ELENIR FREITAS DE SOUSA</+>'),
+(21, 'tperfil', '14', 'ALTERACAO', 'SITE', '2026-10-26 13:18:24', '<nome_perfil>\r\n  <->ELENIR FREITAS DE SOUSA</->\r\n  <+>ELENIR2 FREITAS DE SOUSA</+>'),
+(22, 'tperfil', '14', 'ALTERACAO', 'SITE', '2026-10-26 13:19:52', '<nome_perfil>\r\n  <->ELENIR2 FREITAS DE SOUSA</->\r\n  <+>ELENIR2 FREITAS DE SOUSA 2</+>'),
+(23, 'tperfil', '14', 'ALTERACAO', 'SITE', '2026-10-26 13:20:48', '<nome_perfil>\r\n  <->ELENIR2 FREITAS DE SOUSA 2</->\r\n  <+>ELENIR2 FREITAS DE SOUSA</+>'),
+(24, 'tperfil', '14', 'ALTERACAO', 'SITE', '2026-10-26 13:23:50', '<nome_perfil>\r\n  <->ELENIR2 FREITAS DE SOUSA</->\r\n  <+>ELENIR2 FREITAS DE SOUSA 2</+>'),
+(25, 'tperfil', '14', 'ALTERACAO', 'SITE', '2026-10-26 13:28:51', '<nome_perfil>\r\n  <->ELENIR2 FREITAS DE SOUSA 2</->\r\n  <+>ELENIR2 FREITAS DE SOUSA 3</+>'),
+(26, 'tusuario', '1', 'ALTERACAO', 'SITE', '2026-10-26 13:28:51', '<nome_usuario>\r\n  <->ELENIR FREITAS DE SOUSA</->\r\n  <+>ELENIR2 FREITAS DE SOUSA 3</+>\r\n<senha_usuario>\r\n  <->senha22</->\r\n  <+></+>'),
+(27, 'tperfil', '14', 'ALTERACAO', 'SITE', '2026-10-26 13:39:21', '<nome_perfil>\r\n  <->ELENIR2 FREITAS DE SOUSA 3</->\r\n  <+>ELENIR FREITAS DE SOUSA 3</+>'),
+(28, 'tperfil', '14', 'ALTERACAO', 'SITE', '2026-10-26 13:40:04', '<nome_perfil>\r\n  <->ELENIR FREITAS DE SOUSA 3</->\r\n  <+>ELENIR2 FREITAS DE SOUSA</+>'),
+(29, 'tusuario', '1', 'ALTERACAO', 'SITE', '2026-10-26 13:40:04', '<nome_usuario>\r\n  <->ELENIR2 FREITAS DE SOUSA 3</->\r\n  <+>ELENIR2 FREITAS DE SOUSA</+>'),
+(30, 'tperfil', '14', 'ALTERACAO', 'SITE', '2026-10-26 13:40:10', '<nome_perfil>\r\n  <->ELENIR2 FREITAS DE SOUSA</->\r\n  <+>ELENIR FREITAS DE SOUSA</+>'),
+(31, 'tusuario', '1', 'ALTERACAO', 'SITE', '2026-10-26 13:40:10', '<nome_usuario>\r\n  <->ELENIR2 FREITAS DE SOUSA</->\r\n  <+>ELENIR FREITAS DE SOUSA</+>'),
+(32, 'tservico', '1', 'INCLUSAO', 'SITE', '2026-10-26 14:53:26', '<chave_servico>\r\n  1\r\n<chave_perfil>\r\n  14\r\n<descr_servico>\r\n  Faxina 1\r\n<cobranca_servico>\r\n  1\r\n<valor_servico>\r\n  11.00\r\n<caixa_servico>\r\n  1'),
+(33, 'tservico', '2', 'INCLUSAO', 'SITE', '2026-10-26 15:01:30', '<chave_servico>\r\n  2\r\n<chave_perfil>\r\n  14\r\n<descr_servico>\r\n  Faxina 1\r\n<cobranca_servico>\r\n  1\r\n<valor_servico>\r\n  11.00\r\n<caixa_servico>\r\n  1'),
+(34, 'tservico', '1', 'ALTERACAO', 'SITE', '2026-10-26 15:12:30', '<descr_servico>\r\n  <->Faxina 1</->\r\n  <+>Faxina completa</+>\r\n<valor_servico>\r\n  <->11.00</->\r\n  <+>180.00</+>'),
+(35, 'tservico', '1', 'ALTERACAO', 'SITE', '2026-10-26 15:18:02', '<cobranca_servico>\r\n  <->1</->\r\n  <+>DIARIA</+>\r\n<valor_servico>\r\n  <->180.00</->\r\n  <+>181.00</+>'),
+(36, 'tservico', '3', 'INCLUSAO', 'SITE', '2026-10-26 15:19:58', '<chave_servico>\r\n  3\r\n<chave_perfil>\r\n  14\r\n<descr_servico>\r\n  Passadoria\r\n<cobranca_servico>\r\n  HORA\r\n<valor_servico>\r\n  40.00\r\n<caixa_servico>\r\n  1'),
+(37, 'tservico', '4', 'INCLUSAO', 'SITE', '2026-10-26 15:21:12', '<chave_servico>\r\n  4\r\n<chave_perfil>\r\n  14\r\n<descr_servico>\r\n  Limpeza de vidros\r\n<cobranca_servico>\r\n  TAREFA\r\n<valor_servico>\r\n  60.00\r\n<caixa_servico>\r\n  1'),
+(38, 'tservico', '5', 'INCLUSAO', 'SITE', '2026-10-26 15:21:56', '<chave_servico>\r\n  5\r\n<chave_perfil>\r\n  14\r\n<descr_servico>\r\n  Cozinha\r\n<cobranca_servico>\r\n  DIARIA\r\n<valor_servico>\r\n  220.00\r\n<caixa_servico>\r\n  1'),
+(39, 'tservico', '1', 'ALTERACAO', 'SITE', '2026-10-26 15:23:03', '<valor_servico>\r\n  <->181.00</->\r\n  <+>180.00</+>'),
+(40, 'tservico', '4', 'ALTERACAO', 'SITE', '2026-10-26 15:35:53', '<cobranca_servico>\r\n  <->TAREFA</->\r\n  <+>DIARIA</+>\r\n<valor_servico>\r\n  <->60.00</->\r\n  <+>62.00</+>'),
+(41, 'tservico', '4', 'ALTERACAO', 'SITE', '2026-10-26 15:35:58', '<valor_servico>\r\n  <->62.00</->\r\n  <+>60.00</+>'),
+(42, 'tservico', '2', 'ALTERACAO', 'SITE', '2026-10-26 15:40:13', '<cobranca_servico>\r\n  <->1</->\r\n  <+>TAREFA</+>'),
+(43, 'tservico', '4', 'ALTERACAO', 'SITE', '2026-10-26 15:41:27', '<cobranca_servico>\r\n  <->DIARIA</->\r\n  <+>TAREFA</+>'),
+(44, 'tservico', '2', 'ALTERACAO', 'SITE', '2026-10-26 15:54:25', '<caixa_servico>\r\n  <->1</->\r\n  <+>0</+>'),
+(45, 'tservico', '4', 'ALTERACAO', 'SITE', '2026-10-26 17:10:52', '<valor_servico>\r\n  <->60.00</->\r\n  <+>61.00</+>'),
+(46, 'tservico', '6', 'INCLUSAO', 'SITE', '2026-10-26 17:12:43', '<chave_servico>\r\n  6\r\n<chave_perfil>\r\n  14\r\n<descr_servico>\r\n  12\r\n<cobranca_servico>\r\n  DIARIA\r\n<valor_servico>\r\n  12.00\r\n<caixa_servico>\r\n  1'),
+(47, 'tservico', '6', 'ALTERACAO', 'SITE', '2026-10-26 17:27:48', '<valor_servico>\r\n  <->12.00</->\r\n  <+>13.00</+>'),
+(48, 'tservico', '1', 'ALTERACAO', 'SITE', '2026-10-26 17:37:28', '<descr_servico>\r\n  <->Faxina completa</->\r\n  <+>Faxina completa2</+>\r\n<valor_servico>\r\n  <->180.00</->\r\n  <+>181.00</+>'),
+(49, 'tservico', '6', 'ALTERACAO', 'SITE', '2026-10-26 17:37:53', '<valor_servico>\r\n  <->13.00</->\r\n  <+>14.00</+>'),
+(50, 'tservico', '6', 'ALTERACAO', 'SITE', '2026-10-26 17:38:54', '<caixa_servico>\r\n  <->1</->\r\n  <+>0</+>'),
+(51, 'tservico', '1', 'ALTERACAO', 'SITE', '2026-10-26 17:38:59', '<valor_servico>\r\n  <->181.00</->\r\n  <+>180.00</+>'),
+(52, 'tservico', '1', 'ALTERACAO', 'SITE', '2026-10-26 17:39:07', '<valor_servico>\r\n  <->180.00</->\r\n  <+>182.00</+>'),
+(53, 'tservico', '1', 'ALTERACAO', 'SITE', '2026-10-26 17:39:12', '<valor_servico>\r\n  <->182.00</->\r\n  <+>180.00</+>'),
+(54, 'tservico', '7', 'INCLUSAO', 'SITE', '2026-10-26 17:39:36', '<chave_servico>\r\n  7\r\n<chave_perfil>\r\n  14\r\n<descr_servico>\r\n  Capinagem de Quintal\r\n<cobranca_servico>\r\n  TAREFA\r\n<valor_servico>\r\n  300.00\r\n<caixa_servico>\r\n  1'),
+(55, 'tservico', '8', 'INCLUSAO', 'SITE', '2026-10-26 17:40:47', '<chave_servico>\r\n  8\r\n<chave_perfil>\r\n  14\r\n<descr_servico>\r\n  \r\n<cobranca_servico>\r\n  \r\n<valor_servico>\r\n  0.00\r\n<caixa_servico>\r\n  1'),
+(56, 'tservico', '8', 'ALTERACAO', 'SITE', '2026-10-26 17:40:51', '<caixa_servico>\r\n  <->1</->\r\n  <+>0</+>'),
+(57, 'tservico', '9', 'INCLUSAO', 'SITE', '2026-10-26 17:40:59', '<chave_servico>\r\n  9\r\n<chave_perfil>\r\n  14\r\n<descr_servico>\r\n  \r\n<cobranca_servico>\r\n  \r\n<valor_servico>\r\n  0.00\r\n<caixa_servico>\r\n  1'),
+(58, 'tservico', '9', 'ALTERACAO', 'SITE', '2026-10-26 17:41:01', '<caixa_servico>\r\n  <->1</->\r\n  <+>0</+>'),
+(59, 'tservico', '10', 'INCLUSAO', 'SITE', '2026-10-26 17:42:51', '<chave_servico>\r\n  10\r\n<chave_perfil>\r\n  14\r\n<descr_servico>\r\n  \r\n<cobranca_servico>\r\n  \r\n<valor_servico>\r\n  0.00\r\n<caixa_servico>\r\n  1'),
+(60, 'tservico', '10', 'ALTERACAO', 'SITE', '2026-10-26 17:42:54', '<caixa_servico>\r\n  <->1</->\r\n  <+>0</+>'),
+(61, 'tservico', '11', 'INCLUSAO', 'SITE', '2026-10-26 17:44:06', '<chave_servico>\r\n  11\r\n<chave_perfil>\r\n  14\r\n<descr_servico>\r\n  \r\n<cobranca_servico>\r\n  DIARIA\r\n<valor_servico>\r\n  0.00\r\n<caixa_servico>\r\n  1'),
+(62, 'tservico', '11', 'ALTERACAO', 'SITE', '2026-10-26 17:44:10', '<caixa_servico>\r\n  <->1</->\r\n  <+>0</+>'),
+(63, 'tservico', '12', 'INCLUSAO', 'SITE', '2026-10-26 17:45:24', '<chave_servico>\r\n  12\r\n<chave_perfil>\r\n  14\r\n<descr_servico>\r\n  \r\n<cobranca_servico>\r\n  \r\n<valor_servico>\r\n  0.00\r\n<caixa_servico>\r\n  1'),
+(64, 'tservico', '13', 'INCLUSAO', 'SITE', '2026-10-26 17:45:26', '<chave_servico>\r\n  13\r\n<chave_perfil>\r\n  14\r\n<descr_servico>\r\n  \r\n<cobranca_servico>\r\n  \r\n<valor_servico>\r\n  0.00\r\n<caixa_servico>\r\n  1'),
+(65, 'tservico', '12', 'ALTERACAO', 'SITE', '2026-10-26 17:45:28', '<caixa_servico>\r\n  <->1</->\r\n  <+>0</+>'),
+(66, 'tservico', '13', 'ALTERACAO', 'SITE', '2026-10-26 17:45:29', '<caixa_servico>\r\n  <->1</->\r\n  <+>0</+>'),
+(67, 'tservico', '14', 'INCLUSAO', 'SITE', '2026-10-26 17:48:36', '<chave_servico>\r\n  14\r\n<chave_perfil>\r\n  14\r\n<descr_servico>\r\n  \r\n<cobranca_servico>\r\n  \r\n<valor_servico>\r\n  0.00\r\n<caixa_servico>\r\n  1'),
+(68, 'tservico', '15', 'INCLUSAO', 'SITE', '2026-10-26 17:48:40', '<chave_servico>\r\n  15\r\n<chave_perfil>\r\n  14\r\n<descr_servico>\r\n  \r\n<cobranca_servico>\r\n  \r\n<valor_servico>\r\n  0.00\r\n<caixa_servico>\r\n  1'),
+(69, 'tservico', '15', 'ALTERACAO', 'SITE', '2026-10-26 17:48:44', '<caixa_servico>\r\n  <->1</->\r\n  <+>0</+>'),
+(70, 'tservico', '14', 'ALTERACAO', 'SITE', '2026-10-26 17:48:46', '<caixa_servico>\r\n  <->1</->\r\n  <+>0</+>'),
+(71, 'tservico', '16', 'INCLUSAO', 'SITE', '2026-10-26 17:50:19', '<chave_servico>\r\n  16\r\n<chave_perfil>\r\n  14\r\n<descr_servico>\r\n  \r\n<cobranca_servico>\r\n  \r\n<valor_servico>\r\n  0.00\r\n<caixa_servico>\r\n  1'),
+(72, 'tservico', '16', 'ALTERACAO', 'SITE', '2026-10-26 17:50:22', '<caixa_servico>\r\n  <->1</->\r\n  <+>0</+>'),
+(73, 'tservico', '17', 'INCLUSAO', 'SITE', '2026-10-26 17:51:02', '<chave_servico>\r\n  17\r\n<chave_perfil>\r\n  14\r\n<descr_servico>\r\n  \r\n<cobranca_servico>\r\n  \r\n<valor_servico>\r\n  0.00\r\n<caixa_servico>\r\n  1'),
+(74, 'tservico', '17', 'ALTERACAO', 'SITE', '2026-10-26 17:51:04', '<caixa_servico>\r\n  <->1</->\r\n  <+>0</+>'),
+(75, 'tservico', '18', 'INCLUSAO', 'SITE', '2026-10-26 17:56:28', '<chave_servico>\r\n  18\r\n<chave_perfil>\r\n  14\r\n<descr_servico>\r\n  \r\n<cobranca_servico>\r\n  \r\n<valor_servico>\r\n  0.00\r\n<caixa_servico>\r\n  1'),
+(76, 'tservico', '18', 'ALTERACAO', 'SITE', '2026-10-26 17:56:30', '<caixa_servico>\r\n  <->1</->\r\n  <+>0</+>'),
+(77, 'tservico', '19', 'INCLUSAO', 'SITE', '2026-10-26 17:58:55', '<chave_servico>\r\n  19\r\n<chave_perfil>\r\n  14\r\n<descr_servico>\r\n  SADADAS\r\n<cobranca_servico>\r\n  DIARIA\r\n<valor_servico>\r\n  122.00\r\n<caixa_servico>\r\n  1'),
+(78, 'tservico', '19', 'ALTERACAO', 'SITE', '2026-10-26 17:58:59', '<caixa_servico>\r\n  <->1</->\r\n  <+>0</+>'),
+(79, 'tcliente', '16', 'INCLUSAO', 'SITE', '2026-10-26 19:32:03', '<chave_cliente>\r\n  16\r\n<chave_perfil>\r\n  14\r\n<cod_cliente>\r\n  \r\n<nome_cliente>\r\n  a2\r\n<end_cliente>\r\n  \r\n<num_cliente>\r\n  \r\n<compl_cliente>\r\n  \r\n<bairro_cliente>\r\n  \r\n<cid_cliente>\r\n  \r\n<uf_cliente>\r\n  \r\n<cep_cliente>\r\n  \r\n<codibge_cliente>\r\n  \r\n<cpf_cliente>\r\n  \r\n<tel_cliente>\r\n  \r\n<email_cliente>\r\n  \r\n<dtn_cliente>\r\n  0000-00-00\r\n<dtc_cliente>\r\n  0000-00-00 00:00:00\r\n<caixa_cliente>\r\n  1'),
+(80, 'torcamento', '1', 'INCLUSAO', 'SITE', '2026-10-27 02:12:04', '<chave_orcamento>\r\n  1\r\n<chave_perfil>\r\n  14\r\n<chave_cliente>\r\n  14\r\n<cod_orcamento>\r\n  \r\n<valor_orcamento>\r\n  0.00\r\n<dtc_orcamento>\r\n  2026-10-26 23:12:04\r\n<caixa_orcamento>\r\n  1'),
+(81, 'torcamento', '2', 'INCLUSAO', 'SITE', '2026-10-27 02:12:11', '<chave_orcamento>\r\n  2\r\n<chave_perfil>\r\n  14\r\n<chave_cliente>\r\n  14\r\n<cod_orcamento>\r\n  \r\n<valor_orcamento>\r\n  0.00\r\n<dtc_orcamento>\r\n  2026-10-26 23:12:11\r\n<caixa_orcamento>\r\n  1'),
+(82, 'torcamento', '3', 'INCLUSAO', 'SITE', '2026-10-27 02:17:41', '<chave_orcamento>\r\n  3\r\n<chave_perfil>\r\n  14\r\n<chave_cliente>\r\n  14\r\n<cod_orcamento>\r\n  \r\n<valor_orcamento>\r\n  0.00\r\n<dtc_orcamento>\r\n  2026-10-26 23:17:41\r\n<caixa_orcamento>\r\n  1'),
+(83, 'torcamento', '4', 'INCLUSAO', 'SITE', '2026-10-27 02:22:14', '<chave_orcamento>\r\n  4\r\n<chave_perfil>\r\n  14\r\n<chave_cliente>\r\n  14\r\n<cod_orcamento>\r\n  \r\n<valor_orcamento>\r\n  0.00\r\n<dtc_orcamento>\r\n  2026-10-26 23:22:14\r\n<caixa_orcamento>\r\n  1'),
+(84, 'torcamento', '5', 'INCLUSAO', 'SITE', '2026-10-27 02:32:25', '<chave_orcamento>\r\n  5\r\n<chave_perfil>\r\n  14\r\n<chave_cliente>\r\n  15\r\n<cod_orcamento>\r\n  \r\n<valor_orcamento>\r\n  0.00\r\n<dtc_orcamento>\r\n  2026-10-26 23:32:25\r\n<caixa_orcamento>\r\n  1'),
+(85, 'torcamento', '6', 'INCLUSAO', 'SITE', '2026-10-27 02:33:46', '<chave_orcamento>\r\n  6\r\n<chave_perfil>\r\n  14\r\n<chave_cliente>\r\n  16\r\n<cod_orcamento>\r\n  \r\n<valor_orcamento>\r\n  0.00\r\n<dtc_orcamento>\r\n  2026-10-26 23:33:46\r\n<caixa_orcamento>\r\n  1'),
+(86, 'torcamentosrv', '1', 'INCLUSAO', 'SITE', '2026-10-27 14:01:59', '<chave_orcamentosrv>\r\n  1\r\n<chave_orcamento>\r\n  1\r\n<chave_servico>\r\n  7\r\n<qtd_orcamentosrv>\r\n  1\r\n<vlu_orcamentosrv>\r\n  0.00\r\n<vlt_orcamentosrv>\r\n  0.00\r\n<caixa_orcamentosrv>\r\n  1'),
+(87, 'torcamentosrv', '2', 'INCLUSAO', 'SITE', '2026-10-27 14:03:20', '<chave_orcamentosrv>\r\n  2\r\n<chave_orcamento>\r\n  1\r\n<chave_servico>\r\n  4\r\n<qtd_orcamentosrv>\r\n  1\r\n<vlu_orcamentosrv>\r\n  0.00\r\n<vlt_orcamentosrv>\r\n  0.00\r\n<caixa_orcamentosrv>\r\n  1'),
+(88, 'torcamentosrv', '3', 'INCLUSAO', 'SITE', '2026-10-27 14:04:56', '<chave_orcamentosrv>\r\n  3\r\n<chave_orcamento>\r\n  1\r\n<chave_servico>\r\n  4\r\n<qtd_orcamentosrv>\r\n  1\r\n<vlu_orcamentosrv>\r\n  0.00\r\n<vlt_orcamentosrv>\r\n  0.00\r\n<caixa_orcamentosrv>\r\n  1'),
+(89, 'tperfil', '17', 'INCLUSAO', 'SITE', '2026-10-28 00:59:49', '<chave_perfil>\r\n  17\r\n<cod_perfil>\r\n  QaDSeCRV7T6JSoZQwycxVEg3c3pyeTRvSC92N3poOGpYUWQzOEdtMWI4NXVVeWtlYTJGT2JBZ21aRm89\r\n<nome_perfil>\r\n  Alexandre\r\n<end_perfil>\r\n  RUA SALVADOR LEME, BOM RETIRO\r\n<num_perfil>\r\n  \r\n<compl_perfil>\r\n  \r\n<bairro_perfil>\r\n  BOM RETIRO\r\n<cid_perfil>\r\n  SÃO PAULO / SP\r\n<uf_perfil>\r\n  SP\r\n<cep_perfil>\r\n  01124-020\r\n<codibge_perfil>\r\n  \r\n<cpf_perfil>\r\n  887.201.193-05\r\n<tel_perfil>\r\n  (11) 98765-4321\r\n<email_perfil>\r\n  c.alexandre89@gmail.com\r\n<dtn_perfil>\r\n  0000-00-00\r\n<dtc_perfil>\r\n  2026-10-27 21:59:49\r\n<caixa_perfil>\r\n  1'),
+(90, 'tusuario', '4', 'INCLUSAO', 'SITE', '2026-10-28 00:59:49', '<chave_usuario>\r\n  4\r\n<chave_perfil>\r\n  17\r\n<cod_usuario>\r\n  \r\n<nome_usuario>\r\n  Alexandre\r\n<email_usuario>\r\n  c.alexandre89@gmail.com\r\n<senha_usuario>\r\n  Alexandre\r\n<tipo_usuario>\r\n  USUARIO\r\n<ativo_usuario>\r\n  1\r\n<caixa_usuario>\r\n  1'),
+(91, 'tperfil', '18', 'INCLUSAO', 'SITE', '2026-10-28 01:02:11', '<chave_perfil>\r\n  18\r\n<cod_perfil>\r\n  JdVV223KD+db7u5ipzzbaDhRS1hES0M1K1NTeFhOZzdKNm01UHVhNmQ2MUx0ZGMwaSt5MGQ4c2Myd3c9\r\n<nome_perfil>\r\n  24202882\r\n<end_perfil>\r\n  RUA SALVADOR LEME, BOM RETIRO\r\n<num_perfil>\r\n  \r\n<compl_perfil>\r\n  \r\n<bairro_perfil>\r\n  \r\n<cid_perfil>\r\n  SÃO PAULO / SP\r\n<uf_perfil>\r\n  \r\n<cep_perfil>\r\n  01124-020\r\n<codibge_perfil>\r\n  \r\n<cpf_perfil>\r\n  718.365.675-61\r\n<tel_perfil>\r\n  (11) 89765-4321\r\n<email_perfil>\r\n  24202882@aluno.univesp.br\r\n<dtn_perfil>\r\n  0000-00-00\r\n<dtc_perfil>\r\n  2026-10-27 22:02:11\r\n<caixa_perfil>\r\n  1'),
+(92, 'tusuario', '5', 'INCLUSAO', 'SITE', '2026-10-28 01:02:11', '<chave_usuario>\r\n  5\r\n<chave_perfil>\r\n  18\r\n<cod_usuario>\r\n  \r\n<nome_usuario>\r\n  24202882\r\n<email_usuario>\r\n  24202882@aluno.univesp.br\r\n<senha_usuario>\r\n  24202882\r\n<tipo_usuario>\r\n  USUARIO\r\n<ativo_usuario>\r\n  1\r\n<caixa_usuario>\r\n  1'),
+(93, 'tperfil', '19', 'INCLUSAO', 'SITE', '2026-10-28 01:03:19', '<chave_perfil>\r\n  19\r\n<cod_perfil>\r\n  PlUXYDHuTn2nimTUDn5A4khNTXpidDBFNEJvak5HblNKd2k0c04ydUt5YW1URkdOQ0RpMTc2VEszQVk9\r\n<nome_perfil>\r\n  Gabrielly Menezes\r\n<end_perfil>\r\n  RUA SALVADOR LEME, BOM RETIRO\r\n<num_perfil>\r\n  \r\n<compl_perfil>\r\n  \r\n<bairro_perfil>\r\n  BOM RETIRO\r\n<cid_perfil>\r\n  SÃO PAULO / SP\r\n<uf_perfil>\r\n  SP\r\n<cep_perfil>\r\n  01124-020\r\n<codibge_perfil>\r\n  \r\n<cpf_perfil>\r\n  915.187.101-74\r\n<tel_perfil>\r\n  (11) 79865-4321\r\n<email_perfil>\r\n  gabriellymenezes003@gmail.com\r\n<dtn_perfil>\r\n  0000-00-00\r\n<dtc_perfil>\r\n  2026-10-27 22:03:18\r\n<caixa_perfil>\r\n  1'),
+(94, 'tusuario', '6', 'INCLUSAO', 'SITE', '2026-10-28 01:03:19', '<chave_usuario>\r\n  6\r\n<chave_perfil>\r\n  19\r\n<cod_usuario>\r\n  \r\n<nome_usuario>\r\n  Gabrielly Menezes\r\n<email_usuario>\r\n  gabriellymenezes003@gmail.com\r\n<senha_usuario>\r\n  Gabrielly\r\n<tipo_usuario>\r\n  USUARIO\r\n<ativo_usuario>\r\n  1\r\n<caixa_usuario>\r\n  1'),
+(95, 'torcamentosrv', '1', 'ALTERACAO', 'SITE', '2026-10-28 02:08:46', '<vlu_orcamentosrv>\r\n  <->0.00</->\r\n  <+>300.00</+>\r\n<vlt_orcamentosrv>\r\n  <->0.00</->\r\n  <+>300.00</+>'),
+(96, 'torcamentosrv', '2', 'ALTERACAO', 'SITE', '2026-10-28 02:08:48', '<vlu_orcamentosrv>\r\n  <->0.00</->\r\n  <+>61.00</+>\r\n<vlt_orcamentosrv>\r\n  <->0.00</->\r\n  <+>61.00</+>'),
+(97, 'torcamentosrv', '3', 'ALTERACAO', 'SITE', '2026-10-28 02:08:48', '<vlu_orcamentosrv>\r\n  <->0.00</->\r\n  <+>61.00</+>\r\n<vlt_orcamentosrv>\r\n  <->0.00</->\r\n  <+>61.00</+>'),
+(98, 'torcamentosrv', '4', 'INCLUSAO', 'SITE', '2026-10-28 02:11:29', '<chave_orcamentosrv>\r\n  4\r\n<chave_orcamento>\r\n  6\r\n<chave_servico>\r\n  1\r\n<qtd_orcamentosrv>\r\n  1\r\n<vlu_orcamentosrv>\r\n  180.00\r\n<vlt_orcamentosrv>\r\n  180.00\r\n<caixa_orcamentosrv>\r\n  1'),
+(99, 'torcamentosrv', '4', 'ALTERACAO', 'SITE', '2026-10-28 02:11:34', '<qtd_orcamentosrv>\r\n  <->1</->\r\n  <+>3</+>'),
+(100, 'torcamentosrv', '5', 'INCLUSAO', 'SITE', '2026-10-28 02:18:41', '<chave_orcamentosrv>\r\n  5\r\n<chave_orcamento>\r\n  3\r\n<chave_servico>\r\n  3\r\n<qtd_orcamentosrv>\r\n  1\r\n<vlu_orcamentosrv>\r\n  40.00\r\n<vlt_orcamentosrv>\r\n  40.00\r\n<caixa_orcamentosrv>\r\n  1'),
+(101, 'torcamentosrv', '6', 'INCLUSAO', 'SITE', '2026-10-28 02:18:44', '<chave_orcamentosrv>\r\n  6\r\n<chave_orcamento>\r\n  3\r\n<chave_servico>\r\n  4\r\n<qtd_orcamentosrv>\r\n  1\r\n<vlu_orcamentosrv>\r\n  61.00\r\n<vlt_orcamentosrv>\r\n  61.00\r\n<caixa_orcamentosrv>\r\n  1'),
+(102, 'trecibo', '1', 'INCLUSAO', 'SITE', '2026-10-28 17:52:36', '<chave_recibo>\r\n  1\r\n<chave_perfil>\r\n  14\r\n<chave_cliente>\r\n  14\r\n<cod_recibo>\r\n  \r\n<valor_recibo>\r\n  0.00\r\n<dtc_recibo>\r\n  2026-10-28 14:52:36\r\n<dte_recibo>\r\n  0000-00-00 00:00:00\r\n<situacao_recibo>\r\n  ''CRIADO''\r\n<caixa_recibo>\r\n  1'),
+(103, 'trecibosrv', '1', 'INCLUSAO', 'SITE', '2026-10-28 17:52:39', '<chave_recibosrv>\r\n  1\r\n<chave_recibo>\r\n  1\r\n<chave_servico>\r\n  7\r\n<qtd_recibosrv>\r\n  1\r\n<vlu_recibosrv>\r\n  300.00\r\n<vlt_recibosrv>\r\n  300.00\r\n<caixa_recibosrv>\r\n  1'),
+(104, 'trecibo', '1', 'ALTERACAO', 'SITE', '2026-10-28 23:41:15', '<dte_recibo>\r\n  <->0000-00-00 00:00:00</->\r\n  <+>2026-10-28 23:41:13</+>\r\n<situacao_recibo>\r\n  <->CRIADO</->\r\n  <+>ENVIADO</+>'),
+(105, 'trecibo', '1', 'ALTERACAO', 'SITE', '2026-10-28 23:46:43', '<dte_recibo>\r\n  <->2026-10-28 23:41:13</->\r\n  <+>2026-10-28 23:46:43</+>'),
+(106, 'trecibo', '1', 'ALTERACAO', 'SITE', '2026-10-28 23:47:12', '<dte_recibo>\r\n  <->2026-10-28 23:46:43</->\r\n  <+>2026-10-28 23:47:12</+>'),
+(107, 'trecibo', '1', 'ALTERACAO', 'SITE', '2026-10-28 23:47:26', '<dte_recibo>\r\n  <->2026-10-28 23:47:12</->\r\n  <+>2026-10-28 23:47:26</+>'),
+(108, 'trecibo', '1', 'ALTERACAO', 'SITE', '2026-10-28 23:54:54', '<dte_recibo>\r\n  <->2026-10-28 23:47:26</->\r\n  <+>2026-10-28 23:54:54</+>'),
+(109, 'trecibo', '1', 'ALTERACAO', 'SITE', '2026-10-29 00:05:31', '<dte_recibo>\r\n  <->2026-10-28 23:54:54</->\r\n  <+>2026-10-29 00:05:30</+>'),
+(110, 'trecibo', '1', 'ALTERACAO', 'SITE', '2026-10-29 00:10:21', '<dte_recibo>\r\n  <->2026-10-29 00:05:30</->\r\n  <+>2026-10-29 00:10:21</+>'),
+(111, 'trecibo', '1', 'ALTERACAO', 'SITE', '2026-10-29 00:17:24', '<dte_recibo>\r\n  <->2026-10-29 00:10:21</->\r\n  <+>2026-10-29 00:17:24</+>'),
+(112, 'trecibo', '1', 'ALTERACAO', 'SITE', '2026-10-29 00:20:45', '<dte_recibo>\r\n  <->2026-10-29 00:17:24</->\r\n  <+>2026-10-29 00:20:45</+>'),
+(113, 'trecibo', '1', 'ALTERACAO', 'SITE', '2026-10-29 00:22:27', '<dte_recibo>\r\n  <->2026-10-29 00:20:45</->\r\n  <+>2026-10-29 00:22:27</+>'),
+(114, 'trecibo', '1', 'ALTERACAO', 'SITE', '2026-10-29 00:22:50', '<dte_recibo>\r\n  <->2026-10-29 00:22:27</->\r\n  <+>2026-10-29 00:22:50</+>'),
+(115, 'trecibo', '1', 'ALTERACAO', 'SITE', '2026-10-29 00:24:26', '<dte_recibo>\r\n  <->2026-10-29 00:22:50</->\r\n  <+>2026-10-29 00:24:26</+>'),
+(116, 'trecibo', '1', 'ALTERACAO', 'SITE', '2026-10-29 00:32:25', '<dte_recibo>\r\n  <->2026-10-29 00:24:26</->\r\n  <+>2026-10-29 00:32:23</+>'),
+(117, 'trecibo', '1', 'ALTERACAO', 'SITE', '2026-10-29 00:38:54', '<dte_recibo>\r\n  <->2026-10-29 00:32:23</->\r\n  <+>2026-10-29 00:38:52</+>'),
+(118, 'trecibo', '1', 'ALTERACAO', 'SITE', '2026-10-29 00:39:30', '<dte_recibo>\r\n  <->2026-10-29 00:38:52</->\r\n  <+>2026-10-29 00:39:28</+>'),
+(119, 'trecibo', '1', 'ALTERACAO', 'SITE', '2026-10-29 00:42:56', '<dte_recibo>\r\n  <->2026-10-29 00:39:28</->\r\n  <+>2026-10-29 00:42:56</+>'),
+(120, 'trecibo', '1', 'ALTERACAO', 'SITE', '2026-10-29 00:46:02', '<dte_recibo>\r\n  <->2026-10-29 00:42:56</->\r\n  <+>2026-10-29 00:46:02</+>'),
+(121, 'trecibo', '1', 'ALTERACAO', 'SITE', '2026-10-29 01:01:54', '<dte_recibo>\r\n  <->2026-10-29 00:46:02</->\r\n  <+>2026-10-29 01:01:53</+>'),
+(122, 'trecibo', '1', 'ALTERACAO', 'SITE', '2026-10-29 01:02:25', '<dte_recibo>\r\n  <->2026-10-29 01:01:53</->\r\n  <+>2026-10-29 01:02:22</+>'),
+(123, 'trecibo', '1', 'ALTERACAO', 'SITE', '2026-10-29 01:04:21', '<dte_recibo>\r\n  <->2026-10-29 01:02:22</->\r\n  <+>2026-10-29 01:04:20</+>'),
+(124, 'trecibo', '1', 'ALTERACAO', 'SITE', '2026-10-29 01:05:29', '<dte_recibo>\r\n  <->2026-10-29 01:04:20</->\r\n  <+>2026-10-29 01:05:26</+>'),
+(125, 'trecibo', '1', 'ALTERACAO', 'SITE', '2026-10-29 01:06:03', '<dte_recibo>\r\n  <->2026-10-29 01:05:26</->\r\n  <+>2026-10-29 01:06:02</+>'),
+(126, 'trecibo', '1', 'ALTERACAO', 'SITE', '2026-10-29 01:25:19', '<dte_recibo>\r\n  <->2026-10-29 01:06:02</->\r\n  <+>2026-10-29 01:25:18</+>'),
+(127, 'trecibo', '1', 'ALTERACAO', 'SITE', '2026-10-29 01:42:44', '<dte_recibo>\r\n  <->2026-10-29 01:25:18</->\r\n  <+>2026-10-29 01:42:43</+>'),
+(128, 'torcamento', '3', 'ALTERACAO', 'SITE', '2026-10-29 15:34:18', '<dte_orcamento>\r\n  <->0000-00-00 00:00:00</->\r\n  <+>2026-10-29 12:34:18</+>\r\n<situacao_orcamento>\r\n  <->CRIADO</->\r\n  <+>ENVIADO</+>'),
+(129, 'torcamento', '3', 'ALTERACAO', 'SITE', '2026-10-29 15:34:22', '<dta_orcamento>\r\n  <->0000-00-00 00:00:00</->\r\n  <+>2026-10-29 12:34:22</+>\r\n<situacao_orcamento>\r\n  <->ENVIADO</->\r\n  <+>APROVADO</+>'),
+(130, 'torcamento', '1', 'ALTERACAO', 'SITE', '2026-10-29 15:52:56', '<dte_orcamento>\r\n  <->0000-00-00 00:00:00</->\r\n  <+>2026-10-29 12:52:56</+>\r\n<situacao_orcamento>\r\n  <->CRIADO</->\r\n  <+>ENVIADO</+>'),
+(131, 'torcamento', '1', 'ALTERACAO', 'SITE', '2026-10-29 15:52:58', '<dta_orcamento>\r\n  <->0000-00-00 00:00:00</->\r\n  <+>2026-10-29 12:52:58</+>\r\n<situacao_orcamento>\r\n  <->ENVIADO</->\r\n  <+>APROVADO</+>'),
+(132, 'trecibo', '1', 'ALTERACAO', 'SITE', '2026-10-29 17:46:16', '<dte_recibo>\r\n  <->2026-10-29 01:42:43</->\r\n  <+>2026-10-29 17:46:15</+>'),
+(133, 'trecibo', '1', 'ALTERACAO', 'SITE', '2026-10-29 18:01:01', '<dte_recibo>\r\n  <->2026-10-29 17:46:15</->\r\n  <+>2026-10-29 18:01:01</+>\r\n<urlpdf_recibo>\r\n  <-></->\r\n  <+>rec_756c587a725757443538614e424d494b763638487551654f637353476474636a50335135334544573642553d.pdf</+>'),
+(134, 'trecibo', '1', 'ALTERACAO', 'SITE', '2026-10-29 18:03:46', '<dte_recibo>\r\n  <->2026-10-29 18:01:01</->\r\n  <+>2026-10-29 18:03:46</+>\r\n<urlpdf_recibo>\r\n  <->rec_756c587a725757443538614e424d494b763638487551654f637353476474636a50335135334544573642553d.pdf</->\r\n  <+>rec_3742352b684a43546c327a695243496473434c55526a566334536559337549675475364c726571783945413d.pdf</+>'),
+(135, 'trecibo', '1', 'ALTERACAO', 'SITE', '2026-10-29 18:06:44', '<dte_recibo>\r\n  <->2026-10-29 18:03:46</->\r\n  <+>2026-10-29 18:06:43</+>\r\n<urlpdf_recibo>\r\n  <->rec_3742352b684a43546c327a695243496473434c55526a566334536559337549675475364c726571783945413d.pdf</->\r\n  <+>rec_4670556d46547078584c306d41596c6d692b4234526b394e656b7a384b766250586438477036456d474a6f3d.pdf</+>'),
+(136, 'trecibo', '1', 'ALTERACAO', 'SITE', '2026-10-29 18:07:26', '<dte_recibo>\r\n  <->2026-10-29 18:06:43</->\r\n  <+>2026-10-29 18:07:26</+>\r\n<urlpdf_recibo>\r\n  <->rec_4670556d46547078584c306d41596c6d692b4234526b394e656b7a384b766250586438477036456d474a6f3d.pdf</->\r\n  <+>rec_415a71534932425a45774b6f484934713668776c676b46576f3033356d337350752f467576387179366d673d.pdf</+>'),
+(137, 'torcamentosrv', '7', 'INCLUSAO', 'SITE', '2026-10-29 18:53:21', '<chave_orcamentosrv>\r\n  7\r\n<chave_orcamento>\r\n  2\r\n<chave_servico>\r\n  3\r\n<qtd_orcamentosrv>\r\n  1\r\n<vlu_orcamentosrv>\r\n  40.00\r\n<vlt_orcamentosrv>\r\n  40.00\r\n<caixa_orcamentosrv>\r\n  1'),
+(138, 'torcamento', '2', 'ALTERACAO', 'SITE', '2026-10-29 18:53:26', '<dte_orcamento>\r\n  <->0000-00-00 00:00:00</->\r\n  <+>2026-10-29 15:53:26</+>\r\n<situacao_orcamento>\r\n  <->CRIADO</->\r\n  <+>ENVIADO</+>'),
+(139, 'torcamento', '2', 'ALTERACAO', 'SITE', '2026-10-29 18:53:30', '<dta_orcamento>\r\n  <->0000-00-00 00:00:00</->\r\n  <+>2026-10-29 15:53:30</+>\r\n<situacao_orcamento>\r\n  <->ENVIADO</->\r\n  <+>APROVADO</+>'),
+(140, 'torcamentosrv', '8', 'INCLUSAO', 'SITE', '2026-10-29 18:54:55', '<chave_orcamentosrv>\r\n  8\r\n<chave_orcamento>\r\n  4\r\n<chave_servico>\r\n  7\r\n<qtd_orcamentosrv>\r\n  1\r\n<vlu_orcamentosrv>\r\n  300.00\r\n<vlt_orcamentosrv>\r\n  300.00\r\n<caixa_orcamentosrv>\r\n  1'),
+(141, 'torcamento', '4', 'ALTERACAO', 'SITE', '2026-10-29 19:26:53', '<dte_orcamento>\r\n  <->0000-00-00 00:00:00</->\r\n  <+>2026-10-29 19:26:53</+>\r\n<urlpdf_orcamento>\r\n  <-></->\r\n  <+>orc_6d7637532f55495431534e74765832515172506d6e586d4b307a5a736e6d642f6d7035626f4b4a504c61553d.pdf</+>\r\n<urlaprova_orcamento>\r\n  <-></->\r\n  <+>79587a776a4e51387133443230627577764e677139344d4c41377536305a4b456362694d78544372434f2f77636c625a614b503179386d796332777330657a6e</+>\r\n<situacao_orcamento>\r\n  <->CRIADO</->\r\n  <+>ENVIADO</+>'),
+(142, 'torcamentosrv', '9', 'INCLUSAO', 'SITE', '2026-10-29 19:31:03', '<chave_orcamentosrv>\r\n  9\r\n<chave_orcamento>\r\n  5\r\n<chave_servico>\r\n  5\r\n<qtd_orcamentosrv>\r\n  1\r\n<vlu_orcamentosrv>\r\n  220.00\r\n<vlt_orcamentosrv>\r\n  220.00\r\n<caixa_orcamentosrv>\r\n  1'),
+(143, 'torcamento', '1', 'ALTERACAO', 'SITE', '2026-10-29 19:35:38', '<dte_orcamento>\r\n  <->2026-10-29 12:52:56</->\r\n  <+>2026-10-29 19:35:37</+>\r\n<urlpdf_orcamento>\r\n  <-></->\r\n  <+>orc_316461637630672b4b3571704d5457655a56456c5943524e675846382b54324f34423450427756702b71553d.pdf</+>\r\n<urlaprova_orcamento>\r\n  <-></->\r\n  <+>id1=14&id2=1&id3=ENVIADO</+>\r\n<situacao_orcamento>\r\n  <->CRIADO</->\r\n  <+>ENVIADO</+>'),
+(144, 'torcamento', '7', 'INCLUSAO', 'SITE', '2026-10-29 19:37:23', '<chave_orcamento>\r\n  7\r\n<chave_perfil>\r\n  14\r\n<chave_cliente>\r\n  14\r\n<chave_recibo>\r\n  0\r\n<cod_orcamento>\r\n  \r\n<valor_orcamento>\r\n  0.00\r\n<dtc_orcamento>\r\n  2026-10-29 16:37:23\r\n<dte_orcamento>\r\n  0000-00-00 00:00:00\r\n<dta_orcamento>\r\n  0000-00-00 00:00:00\r\n<dtr_orcamento>\r\n  0000-00-00 00:00:00\r\n<urlpdf_orcamento>\r\n  \r\n<urlaprova_orcamento>\r\n  \r\n<situacao_orcamento>\r\n  CRIADO\r\n<caixa_orcamento>\r\n  1'),
+(145, 'torcamentosrv', '10', 'INCLUSAO', 'SITE', '2026-10-29 19:37:29', '<chave_orcamentosrv>\r\n  10\r\n<chave_orcamento>\r\n  7\r\n<chave_servico>\r\n  4\r\n<qtd_orcamentosrv>\r\n  1\r\n<vlu_orcamentosrv>\r\n  61.00\r\n<vlt_orcamentosrv>\r\n  61.00\r\n<caixa_orcamentosrv>\r\n  1'),
+(146, 'torcamentosrv', '11', 'INCLUSAO', 'SITE', '2026-10-29 19:37:33', '<chave_orcamentosrv>\r\n  11\r\n<chave_orcamento>\r\n  7\r\n<chave_servico>\r\n  3\r\n<qtd_orcamentosrv>\r\n  1\r\n<vlu_orcamentosrv>\r\n  40.00\r\n<vlt_orcamentosrv>\r\n  40.00\r\n<caixa_orcamentosrv>\r\n  1'),
+(147, 'torcamento', '7', 'ALTERACAO', 'SITE', '2026-10-29 19:37:38', '<dte_orcamento>\r\n  <->0000-00-00 00:00:00</->\r\n  <+>2026-10-29 19:37:38</+>\r\n<urlpdf_orcamento>\r\n  <-></->\r\n  <+>orc_4a634e31744f776d38494357424836676664694d355a6557764e616d46665559475a77666274714f394c6f3d.pdf</+>\r\n<urlaprova_orcamento>\r\n  <-></->\r\n  <+>id1=14&id2=7&id3=ENVIADO</+>\r\n<situacao_orcamento>\r\n  <->CRIADO</->\r\n  <+>ENVIADO</+>'),
+(148, 'torcamento', '8', 'INCLUSAO', 'SITE', '2026-10-29 19:38:38', '<chave_orcamento>\r\n  8\r\n<chave_perfil>\r\n  14\r\n<chave_cliente>\r\n  14\r\n<chave_recibo>\r\n  0\r\n<cod_orcamento>\r\n  \r\n<valor_orcamento>\r\n  0.00\r\n<dtc_orcamento>\r\n  2026-10-29 16:38:38\r\n<dte_orcamento>\r\n  0000-00-00 00:00:00\r\n<dta_orcamento>\r\n  0000-00-00 00:00:00\r\n<dtr_orcamento>\r\n  0000-00-00 00:00:00\r\n<urlpdf_orcamento>\r\n  \r\n<urlaprova_orcamento>\r\n  \r\n<situacao_orcamento>\r\n  CRIADO\r\n<caixa_orcamento>\r\n  1'),
+(149, 'torcamentosrv', '12', 'INCLUSAO', 'SITE', '2026-10-29 19:38:46', '<chave_orcamentosrv>\r\n  12\r\n<chave_orcamento>\r\n  8\r\n<chave_servico>\r\n  4\r\n<qtd_orcamentosrv>\r\n  1\r\n<vlu_orcamentosrv>\r\n  61.00\r\n<vlt_orcamentosrv>\r\n  61.00\r\n<caixa_orcamentosrv>\r\n  1'),
+(150, 'torcamentosrv', '13', 'INCLUSAO', 'SITE', '2026-10-29 19:38:51', '<chave_orcamentosrv>\r\n  13\r\n<chave_orcamento>\r\n  8\r\n<chave_servico>\r\n  5\r\n<qtd_orcamentosrv>\r\n  1\r\n<vlu_orcamentosrv>\r\n  220.00\r\n<vlt_orcamentosrv>\r\n  220.00\r\n<caixa_orcamentosrv>\r\n  1'),
+(151, 'torcamento', '8', 'ALTERACAO', 'SITE', '2026-10-29 19:38:57', '<dte_orcamento>\r\n  <->0000-00-00 00:00:00</->\r\n  <+>2026-10-29 19:38:56</+>\r\n<urlpdf_orcamento>\r\n  <-></->\r\n  <+>orc_61436b79656e76516b442f2b6a79714b374c4655567263767934322b4d6c324345752f3476587a484d33633d.pdf</+>\r\n<urlaprova_orcamento>\r\n  <-></->\r\n  <+>id1=14&id2=8&id3=ENVIADO</+>\r\n<situacao_orcamento>\r\n  <->CRIADO</->\r\n  <+>ENVIADO</+>'),
+(152, 'torcamento', '2', 'ALTERACAO', 'SITE', '2026-10-29 19:49:01', '<dte_orcamento>\r\n  <->2026-10-29 15:53:26</->\r\n  <+>2026-10-29 19:49:01</+>\r\n<urlpdf_orcamento>\r\n  <-></->\r\n  <+>orc_2b796f562f3852686c4a517635346d694575425752784333726d6f35695236552f435169736a45507237383d.pdf</+>\r\n<urlaprova_orcamento>\r\n  <-></->\r\n  <+>id1=14&id2=2&id3=ENVIADO</+>\r\n<situacao_orcamento>\r\n  <->CRIADO</->\r\n  <+>ENVIADO</+>'),
+(153, 'torcamento', '9', 'INCLUSAO', 'SITE', '2026-10-29 19:49:58', '<chave_orcamento>\r\n  9\r\n<chave_perfil>\r\n  14\r\n<chave_cliente>\r\n  15\r\n<chave_recibo>\r\n  0\r\n<cod_orcamento>\r\n  \r\n<valor_orcamento>\r\n  0.00\r\n<dtc_orcamento>\r\n  2026-10-29 16:49:58\r\n<dte_orcamento>\r\n  0000-00-00 00:00:00\r\n<dta_orcamento>\r\n  0000-00-00 00:00:00\r\n<dtr_orcamento>\r\n  0000-00-00 00:00:00\r\n<urlpdf_orcamento>\r\n  \r\n<urlaprova_orcamento>\r\n  \r\n<situacao_orcamento>\r\n  CRIADO\r\n<caixa_orcamento>\r\n  1'),
+(154, 'torcamentosrv', '14', 'INCLUSAO', 'SITE', '2026-10-29 19:50:02', '<chave_orcamentosrv>\r\n  14\r\n<chave_orcamento>\r\n  9\r\n<chave_servico>\r\n  7\r\n<qtd_orcamentosrv>\r\n  1\r\n<vlu_orcamentosrv>\r\n  300.00\r\n<vlt_orcamentosrv>\r\n  300.00\r\n<caixa_orcamentosrv>\r\n  1'),
+(155, 'torcamentosrv', '15', 'INCLUSAO', 'SITE', '2026-10-29 19:50:05', '<chave_orcamentosrv>\r\n  15\r\n<chave_orcamento>\r\n  9\r\n<chave_servico>\r\n  3\r\n<qtd_orcamentosrv>\r\n  1\r\n<vlu_orcamentosrv>\r\n  40.00\r\n<vlt_orcamentosrv>\r\n  40.00\r\n<caixa_orcamentosrv>\r\n  1'),
+(156, 'torcamentosrv', '15', 'ALTERACAO', 'SITE', '2026-10-29 19:50:08', '<qtd_orcamentosrv>\r\n  <->1</->\r\n  <+>2</+>\r\n<vlt_orcamentosrv>\r\n  <->40.00</->\r\n  <+>80.00</+>'),
+(157, 'torcamentosrv', '14', 'ALTERACAO', 'SITE', '2026-10-29 19:50:44', '<qtd_orcamentosrv>\r\n  <->1</->\r\n  <+>3</+>\r\n<vlt_orcamentosrv>\r\n  <->300.00</->\r\n  <+>900.00</+>'),
+(158, 'torcamento', '9', 'ALTERACAO', 'SITE', '2026-10-29 19:50:49', '<dte_orcamento>\r\n  <->0000-00-00 00:00:00</->\r\n  <+>2026-10-29 19:50:49</+>\r\n<urlpdf_orcamento>\r\n  <-></->\r\n  <+>orc_764d7a4556623068643253762b567252772f6a70524a374b71514e3948774937784f5466354137435968513d.pdf</+>\r\n<urlaprova_orcamento>\r\n  <-></->\r\n  <+>id1=14&id2=9&id3=ENVIADO</+>\r\n<situacao_orcamento>\r\n  <->CRIADO</->\r\n  <+>ENVIADO</+>'),
+(159, 'torcamento', '1', 'ALTERACAO', 'SITE', '2026-10-29 19:51:17', '<dta_orcamento>\r\n  <->2026-10-29 12:52:58</->\r\n  <+>2026-10-29 16:51:17</+>\r\n<situacao_orcamento>\r\n  <->ENVIADO</->\r\n  <+>APROVADO</+>'),
+(160, 'torcamento', '3', 'ALTERACAO', 'SITE', '2026-10-29 19:57:53', '<dte_orcamento>\r\n  <->2026-10-29 12:34:18</->\r\n  <+>2026-10-29 19:57:53</+>\r\n<urlpdf_orcamento>\r\n  <-></->\r\n  <+>orc_6c5267723271316956737676367065394e4265327a5577595765502b664d584c322b7377774166677366553d.pdf</+>\r\n<urlaprova_orcamento>\r\n  <-></->\r\n  <+>id1=14&id2=3&id3=ENVIADO</+>\r\n<situacao_orcamento>\r\n  <->CRIADO</->\r\n  <+>ENVIADO</+>'),
+(161, 'torcamento', '5', 'ALTERACAO', 'SITE', '2026-10-29 19:59:41', '<dte_orcamento>\r\n  <->0000-00-00 00:00:00</->\r\n  <+>2026-10-29 19:59:40</+>\r\n<urlpdf_orcamento>\r\n  <-></->\r\n  <+>orc_4334617639463470707241654f504c4546595774537143624f4232784c5748517437646a577135457865633d.pdf</+>\r\n<urlaprova_orcamento>\r\n  <-></->\r\n  <+>id1=14&id2=5&id3=ENVIADO</+>\r\n<situacao_orcamento>\r\n  <->CRIADO</->\r\n  <+>ENVIADO</+>'),
+(162, 'torcamento', '1', 'ALTERACAO', 'SITE', '2026-10-29 20:01:18', '<dte_orcamento>\r\n  <->2026-10-29 19:35:37</->\r\n  <+>2026-10-29 20:01:18</+>\r\n<urlpdf_orcamento>\r\n  <->orc_316461637630672b4b3571704d5457655a56456c5943524e675846382b54324f34423450427756702b71553d.pdf</->\r\n  <+>orc_39694474656e6d656b5732533334594a36376834784f684a6d573336304c556b2f59674c4e2b5044496a633d.pdf</+>\r\n<situacao_orcamento>\r\n  <->CRIADO</->\r\n  <+>ENVIADO</+>'),
+(163, 'torcamento', '2', 'ALTERACAO', 'SITE', '2026-10-29 20:02:27', '<dte_orcamento>\r\n  <->2026-10-29 19:49:01</->\r\n  <+>2026-10-29 20:02:27</+>\r\n<urlpdf_orcamento>\r\n  <->orc_2b796f562f3852686c4a517635346d694575425752784333726d6f35695236552f435169736a45507237383d.pdf</->\r\n  <+>orc_674c3675784270645561507733785333657779345576714755546158633438736f4c6c46343058437234773d.pdf</+>\r\n<situacao_orcamento>\r\n  <->CRIADO</->\r\n  <+>ENVIADO</+>'),
+(164, 'torcamento', '1', 'ALTERACAO', 'SITE', '2026-10-29 21:03:57', '<dte_orcamento>\r\n  <->2026-10-29 20:01:18</->\r\n  <+>2026-10-29 21:03:56</+>\r\n<urlpdf_orcamento>\r\n  <->orc_39694474656e6d656b5732533334594a36376834784f684a6d573336304c556b2f59674c4e2b5044496a633d.pdf</->\r\n  <+>orc_486864705671316432637075325762513354774842533073676b68556d5231735a573238707847513070383d.pdf</+>\r\n<situacao_orcamento>\r\n  <->CRIADO</->\r\n  <+>ENVIADO</+>'),
+(165, 'tperfil', '20', 'INCLUSAO', 'SITE', '2026-10-29 21:11:56', '<chave_perfil>\r\n  20\r\n<cod_perfil>\r\n  w3REgLh9q7BL90wvtcCKjkdBU0ovcDFDLzU1eGVzWnpWN3B6ck9lU3FBQU9BYzJ4MkpFUWdqdWplTTg9\r\n<nome_perfil>\r\n  Teste \r\n<end_perfil>\r\n  AVENIDA LINS DE VASCONCELOS, VILA MARIANA,2534\r\n<num_perfil>\r\n  \r\n<compl_perfil>\r\n  \r\n<bairro_perfil>\r\n  VILA MARIANA\r\n<cid_perfil>\r\n  SÃO PAULO / SP\r\n<uf_perfil>\r\n  SP\r\n<cep_perfil>\r\n  04112-001\r\n<codibge_perfil>\r\n  \r\n<cpf_perfil>\r\n  339.257.310-83\r\n<tel_perfil>\r\n  (11) 96094-6353\r\n<email_perfil>\r\n  teste@univesp.br\r\n<dtn_perfil>\r\n  0000-00-00\r\n<dtc_perfil>\r\n  2026-10-29 18:11:56\r\n<caixa_perfil>\r\n  1'),
+(166, 'tusuario', '7', 'INCLUSAO', 'SITE', '2026-10-29 21:11:56', '<chave_usuario>\r\n  7\r\n<chave_perfil>\r\n  20\r\n<cod_usuario>\r\n  \r\n<nome_usuario>\r\n  Teste \r\n<email_usuario>\r\n  teste@univesp.br\r\n<senha_usuario>\r\n  123456\r\n<tipo_usuario>\r\n  USUARIO\r\n<ativo_usuario>\r\n  1\r\n<caixa_usuario>\r\n  1'),
+(167, 'torcamento', '1', 'ALTERACAO', 'SITE', '2026-10-29 21:13:15', '<dte_orcamento>\r\n  <->2026-10-29 21:03:56</->\r\n  <+>2026-10-29 21:13:15</+>\r\n<urlpdf_orcamento>\r\n  <->orc_486864705671316432637075325762513354774842533073676b68556d5231735a573238707847513070383d.pdf</->\r\n  <+>orc_343532335a6a7149394a4349464c79304b2b5961536d636e6262556c6371503856377646773759636752733d.pdf</+>\r\n<urlaprova_orcamento>\r\n  <->id1=14&id2=1&id3=ENVIADO</->\r\n  <+>44322b7131626f514b37667132304f523452417a645558576d51352b7a643862766874456738513863796f537335574a30543663427459425172784761423475</+>\r\n<situacao_orcamento>\r\n  <->CRIADO</->\r\n  <+>ENVIADO</+>'),
+(168, 'torcamento', '2', 'ALTERACAO', 'SITE', '2026-10-29 21:15:15', '<dte_orcamento>\r\n  <->2026-10-29 20:02:27</->\r\n  <+>2026-10-29 21:15:15</+>\r\n<urlpdf_orcamento>\r\n  <->orc_674c3675784270645561507733785333657779345576714755546158633438736f4c6c46343058437234773d.pdf</->\r\n  <+>orc_56646b34424d6737747234627339592b4c366c56467737654c347234625956377650684376584d683666383d.pdf</+>\r\n<urlaprova_orcamento>\r\n  <->id1=14&id2=2&id3=ENVIADO</->\r\n  <+>2f54633735326f6d69355747465838577468365078734d71684d347544626635764e39354147646b4d7651752f4250737052397452394a704f39716941513939</+>\r\n<situacao_orcamento>\r\n  <->CRIADO</->\r\n  <+>ENVIADO</+>'),
+(169, 'torcamento', '3', 'ALTERACAO', 'SITE', '2026-10-29 21:17:45', '<dte_orcamento>\r\n  <->2026-10-29 19:57:53</->\r\n  <+>2026-10-29 21:17:45</+>\r\n<urlpdf_orcamento>\r\n  <->orc_6c5267723271316956737676367065394e4265327a5577595765502b664d584c322b7377774166677366553d.pdf</->\r\n  <+>orc_496c5448746367456a5a35474a6d4e632f655a4a424c466464364d414143625249673556695346776951673d.pdf</+>\r\n<urlaprova_orcamento>\r\n  <->id1=14&id2=3&id3=ENVIADO</->\r\n  <+>784e6d63517a753272633534486433416439306b6e442b6d4d36546856734f425746445552745554764d5a58674564424271656534363438614a684341787247</+>\r\n<situacao_orcamento>\r\n  <->CRIADO</->\r\n  <+>ENVIADO</+>'),
+(170, 'torcamento', '4', 'ALTERACAO', 'SITE', '2026-10-29 21:23:24', '<dte_orcamento>\r\n  <->2026-10-29 19:26:53</->\r\n  <+>2026-10-29 21:23:24</+>\r\n<urlpdf_orcamento>\r\n  <->orc_6d7637532f55495431534e74765832515172506d6e586d4b307a5a736e6d642f6d7035626f4b4a504c61553d.pdf</->\r\n  <+>orc_6d4a35313766543177533564552f6743774f534b583171786e434f73756d5542777a49387a6b59704141553d.pdf</+>\r\n<urlaprova_orcamento>\r\n  <->79587a776a4e51387133443230627577764e677139344d4c41377536305a4b456362694d78544372434f2f77636c625a614b503179386d796332777330657a6e</->\r\n  <+>5561595547515a506e65634c39713065392f464b2b73756d456f5a59482f6350536b514e504e634b6649335561446b34446c506d463867623978713135395478</+>\r\n<situacao_orcamento>\r\n  <->CRIADO</->\r\n  <+>ENVIADO</+>'),
+(171, 'torcamento', '4', 'ALTERACAO', 'SITE', '2026-10-29 22:11:15', '<dta_orcamento>\r\n  <->0000-00-00 00:00:00</->\r\n  <+>2026-10-29 19:11:14</+>\r\n<situacao_orcamento>\r\n  <->ENVIADO</->\r\n  <+>APROVADO</+>'),
+(172, 'torcamento', '4', 'ALTERACAO', 'SITE', '2026-10-29 23:23:27', '<dta_orcamento>\r\n  <->2026-10-29 19:11:14</->\r\n  <+>2026-10-29 20:23:27</+>'),
+(173, 'torcamento', '7', 'ALTERACAO', 'SITE', '2026-10-29 23:25:24', '<dte_orcamento>\r\n  <->2026-10-29 19:37:38</->\r\n  <+>2026-10-29 23:25:24</+>\r\n<urlpdf_orcamento>\r\n  <->orc_4a634e31744f776d38494357424836676664694d355a6557764e616d46665559475a77666274714f394c6f3d.pdf</->\r\n  <+>orc_3653564e4b3534786f4972794175706d58357a42424d756b5974746b6d72356e517047384d494c6c4434303d.pdf</+>\r\n<urlaprova_orcamento>\r\n  <->id1=14&id2=7&id3=ENVIADO</->\r\n  <+>5a7479436878492b6d6f50505141327255772b457a5a3778634b70583758325455423532614c4e37744c635573326c6472795879785632736e4271727a524e72</+>\r\n<situacao_orcamento>\r\n  <->CRIADO</->\r\n  <+>ENVIADO</+>'),
+(174, 'torcamento', '7', 'ALTERACAO', 'SITE', '2026-10-29 23:25:53', '<dta_orcamento>\r\n  <->0000-00-00 00:00:00</->\r\n  <+>2026-10-29 20:25:52</+>\r\n<situacao_orcamento>\r\n  <->ENVIADO</->\r\n  <+>APROVADO</+>'),
+(175, 'torcamentosrv', '1', 'ALTERACAO', 'SITE', '2026-10-30 00:28:49', '<qtd_orcamentosrv>\r\n  <->1</->\r\n  <+>2</+>\r\n<vlt_orcamentosrv>\r\n  <->300.00</->\r\n  <+>600.00</+>'),
+(176, 'torcamentosrv', '1', 'ALTERACAO', 'SITE', '2026-10-30 00:28:51', '<qtd_orcamentosrv>\r\n  <->2</->\r\n  <+>1</+>\r\n<vlt_orcamentosrv>\r\n  <->600.00</->\r\n  <+>300.00</+>'),
+(177, 'torcamentosrv', '1', 'ALTERACAO', 'SITE', '2026-10-30 00:29:12', '<qtd_orcamentosrv>\r\n  <->1</->\r\n  <+>0</+>\r\n<vlt_orcamentosrv>\r\n  <->300.00</->\r\n  <+>0.00</+>'),
+(178, 'torcamentosrv', '1', 'ALTERACAO', 'SITE', '2026-10-30 00:29:14', '<qtd_orcamentosrv>\r\n  <->0</->\r\n  <+>1</+>\r\n<vlt_orcamentosrv>\r\n  <->0.00</->\r\n  <+>300.00</+>'),
+(179, 'torcamentosrv', '1', 'ALTERACAO', 'SITE', '2026-10-30 00:29:40', '<qtd_orcamentosrv>\r\n  <->1</->\r\n  <+>2</+>\r\n<vlt_orcamentosrv>\r\n  <->300.00</->\r\n  <+>600.00</+>');
+INSERT INTO `tdiario` (`chave_diario`, `nometab_diario`, `chavetab_diario`, `tipo_diario`, `usuario_diario`, `dta_diario`, `obs_diario`) VALUES
+(180, 'torcamentosrv', '1', 'ALTERACAO', 'SITE', '2026-10-30 00:31:06', '<qtd_orcamentosrv>\r\n  <->2</->\r\n  <+>1</+>\r\n<vlt_orcamentosrv>\r\n  <->600.00</->\r\n  <+>300.00</+>'),
+(181, 'torcamentosrv', '1', 'ALTERACAO', 'SITE', '2026-10-30 00:34:20', '<qtd_orcamentosrv>\r\n  <->1</->\r\n  <+>2</+>\r\n<vlt_orcamentosrv>\r\n  <->300.00</->\r\n  <+>600.00</+>'),
+(182, 'torcamentosrv', '1', 'ALTERACAO', 'SITE', '2026-10-30 00:35:44', '<qtd_orcamentosrv>\r\n  <->2</->\r\n  <+>1</+>\r\n<vlt_orcamentosrv>\r\n  <->600.00</->\r\n  <+>300.00</+>'),
+(183, 'torcamento', '1', 'ALTERACAO', 'SITE', '2026-10-30 00:35:44', '<chave_perfil>\r\n  <->1</->\r\n  <+>14</+>\r\n<chave_cliente>\r\n  <->7</->\r\n  <+>14</+>\r\n<chave_recibo>\r\n  <->2</->\r\n  <+>0</+>\r\n<cod_orcamento>\r\n  <->300.00</->\r\n  <+></+>\r\n<valor_orcamento>\r\n  <->600.00</->\r\n  <+>422.00</+>\r\n<dtc_orcamento>\r\n  <->1</->\r\n  <+>2026-10-26 23:12:04</+>'),
+(184, 'torcamento', '2', 'ALTERACAO', 'SITE', '2026-10-30 00:35:51', '<chave_orcamento>\r\n  <->7</->\r\n  <+>2</+>\r\n<chave_perfil>\r\n  <->2</->\r\n  <+>14</+>\r\n<chave_cliente>\r\n  <->3</->\r\n  <+>14</+>\r\n<chave_recibo>\r\n  <->1</->\r\n  <+>0</+>\r\n<cod_orcamento>\r\n  <->40.00</->\r\n  <+></+>\r\n<dtc_orcamento>\r\n  <->1</->\r\n  <+>2026-10-26 23:12:11</+>'),
+(185, 'torcamento', '3', 'ALTERACAO', 'SITE', '2026-10-30 00:35:56', '<chave_orcamento>\r\n  <->5</->\r\n  <+>3</+>\r\n<chave_perfil>\r\n  <->3</->\r\n  <+>14</+>\r\n<chave_cliente>\r\n  <->3</->\r\n  <+>14</+>\r\n<chave_recibo>\r\n  <->1</->\r\n  <+>0</+>\r\n<cod_orcamento>\r\n  <->40.00</->\r\n  <+></+>\r\n<valor_orcamento>\r\n  <->40.00</->\r\n  <+>101.00</+>\r\n<dtc_orcamento>\r\n  <->1</->\r\n  <+>2026-10-26 23:17:41</+>'),
+(186, 'torcamento', '8', 'ALTERACAO', 'SITE', '2026-10-30 00:36:05', '<chave_orcamento>\r\n  <->12</->\r\n  <+>8</+>\r\n<chave_perfil>\r\n  <->8</->\r\n  <+>14</+>\r\n<chave_cliente>\r\n  <->4</->\r\n  <+>14</+>\r\n<chave_recibo>\r\n  <->1</->\r\n  <+>0</+>\r\n<cod_orcamento>\r\n  <->61.00</->\r\n  <+></+>\r\n<valor_orcamento>\r\n  <->61.00</->\r\n  <+>281.00</+>\r\n<dtc_orcamento>\r\n  <->1</->\r\n  <+>2026-10-29 16:38:38</+>'),
+(187, 'torcamento', '4', 'ALTERACAO', 'SITE', '2026-10-30 00:36:10', '<chave_orcamento>\r\n  <->8</->\r\n  <+>4</+>\r\n<chave_perfil>\r\n  <->4</->\r\n  <+>14</+>\r\n<chave_cliente>\r\n  <->7</->\r\n  <+>14</+>\r\n<chave_recibo>\r\n  <->1</->\r\n  <+>0</+>\r\n<cod_orcamento>\r\n  <->300.00</->\r\n  <+></+>\r\n<dtc_orcamento>\r\n  <->1</->\r\n  <+>2026-10-26 23:22:14</+>'),
+(188, 'torcamento', '8', 'ALTERACAO', 'SITE', '2026-10-30 00:36:16', '<chave_orcamento>\r\n  <->12</->\r\n  <+>8</+>\r\n<chave_perfil>\r\n  <->8</->\r\n  <+>14</+>\r\n<chave_cliente>\r\n  <->4</->\r\n  <+>14</+>\r\n<chave_recibo>\r\n  <->1</->\r\n  <+>0</+>\r\n<cod_orcamento>\r\n  <->61.00</->\r\n  <+></+>\r\n<valor_orcamento>\r\n  <->61.00</->\r\n  <+>281.00</+>\r\n<dtc_orcamento>\r\n  <->1</->\r\n  <+>2026-10-29 16:38:38</+>'),
+(189, 'torcamento', '5', 'ALTERACAO', 'SITE', '2026-10-30 00:36:24', '<chave_orcamento>\r\n  <->9</->\r\n  <+>5</+>\r\n<chave_perfil>\r\n  <->5</->\r\n  <+>14</+>\r\n<chave_cliente>\r\n  <->5</->\r\n  <+>15</+>\r\n<chave_recibo>\r\n  <->1</->\r\n  <+>0</+>\r\n<cod_orcamento>\r\n  <->220.00</->\r\n  <+></+>\r\n<dtc_orcamento>\r\n  <->1</->\r\n  <+>2026-10-26 23:32:25</+>'),
+(190, 'torcamento', '9', 'ALTERACAO', 'SITE', '2026-10-30 00:36:28', '<chave_orcamento>\r\n  <->14</->\r\n  <+>9</+>\r\n<chave_perfil>\r\n  <->9</->\r\n  <+>14</+>\r\n<chave_cliente>\r\n  <->7</->\r\n  <+>15</+>\r\n<chave_recibo>\r\n  <->3</->\r\n  <+>0</+>\r\n<cod_orcamento>\r\n  <->300.00</->\r\n  <+></+>\r\n<valor_orcamento>\r\n  <->900.00</->\r\n  <+>980.00</+>\r\n<dtc_orcamento>\r\n  <->1</->\r\n  <+>2026-10-29 16:49:58</+>'),
+(191, 'torcamentosrv', '4', 'ALTERACAO', 'SITE', '2026-10-30 00:36:32', '<vlt_orcamentosrv>\r\n  <->180.00</->\r\n  <+>540.00</+>'),
+(192, 'torcamento', '6', 'ALTERACAO', 'SITE', '2026-10-30 00:36:32', '<chave_orcamento>\r\n  <->4</->\r\n  <+>6</+>\r\n<chave_perfil>\r\n  <->6</->\r\n  <+>14</+>\r\n<chave_cliente>\r\n  <->1</->\r\n  <+>16</+>\r\n<chave_recibo>\r\n  <->3</->\r\n  <+>0</+>\r\n<cod_orcamento>\r\n  <->180.00</->\r\n  <+></+>\r\n<valor_orcamento>\r\n  <->180.00</->\r\n  <+>540.00</+>\r\n<dtc_orcamento>\r\n  <->1</->\r\n  <+>2026-10-26 23:33:46</+>'),
+(193, 'torcamento', '9', 'ALTERACAO', 'SITE', '2026-10-30 00:37:06', '<dte_orcamento>\r\n  <->2026-10-29 19:50:49</->\r\n  <+>2026-10-30 00:37:06</+>\r\n<urlpdf_orcamento>\r\n  <->orc_764d7a4556623068643253762b567252772f6a70524a374b71514e3948774937784f5466354137435968513d.pdf</->\r\n  <+>orc_54704650637149326b746875764549452b54414c4165483878676f512f6e6f645138644377636b4b7769493d.pdf</+>\r\n<urlaprova_orcamento>\r\n  <->id1=14&id2=9&id3=ENVIADO</->\r\n  <+>684a476d484b7a30736c73487037705a646670423268666248436247484e42614730556775754465774644416e686f51616a7447425744562f76454b6956716c</+>\r\n<situacao_orcamento>\r\n  <->CRIADO</->\r\n  <+>ENVIADO</+>'),
+(194, 'torcamento', '10', 'INCLUSAO', 'SITE', '2026-10-30 00:48:46', '<chave_orcamento>\r\n  10\r\n<chave_perfil>\r\n  14\r\n<chave_cliente>\r\n  14\r\n<chave_recibo>\r\n  0\r\n<cod_orcamento>\r\n  \r\n<valor_orcamento>\r\n  0.00\r\n<dtc_orcamento>\r\n  2026-10-29 21:48:46\r\n<dte_orcamento>\r\n  0000-00-00 00:00:00\r\n<dta_orcamento>\r\n  0000-00-00 00:00:00\r\n<dtr_orcamento>\r\n  0000-00-00 00:00:00\r\n<dtrecusado_orcamento>\r\n  0000-00-00 00:00:00\r\n<urlpdf_orcamento>\r\n  \r\n<urlaprova_orcamento>\r\n  \r\n<situacao_orcamento>\r\n  CRIADO\r\n<caixa_orcamento>\r\n  1'),
+(195, 'torcamentosrv', '16', 'INCLUSAO', 'SITE', '2026-10-30 00:48:49', '<chave_orcamentosrv>\r\n  16\r\n<chave_orcamento>\r\n  10\r\n<chave_servico>\r\n  7\r\n<qtd_orcamentosrv>\r\n  1\r\n<vlu_orcamentosrv>\r\n  300.00\r\n<vlt_orcamentosrv>\r\n  300.00\r\n<caixa_orcamentosrv>\r\n  1'),
+(196, 'torcamento', '10', 'INCLUSAO', 'SITE', '2026-10-30 00:48:49', '<chave_orcamento>\r\n  10\r\n<chave_perfil>\r\n  14\r\n<chave_cliente>\r\n  14\r\n<chave_recibo>\r\n  0\r\n<cod_orcamento>\r\n  \r\n<valor_orcamento>\r\n  300.00\r\n<dtc_orcamento>\r\n  2026-10-29 21:48:46\r\n<dte_orcamento>\r\n  0000-00-00 00:00:00\r\n<dta_orcamento>\r\n  0000-00-00 00:00:00\r\n<dtr_orcamento>\r\n  0000-00-00 00:00:00\r\n<dtrecusado_orcamento>\r\n  0000-00-00 00:00:00\r\n<urlpdf_orcamento>\r\n  \r\n<urlaprova_orcamento>\r\n  \r\n<situacao_orcamento>\r\n  CRIADO\r\n<caixa_orcamento>\r\n  1'),
+(197, 'torcamento', '1', 'ALTERACAO', 'SITE', '2026-10-30 00:57:26', '<dta_orcamento>\r\n  <->2026-10-29 16:51:17</->\r\n  <+>2026-10-29 21:57:26</+>\r\n<situacao_orcamento>\r\n  <->ENVIADO</->\r\n  <+>APROVADO</+>'),
+(198, 'torcamento', '1', 'ALTERACAO', 'SITE', '2026-10-30 00:57:32', '<dta_orcamento>\r\n  <->2026-10-29 21:57:26</->\r\n  <+>2026-10-29 21:57:32</+>'),
+(199, 'torcamento', '7', 'ALTERACAO', 'SITE', '2026-10-30 01:06:48', '<chave_orcamento>\r\n  <->10</->\r\n  <+>7</+>\r\n<chave_perfil>\r\n  <->7</->\r\n  <+>14</+>\r\n<chave_cliente>\r\n  <->4</->\r\n  <+>14</+>\r\n<chave_recibo>\r\n  <->1</->\r\n  <+>0</+>\r\n<cod_orcamento>\r\n  <->61.00</->\r\n  <+></+>\r\n<valor_orcamento>\r\n  <->61.00</->\r\n  <+>101.00</+>\r\n<dtc_orcamento>\r\n  <->1</->\r\n  <+>2026-10-29 16:37:23</+>'),
+(200, 'torcamento', '1', 'ALTERACAO', 'SITE', '2026-10-30 01:07:11', '<dta_orcamento>\r\n  <->2026-10-29 21:57:32</->\r\n  <+>2026-10-29 22:07:11</+>'),
+(201, 'torcamento', '1', 'ALTERACAO', 'SITE', '2026-10-30 01:08:16', '<dtr_orcamento>\r\n  <->0000-00-00 00:00:00</->\r\n  <+>2026-10-29 22:08:16</+>\r\n<situacao_orcamento>\r\n  <->APROVADO</->\r\n  <+>REALIZADO</+>'),
+(202, 'trecibo', '2', 'INCLUSAO', 'SITE', '2026-10-30 01:08:16', '<chave_recibo>\r\n  2\r\n<chave_perfil>\r\n  14\r\n<chave_cliente>\r\n  14\r\n<chave_orcamento>\r\n  1\r\n<cod_recibo>\r\n  \r\n<valor_recibo>\r\n  0.00\r\n<dtc_recibo>\r\n  2026-10-29 22:08:16\r\n<dte_recibo>\r\n  0000-00-00 00:00:00\r\n<urlpdf_recibo>\r\n  \r\n<situacao_recibo>\r\n  CRIADO\r\n<caixa_recibo>\r\n  1'),
+(203, 'trecibosrv', '2', 'INCLUSAO', 'SITE', '2026-10-30 01:08:16', '<chave_recibosrv>\r\n  2\r\n<chave_recibo>\r\n  2\r\n<chave_servico>\r\n  7\r\n<qtd_recibosrv>\r\n  1\r\n<vlu_recibosrv>\r\n  300.00\r\n<vlt_recibosrv>\r\n  300.00\r\n<caixa_recibosrv>\r\n  1'),
+(204, 'trecibosrv', '3', 'INCLUSAO', 'SITE', '2026-10-30 01:08:16', '<chave_recibosrv>\r\n  3\r\n<chave_recibo>\r\n  2\r\n<chave_servico>\r\n  4\r\n<qtd_recibosrv>\r\n  1\r\n<vlu_recibosrv>\r\n  61.00\r\n<vlt_recibosrv>\r\n  61.00\r\n<caixa_recibosrv>\r\n  1'),
+(205, 'trecibosrv', '4', 'INCLUSAO', 'SITE', '2026-10-30 01:08:16', '<chave_recibosrv>\r\n  4\r\n<chave_recibo>\r\n  2\r\n<chave_servico>\r\n  4\r\n<qtd_recibosrv>\r\n  1\r\n<vlu_recibosrv>\r\n  61.00\r\n<vlt_recibosrv>\r\n  61.00\r\n<caixa_recibosrv>\r\n  1'),
+(206, 'torcamento', '2', 'ALTERACAO', 'SITE', '2026-10-30 01:09:31', '<dta_orcamento>\r\n  <->2026-10-29 15:53:30</->\r\n  <+>2026-10-29 22:09:31</+>\r\n<situacao_orcamento>\r\n  <->ENVIADO</->\r\n  <+>APROVADO</+>'),
+(207, 'torcamento', '2', 'ALTERACAO', 'SITE', '2026-10-30 01:09:37', '<dtr_orcamento>\r\n  <->0000-00-00 00:00:00</->\r\n  <+>2026-10-29 22:09:36</+>\r\n<situacao_orcamento>\r\n  <->APROVADO</->\r\n  <+>REALIZADO</+>'),
+(208, 'trecibo', '3', 'INCLUSAO', 'SITE', '2026-10-30 01:09:37', '<chave_recibo>\r\n  3\r\n<chave_perfil>\r\n  14\r\n<chave_cliente>\r\n  14\r\n<chave_orcamento>\r\n  2\r\n<cod_recibo>\r\n  \r\n<valor_recibo>\r\n  0.00\r\n<dtc_recibo>\r\n  2026-10-29 22:09:37\r\n<dte_recibo>\r\n  0000-00-00 00:00:00\r\n<urlpdf_recibo>\r\n  \r\n<situacao_recibo>\r\n  CRIADO\r\n<caixa_recibo>\r\n  1'),
+(209, 'trecibosrv', '5', 'INCLUSAO', 'SITE', '2026-10-30 01:09:37', '<chave_recibosrv>\r\n  5\r\n<chave_recibo>\r\n  3\r\n<chave_servico>\r\n  3\r\n<qtd_recibosrv>\r\n  1\r\n<vlu_recibosrv>\r\n  40.00\r\n<vlt_recibosrv>\r\n  40.00\r\n<caixa_recibosrv>\r\n  1'),
+(210, 'trecibo', '3', 'ALTERACAO', 'SITE', '2026-10-30 01:16:31', '<dte_recibo>\r\n  <->0000-00-00 00:00:00</->\r\n  <+>2026-10-30 01:16:29</+>\r\n<urlpdf_recibo>\r\n  <-></->\r\n  <+>rec_5435762b766b466c6f6c2f794b41702f575336576d5762615742306f54737236504662565835366a732b343d.pdf</+>\r\n<situacao_recibo>\r\n  <->CRIADO</->\r\n  <+>ENVIADO</+>'),
+(211, 'trecibo', '3', 'ALTERACAO', 'SITE', '2026-10-30 01:19:04', '<dte_recibo>\r\n  <->2026-10-30 01:16:29</->\r\n  <+>2026-10-30 01:19:03</+>\r\n<urlpdf_recibo>\r\n  <->rec_5435762b766b466c6f6c2f794b41702f575336576d5762615742306f54737236504662565835366a732b343d.pdf</->\r\n  <+>rec_6d306a416778323237796a54507837384f366f4b484f43593068334a695a7648555657475238324979534d3d.pdf</+>'),
+(212, 'torcamento', '2', 'ALTERACAO', 'SITE', '2026-10-30 01:19:04', '<dtr_orcamento>\r\n  <->2026-10-29 22:09:36</->\r\n  <+>2026-10-30 01:19:04</+>\r\n<situacao_orcamento>\r\n  <->REALIZADO</->\r\n  <+>RECIBO</+>'),
+(213, 'torcamento', '8', 'ALTERACAO', 'SITE', '2026-10-30 01:19:44', '<dte_orcamento>\r\n  <->2026-10-29 19:38:56</->\r\n  <+>2026-10-30 01:19:44</+>\r\n<urlpdf_orcamento>\r\n  <->orc_61436b79656e76516b442f2b6a79714b374c4655567263767934322b4d6c324345752f3476587a484d33633d.pdf</->\r\n  <+>orc_7352667057394630723230366b70466d4d34354d5578794b6a69687939522f6a35495838356155684a536b3d.pdf</+>\r\n<urlaprova_orcamento>\r\n  <->id1=14&id2=8&id3=ENVIADO</->\r\n  <+>614a4f767a53704479627868374f634a7541652b46462f4c4a70375135424e385857377463555442614f624c7757426f674b69674a68527054704e745a696763</+>\r\n<situacao_orcamento>\r\n  <->CRIADO</->\r\n  <+>ENVIADO</+>'),
+(214, 'torcamento', '8', 'ALTERACAO', 'SITE', '2026-10-30 01:19:57', '<dta_orcamento>\r\n  <->0000-00-00 00:00:00</->\r\n  <+>2026-10-29 22:19:57</+>\r\n<situacao_orcamento>\r\n  <->ENVIADO</->\r\n  <+>APROVADO</+>'),
+(215, 'torcamento', '8', 'ALTERACAO', 'SITE', '2026-10-30 01:20:00', '<dtr_orcamento>\r\n  <->0000-00-00 00:00:00</->\r\n  <+>2026-10-29 22:20:00</+>\r\n<situacao_orcamento>\r\n  <->APROVADO</->\r\n  <+>REALIZADO</+>'),
+(216, 'trecibo', '4', 'INCLUSAO', 'SITE', '2026-10-30 01:20:00', '<chave_recibo>\r\n  4\r\n<chave_perfil>\r\n  14\r\n<chave_cliente>\r\n  14\r\n<chave_orcamento>\r\n  8\r\n<cod_recibo>\r\n  \r\n<valor_recibo>\r\n  0.00\r\n<dtc_recibo>\r\n  2026-10-29 22:20:00\r\n<dte_recibo>\r\n  0000-00-00 00:00:00\r\n<urlpdf_recibo>\r\n  \r\n<situacao_recibo>\r\n  CRIADO\r\n<caixa_recibo>\r\n  1'),
+(217, 'trecibosrv', '6', 'INCLUSAO', 'SITE', '2026-10-30 01:20:00', '<chave_recibosrv>\r\n  6\r\n<chave_recibo>\r\n  4\r\n<chave_servico>\r\n  4\r\n<qtd_recibosrv>\r\n  1\r\n<vlu_recibosrv>\r\n  61.00\r\n<vlt_recibosrv>\r\n  61.00\r\n<caixa_recibosrv>\r\n  1'),
+(218, 'trecibosrv', '7', 'INCLUSAO', 'SITE', '2026-10-30 01:20:00', '<chave_recibosrv>\r\n  7\r\n<chave_recibo>\r\n  4\r\n<chave_servico>\r\n  5\r\n<qtd_recibosrv>\r\n  1\r\n<vlu_recibosrv>\r\n  220.00\r\n<vlt_recibosrv>\r\n  220.00\r\n<caixa_recibosrv>\r\n  1'),
+(219, 'trecibo', '4', 'ALTERACAO', 'SITE', '2026-10-30 01:20:04', '<dte_recibo>\r\n  <->0000-00-00 00:00:00</->\r\n  <+>2026-10-30 01:20:04</+>\r\n<urlpdf_recibo>\r\n  <-></->\r\n  <+>rec_56733248684e796636674166447165732b474a592b576351734d5231572b6256562f666e65796d5a652b303d.pdf</+>\r\n<situacao_recibo>\r\n  <->CRIADO</->\r\n  <+>ENVIADO</+>'),
+(220, 'torcamento', '8', 'ALTERACAO', 'SITE', '2026-10-30 01:20:04', '<dtr_orcamento>\r\n  <->2026-10-29 22:20:00</->\r\n  <+>2026-10-30 01:20:04</+>\r\n<situacao_orcamento>\r\n  <->REALIZADO</->\r\n  <+>RECIBO</+>'),
+(221, 'torcamento', '10', 'ALTERACAO', 'SITE', '2026-10-30 01:23:14', '<dte_orcamento>\r\n  <->0000-00-00 00:00:00</->\r\n  <+>2026-10-29 22:23:14</+>\r\n<situacao_orcamento>\r\n  <->CRIADO</->\r\n  <+>ENVIADO</+>'),
+(222, 'torcamento', '10', 'ALTERACAO', 'SITE', '2026-10-30 01:23:15', '<dta_orcamento>\r\n  <->0000-00-00 00:00:00</->\r\n  <+>2026-10-29 22:23:15</+>\r\n<situacao_orcamento>\r\n  <->ENVIADO</->\r\n  <+>APROVADO</+>'),
+(223, 'torcamento', '10', 'ALTERACAO', 'SITE', '2026-10-30 01:23:25', '<dtr_orcamento>\r\n  <->0000-00-00 00:00:00</->\r\n  <+>2026-10-29 22:23:25</+>\r\n<situacao_orcamento>\r\n  <->APROVADO</->\r\n  <+>REALIZADO</+>'),
+(224, 'trecibo', '5', 'INCLUSAO', 'SITE', '2026-10-30 01:23:26', '<chave_recibo>\r\n  5\r\n<chave_perfil>\r\n  14\r\n<chave_cliente>\r\n  14\r\n<chave_orcamento>\r\n  10\r\n<cod_recibo>\r\n  \r\n<valor_recibo>\r\n  0.00\r\n<dtc_recibo>\r\n  2026-10-29 22:23:26\r\n<dte_recibo>\r\n  0000-00-00 00:00:00\r\n<urlpdf_recibo>\r\n  \r\n<situacao_recibo>\r\n  CRIADO\r\n<caixa_recibo>\r\n  1'),
+(225, 'trecibosrv', '8', 'INCLUSAO', 'SITE', '2026-10-30 01:23:26', '<chave_recibosrv>\r\n  8\r\n<chave_recibo>\r\n  5\r\n<chave_servico>\r\n  7\r\n<qtd_recibosrv>\r\n  1\r\n<vlu_recibosrv>\r\n  300.00\r\n<vlt_recibosrv>\r\n  300.00\r\n<caixa_recibosrv>\r\n  1'),
+(226, 'torcamento', '10', 'ALTERACAO', 'SITE', '2026-10-30 01:30:25', '<dtrecibo_orcamento>\r\n  <->0000-00-00 00:00:00</->\r\n  <+>2026-10-29 22:30:25</+>\r\n<situacao_orcamento>\r\n  <->REALIZADO</->\r\n  <+>RECIBO</+>'),
+(227, 'torcamento', '10', 'ALTERACAO', 'SITE', '2026-10-30 01:32:11', '<dte_orcamento>\r\n  <->2026-10-29 22:23:14</->\r\n  <+>2026-10-29 22:32:11</+>\r\n<situacao_orcamento>\r\n  <->RECIBO</->\r\n  <+>ENVIADO</+>'),
+(228, 'torcamento', '10', 'ALTERACAO', 'SITE', '2026-10-30 01:32:12', '<dta_orcamento>\r\n  <->2026-10-29 22:23:15</->\r\n  <+>2026-10-29 22:32:12</+>\r\n<situacao_orcamento>\r\n  <->ENVIADO</->\r\n  <+>APROVADO</+>'),
+(229, 'torcamento', '10', 'ALTERACAO', 'SITE', '2026-10-30 01:32:13', '<dtr_orcamento>\r\n  <->2026-10-29 22:23:25</->\r\n  <+>2026-10-29 22:32:13</+>\r\n<situacao_orcamento>\r\n  <->APROVADO</->\r\n  <+>REALIZADO</+>'),
+(230, 'trecibo', '6', 'INCLUSAO', 'SITE', '2026-10-30 01:32:13', '<chave_recibo>\r\n  6\r\n<chave_perfil>\r\n  14\r\n<chave_cliente>\r\n  14\r\n<chave_orcamento>\r\n  10\r\n<cod_recibo>\r\n  \r\n<valor_recibo>\r\n  0.00\r\n<dtc_recibo>\r\n  2026-10-29 22:32:13\r\n<dte_recibo>\r\n  0000-00-00 00:00:00\r\n<urlpdf_recibo>\r\n  \r\n<situacao_recibo>\r\n  CRIADO\r\n<caixa_recibo>\r\n  1'),
+(231, 'trecibosrv', '9', 'INCLUSAO', 'SITE', '2026-10-30 01:32:13', '<chave_recibosrv>\r\n  9\r\n<chave_recibo>\r\n  6\r\n<chave_servico>\r\n  7\r\n<qtd_recibosrv>\r\n  1\r\n<vlu_recibosrv>\r\n  300.00\r\n<vlt_recibosrv>\r\n  300.00\r\n<caixa_recibosrv>\r\n  1'),
+(232, 'torcamento', '10', 'ALTERACAO', 'SITE', '2026-10-30 01:32:23', '<dtrecibo_orcamento>\r\n  <->2026-10-29 22:30:25</->\r\n  <+>2026-10-29 22:32:23</+>\r\n<situacao_orcamento>\r\n  <->REALIZADO</->\r\n  <+>RECIBO</+>'),
+(233, 'torcamento', '10', 'ALTERACAO', 'SITE', '2026-10-30 01:35:05', '<dte_orcamento>\r\n  <->2026-10-29 22:32:11</->\r\n  <+>2026-10-29 22:35:05</+>\r\n<situacao_orcamento>\r\n  <->RECIBO</->\r\n  <+>ENVIADO</+>'),
+(234, 'torcamento', '10', 'ALTERACAO', 'SITE', '2026-10-30 01:35:06', '<dta_orcamento>\r\n  <->2026-10-29 22:32:12</->\r\n  <+>2026-10-29 22:35:06</+>\r\n<situacao_orcamento>\r\n  <->ENVIADO</->\r\n  <+>APROVADO</+>'),
+(235, 'torcamento', '10', 'ALTERACAO', 'SITE', '2026-10-30 01:35:08', '<dtr_orcamento>\r\n  <->2026-10-29 22:32:13</->\r\n  <+>2026-10-29 22:35:08</+>\r\n<situacao_orcamento>\r\n  <->APROVADO</->\r\n  <+>REALIZADO</+>'),
+(236, 'trecibo', '7', 'INCLUSAO', 'SITE', '2026-10-30 01:35:08', '<chave_recibo>\r\n  7\r\n<chave_perfil>\r\n  14\r\n<chave_cliente>\r\n  14\r\n<chave_orcamento>\r\n  10\r\n<cod_recibo>\r\n  \r\n<valor_recibo>\r\n  0.00\r\n<dtc_recibo>\r\n  2026-10-29 22:35:08\r\n<dte_recibo>\r\n  0000-00-00 00:00:00\r\n<urlpdf_recibo>\r\n  \r\n<situacao_recibo>\r\n  CRIADO\r\n<caixa_recibo>\r\n  1'),
+(237, 'trecibosrv', '10', 'INCLUSAO', 'SITE', '2026-10-30 01:35:08', '<chave_recibosrv>\r\n  10\r\n<chave_recibo>\r\n  7\r\n<chave_servico>\r\n  7\r\n<qtd_recibosrv>\r\n  1\r\n<vlu_recibosrv>\r\n  300.00\r\n<vlt_recibosrv>\r\n  300.00\r\n<caixa_recibosrv>\r\n  1'),
+(238, 'torcamento', '10', 'ALTERACAO', 'SITE', '2026-10-30 01:37:39', '<dtrecibo_orcamento>\r\n  <->2026-10-29 22:32:23</->\r\n  <+>2026-10-29 22:37:39</+>\r\n<situacao_orcamento>\r\n  <->REALIZADO</->\r\n  <+>RECIBO</+>'),
+(239, 'torcamento', '9', 'ALTERACAO', 'SITE', '2026-10-30 01:40:24', '<dte_orcamento>\r\n  <->2026-10-30 00:37:06</->\r\n  <+>2026-10-29 22:40:24</+>\r\n<situacao_orcamento>\r\n  <->CRIADO</->\r\n  <+>ENVIADO</+>'),
+(240, 'torcamento', '9', 'ALTERACAO', 'SITE', '2026-10-30 01:40:27', '<dta_orcamento>\r\n  <->0000-00-00 00:00:00</->\r\n  <+>2026-10-29 22:40:27</+>\r\n<situacao_orcamento>\r\n  <->ENVIADO</->\r\n  <+>APROVADO</+>'),
+(241, 'trecibo', '1', 'ALTERACAO', 'SITE', '2026-10-30 02:01:41', '<dtpagto_recibo>\r\n  <->0000-00-00 00:00:00</->\r\n  <+>2026-10-29 23:01:41</+>\r\n<situacao_recibo>\r\n  <->ENVIADO</->\r\n  <+>PAGO</+>'),
+(242, 'trecibo', '1', 'ALTERACAO', 'SITE', '2026-10-30 02:01:52', '<dtpagto_recibo>\r\n  <->2026-10-29 23:01:41</->\r\n  <+>2026-10-29 23:01:52</+>'),
+(243, 'trecibo', '1', 'ALTERACAO', 'SITE', '2026-10-30 02:02:54', '<dtpagto_recibo>\r\n  <->2026-10-29 23:01:52</->\r\n  <+>2026-10-29 23:02:54</+>'),
+(244, 'trecibo', '2', 'ALTERACAO', 'SITE', '2026-10-30 02:03:28', '<dtpagto_recibo>\r\n  <->0000-00-00 00:00:00</->\r\n  <+>2026-10-29 23:03:28</+>\r\n<situacao_recibo>\r\n  <->CRIADO</->\r\n  <+>PAGO</+>'),
+(245, 'trecibo', '7', 'ALTERACAO', 'SITE', '2026-10-30 02:05:55', '<dtpagto_recibo>\r\n  <->0000-00-00 00:00:00</->\r\n  <+>2026-10-29 23:05:55</+>\r\n<situacao_recibo>\r\n  <->CRIADO</->\r\n  <+>PAGO</+>'),
+(246, 'trecibo', '5', 'ALTERACAO', 'SITE', '2026-10-30 02:27:03', '<dte_recibo>\r\n  <->0000-00-00 00:00:00</->\r\n  <+>2026-10-30 02:27:02</+>\r\n<urlpdf_recibo>\r\n  <-></->\r\n  <+>rec_596d324b6d6469534a33786777744c4648545931366739717330456179764f2b4b524f68727862747453383d.pdf</+>\r\n<situacao_recibo>\r\n  <->CRIADO</->\r\n  <+>ENVIADO</+>'),
+(247, 'torcamento', '10', 'ALTERACAO', 'SITE', '2026-10-30 02:27:03', '<dtrecibo_orcamento>\r\n  <->2026-10-29 22:37:39</->\r\n  <+>2026-10-30 02:27:02</+>'),
+(248, 'trecibo', '6', 'ALTERACAO', 'SITE', '2026-10-30 02:29:09', '<valor_recibo>\r\n  <->0.00</->\r\n  <+>300.00</+>\r\n<dte_recibo>\r\n  <->0000-00-00 00:00:00</->\r\n  <+>2026-10-30 02:29:09</+>\r\n<urlpdf_recibo>\r\n  <-></->\r\n  <+>rec_4850684c7962442f3136594771554c4237792b4b784d30695377674c64526c4c396c6a2f6b5171756357303d.pdf</+>\r\n<situacao_recibo>\r\n  <->CRIADO</->\r\n  <+>ENVIADO</+>'),
+(249, 'torcamento', '10', 'ALTERACAO', 'SITE', '2026-10-30 02:29:09', '<dtrecibo_orcamento>\r\n  <->2026-10-30 02:27:02</->\r\n  <+>2026-10-30 02:29:09</+>'),
+(250, 'trecibo', '6', 'ALTERACAO', 'SITE', '2026-10-30 02:29:18', '<dtpagto_recibo>\r\n  <->0000-00-00 00:00:00</->\r\n  <+>2026-10-29 23:29:18</+>\r\n<situacao_recibo>\r\n  <->ENVIADO</->\r\n  <+>PAGO</+>'),
+(251, 'torcamento', '8', 'ALTERACAO', 'SITE', '2026-10-30 02:57:13', '<dte_orcamento>\r\n  <->2026-10-30 01:19:44</->\r\n  <+>2026-10-29 23:57:13</+>\r\n<dtu_orcamento>\r\n  <->2026-10-29 23:47:06</->\r\n  <+>2026-10-29 23:57:13</+>\r\n<situacao_orcamento>\r\n  <->CRIADO</->\r\n  <+>ENVIADO</+>'),
+(252, 'torcamento', '8', 'ALTERACAO', 'SITE', '2026-10-30 02:57:15', '<dta_orcamento>\r\n  <->2026-10-29 22:19:57</->\r\n  <+>2026-10-29 23:57:15</+>\r\n<dtu_orcamento>\r\n  <->2026-10-29 23:57:13</->\r\n  <+>2026-10-29 23:57:15</+>\r\n<situacao_orcamento>\r\n  <->ENVIADO</->\r\n  <+>APROVADO</+>'),
+(253, 'torcamento', '8', 'ALTERACAO', 'SITE', '2026-10-30 02:57:17', '<dtr_orcamento>\r\n  <->2026-10-30 01:20:04</->\r\n  <+>2026-10-29 23:57:17</+>\r\n<dtu_orcamento>\r\n  <->2026-10-29 23:57:15</->\r\n  <+>2026-10-29 23:57:17</+>\r\n<situacao_orcamento>\r\n  <->APROVADO</->\r\n  <+>REALIZADO</+>'),
+(254, 'trecibo', '8', 'INCLUSAO', 'SITE', '2026-10-30 02:57:17', '<chave_recibo>\r\n  8\r\n<chave_perfil>\r\n  14\r\n<chave_cliente>\r\n  14\r\n<dtpagto_recibo>\r\n  0000-00-00 00:00:00\r\n<chave_orcamento>\r\n  8\r\n<cod_recibo>\r\n  \r\n<valor_recibo>\r\n  0.00\r\n<dtc_recibo>\r\n  2026-10-29 23:57:17\r\n<dte_recibo>\r\n  0000-00-00 00:00:00\r\n<dtu_recibo>\r\n  0\r\n<urlpdf_recibo>\r\n  \r\n<situacao_recibo>\r\n  CRIADO\r\n<caixa_recibo>\r\n  1'),
+(255, 'trecibosrv', '11', 'INCLUSAO', 'SITE', '2026-10-30 02:57:17', '<chave_recibosrv>\r\n  11\r\n<chave_recibo>\r\n  8\r\n<chave_servico>\r\n  4\r\n<qtd_recibosrv>\r\n  1\r\n<vlu_recibosrv>\r\n  61.00\r\n<vlt_recibosrv>\r\n  61.00\r\n<caixa_recibosrv>\r\n  1'),
+(256, 'trecibosrv', '12', 'INCLUSAO', 'SITE', '2026-10-30 02:57:17', '<chave_recibosrv>\r\n  12\r\n<chave_recibo>\r\n  8\r\n<chave_servico>\r\n  5\r\n<qtd_recibosrv>\r\n  1\r\n<vlu_recibosrv>\r\n  220.00\r\n<vlt_recibosrv>\r\n  220.00\r\n<caixa_recibosrv>\r\n  1'),
+(257, 'torcamento', '7', 'ALTERACAO', 'SITE', '2026-10-30 03:35:47', '<dte_orcamento>\r\n  <->2026-10-29 23:25:24</->\r\n  <+>2026-10-30 00:35:47</+>\r\n<dtu_orcamento>\r\n  <->2026-10-29 23:47:06</->\r\n  <+>2026-10-30 00:35:47</+>\r\n<situacao_orcamento>\r\n  <->CRIADO</->\r\n  <+>ENVIADO</+>'),
+(258, 'trecibo', '9', 'INCLUSAO', 'SITE', '2026-10-30 10:19:15', '<chave_recibo>\r\n  9\r\n<chave_perfil>\r\n  14\r\n<chave_cliente>\r\n  14\r\n<dtpagto_recibo>\r\n  0000-00-00 00:00:00\r\n<chave_orcamento>\r\n  0\r\n<cod_recibo>\r\n  \r\n<valor_recibo>\r\n  0.00\r\n<dtc_recibo>\r\n  2026-10-30 07:19:15\r\n<dte_recibo>\r\n  0000-00-00 00:00:00\r\n<dtu_recibo>\r\n  0\r\n<urlpdf_recibo>\r\n  \r\n<situacao_recibo>\r\n  CRIADO\r\n<caixa_recibo>\r\n  1'),
+(259, 'torcamento', '6', 'ALTERACAO', 'SITE', '2026-10-30 10:22:59', '<dte_orcamento>\r\n  <->0000-00-00 00:00:00</->\r\n  <+>2026-10-30 10:22:59</+>\r\n<dtu_orcamento>\r\n  <->2026-10-29 23:47:06</->\r\n  <+>2026-10-30 07:22:59</+>\r\n<urlpdf_orcamento>\r\n  <-></->\r\n  <+>orc_39623959335a5269426e744475743348767148454952526858626c2b56445939737644764d366a324566513d.pdf</+>\r\n<urlaprova_orcamento>\r\n  <-></->\r\n  <+>685159302b4a6575694f535948595676543065324758436e5a3055576f7a375130547a356c6e56686f32784b4b33464d626752324c644356664c5348646f2b77</+>\r\n<situacao_orcamento>\r\n  <->CRIADO</->\r\n  <+>ENVIADO</+>'),
+(260, 'torcamento', '5', 'ALTERACAO', 'SITE', '2026-10-30 11:37:07', '<dta_orcamento>\r\n  <->0000-00-00 00:00:00</->\r\n  <+>2026-10-30 08:37:07</+>\r\n<dtu_orcamento>\r\n  <->2026-10-29 23:47:06</->\r\n  <+>2026-10-30 08:37:07</+>\r\n<situacao_orcamento>\r\n  <->CRIADO</->\r\n  <+>APROVADO</+>');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `torcamento`
+--
+
+CREATE TABLE IF NOT EXISTS `torcamento` (
+  `chave_orcamento` int(11) NOT NULL,
+  `chave_perfil` int(11) NOT NULL,
+  `chave_cliente` int(11) NOT NULL,
+  `chave_recibo` int(11) NOT NULL,
+  `cod_orcamento` varchar(256) NOT NULL,
+  `valor_orcamento` decimal(12,2) NOT NULL,
+  `dtc_orcamento` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `dte_orcamento` datetime NOT NULL,
+  `dta_orcamento` datetime NOT NULL,
+  `dtr_orcamento` datetime NOT NULL,
+  `dtrecibo_orcamento` datetime NOT NULL,
+  `dtrecusado_orcamento` datetime NOT NULL,
+  `dtu_orcamento` datetime NOT NULL,
+  `urlpdf_orcamento` varchar(256) NOT NULL,
+  `urlaprova_orcamento` varchar(256) NOT NULL,
+  `situacao_orcamento` varchar(20) NOT NULL DEFAULT 'CRIADO',
+  `caixa_orcamento` int(11) NOT NULL DEFAULT '1'
+) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+
+--
+-- Fazendo dump de dados para tabela `torcamento`
+--
+
+INSERT INTO `torcamento` (`chave_orcamento`, `chave_perfil`, `chave_cliente`, `chave_recibo`, `cod_orcamento`, `valor_orcamento`, `dtc_orcamento`, `dte_orcamento`, `dta_orcamento`, `dtr_orcamento`, `dtrecibo_orcamento`, `dtrecusado_orcamento`, `dtu_orcamento`, `urlpdf_orcamento`, `urlaprova_orcamento`, `situacao_orcamento`, `caixa_orcamento`) VALUES
+(1, 14, 14, 0, '', '422.00', '2026-10-26 23:12:04', '2026-10-29 21:13:15', '2026-10-29 22:07:11', '2026-10-29 22:08:16', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '2026-10-29 23:47:06', 'orc_343532335a6a7149394a4349464c79304b2b5961536d636e6262556c6371503856377646773759636752733d.pdf', '44322b7131626f514b37667132304f523452417a645558576d51352b7a643862766874456738513863796f537335574a30543663427459425172784761423475', 'CRIADO', 1),
+(2, 14, 14, 0, '', '40.00', '2026-10-26 23:12:11', '2026-10-29 21:15:15', '2026-10-29 22:09:31', '2026-10-30 01:19:04', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '2026-10-29 23:47:06', 'orc_56646b34424d6737747234627339592b4c366c56467737654c347234625956377650684376584d683666383d.pdf', '2f54633735326f6d69355747465838577468365078734d71684d347544626635764e39354147646b4d7651752f4250737052397452394a704f39716941513939', 'CRIADO', 1),
+(3, 14, 14, 0, '', '101.00', '2026-10-26 23:17:41', '2026-10-29 21:17:45', '2026-10-29 12:34:22', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '2026-10-29 23:47:06', 'orc_496c5448746367456a5a35474a6d4e632f655a4a424c466464364d414143625249673556695346776951673d.pdf', '784e6d63517a753272633534486433416439306b6e442b6d4d36546856734f425746445552745554764d5a58674564424271656534363438614a684341787247', 'CRIADO', 1),
+(4, 14, 14, 0, '', '300.00', '2026-10-26 23:22:14', '2026-10-29 21:23:24', '2026-10-29 20:23:27', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '2026-10-29 23:47:06', 'orc_6d4a35313766543177533564552f6743774f534b583171786e434f73756d5542777a49387a6b59704141553d.pdf', '5561595547515a506e65634c39713065392f464b2b73756d456f5a59482f6350536b514e504e634b6649335561446b34446c506d463867623978713135395478', 'CRIADO', 1),
+(5, 14, 15, 0, '', '220.00', '2026-10-26 23:32:25', '2026-10-29 19:59:40', '2026-10-30 08:37:07', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '2026-10-30 08:37:07', 'orc_4334617639463470707241654f504c4546595774537143624f4232784c5748517437646a577135457865633d.pdf', 'id1=14&id2=5&id3=ENVIADO', 'APROVADO', 1),
+(6, 14, 16, 0, '', '540.00', '2026-10-26 23:33:46', '2026-10-30 10:22:59', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '2026-10-30 07:22:59', 'orc_39623959335a5269426e744475743348767148454952526858626c2b56445939737644764d366a324566513d.pdf', '685159302b4a6575694f535948595676543065324758436e5a3055576f7a375130547a356c6e56686f32784b4b33464d626752324c644356664c5348646f2b77', 'ENVIADO', 1),
+(7, 14, 14, 0, '', '101.00', '2026-10-29 16:37:23', '2026-10-30 00:35:47', '2026-10-29 20:25:52', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '2026-10-30 00:35:47', 'orc_3653564e4b3534786f4972794175706d58357a42424d756b5974746b6d72356e517047384d494c6c4434303d.pdf', '5a7479436878492b6d6f50505141327255772b457a5a3778634b70583758325455423532614c4e37744c635573326c6472795879785632736e4271727a524e72', 'ENVIADO', 1),
+(8, 14, 14, 0, '', '281.00', '2026-10-29 16:38:38', '2026-10-29 23:57:13', '2026-10-29 23:57:15', '2026-10-29 23:57:17', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '2026-10-29 23:57:17', 'orc_7352667057394630723230366b70466d4d34354d5578794b6a69687939522f6a35495838356155684a536b3d.pdf', '614a4f767a53704479627868374f634a7541652b46462f4c4a70375135424e385857377463555442614f624c7757426f674b69674a68527054704e745a696763', 'REALIZADO', 1),
+(9, 14, 15, 0, '', '980.00', '2026-10-29 16:49:58', '2026-10-29 22:40:24', '2026-10-29 22:40:27', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '2026-10-29 23:47:06', 'orc_54704650637149326b746875764549452b54414c4165483878676f512f6e6f645138644377636b4b7769493d.pdf', '684a476d484b7a30736c73487037705a646670423268666248436247484e42614730556775754465774644416e686f51616a7447425744562f76454b6956716c', 'APROVADO', 1),
+(10, 14, 14, 0, '', '300.00', '2026-10-29 21:48:46', '2026-10-29 22:35:05', '2026-10-29 22:35:06', '2026-10-29 22:35:08', '2026-10-30 02:29:09', '0000-00-00 00:00:00', '2026-10-29 23:47:06', '', '', 'RECIBO', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `torcamentosrv`
+--
+
+CREATE TABLE IF NOT EXISTS `torcamentosrv` (
+  `chave_orcamentosrv` int(11) NOT NULL,
+  `chave_orcamento` int(11) NOT NULL,
+  `chave_servico` int(11) NOT NULL,
+  `qtd_orcamentosrv` int(11) NOT NULL,
+  `vlu_orcamentosrv` decimal(12,2) NOT NULL,
+  `vlt_orcamentosrv` decimal(12,2) NOT NULL,
+  `caixa_orcamentosrv` int(11) NOT NULL DEFAULT '1'
+) ENGINE=MyISAM AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
+
+--
+-- Fazendo dump de dados para tabela `torcamentosrv`
+--
+
+INSERT INTO `torcamentosrv` (`chave_orcamentosrv`, `chave_orcamento`, `chave_servico`, `qtd_orcamentosrv`, `vlu_orcamentosrv`, `vlt_orcamentosrv`, `caixa_orcamentosrv`) VALUES
+(1, 1, 7, 1, '300.00', '300.00', 1),
+(2, 1, 4, 1, '61.00', '61.00', 1),
+(3, 1, 4, 1, '61.00', '61.00', 1),
+(4, 6, 1, 3, '180.00', '540.00', 1),
+(5, 3, 3, 1, '40.00', '40.00', 1),
+(6, 3, 4, 1, '61.00', '61.00', 1),
+(7, 2, 3, 1, '40.00', '40.00', 1),
+(8, 4, 7, 1, '300.00', '300.00', 1),
+(9, 5, 5, 1, '220.00', '220.00', 1),
+(10, 7, 4, 1, '61.00', '61.00', 1),
+(11, 7, 3, 1, '40.00', '40.00', 1),
+(12, 8, 4, 1, '61.00', '61.00', 1),
+(13, 8, 5, 1, '220.00', '220.00', 1),
+(14, 9, 7, 3, '300.00', '900.00', 1),
+(15, 9, 3, 2, '40.00', '80.00', 1),
+(16, 10, 7, 1, '300.00', '300.00', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `tperfil`
+--
+
+CREATE TABLE IF NOT EXISTS `tperfil` (
+  `chave_perfil` int(11) NOT NULL,
+  `cod_perfil` varchar(256) NOT NULL,
+  `nome_perfil` varchar(50) DEFAULT NULL,
+  `end_perfil` varchar(50) DEFAULT NULL,
+  `num_perfil` varchar(20) NOT NULL,
+  `compl_perfil` varchar(50) NOT NULL,
+  `bairro_perfil` varchar(50) NOT NULL,
+  `cid_perfil` varchar(50) NOT NULL,
+  `uf_perfil` varchar(2) NOT NULL,
+  `cep_perfil` varchar(10) NOT NULL,
+  `codibge_perfil` varchar(15) DEFAULT NULL,
+  `cpf_perfil` varchar(20) NOT NULL,
+  `tel_perfil` varchar(20) NOT NULL,
+  `email_perfil` varchar(128) NOT NULL,
+  `dtn_perfil` date NOT NULL,
+  `dtc_perfil` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `caixa_perfil` int(11) NOT NULL DEFAULT '1'
+) ENGINE=MyISAM AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
+
+--
+-- Fazendo dump de dados para tabela `tperfil`
+--
+
+INSERT INTO `tperfil` (`chave_perfil`, `cod_perfil`, `nome_perfil`, `end_perfil`, `num_perfil`, `compl_perfil`, `bairro_perfil`, `cid_perfil`, `uf_perfil`, `cep_perfil`, `codibge_perfil`, `cpf_perfil`, `tel_perfil`, `email_perfil`, `dtn_perfil`, `dtc_perfil`, `caixa_perfil`) VALUES
+(14, '', 'ELENIR FREITAS DE SOUSA', 'RUA DURVAL FURTADO DE MELLO, 7 JARDIM SÃƒO BENTO N', '', '', '', 'SÃƒO PAULO / SP', '', '05881-080', '', '554.450.201-34', '(11) 98236-3076', 'elenircombr@gmail.com', '0000-00-00', '0000-00-00 00:00:00', 1),
+(15, '4pw9P0E9TdUlYgmpjUonqDVxN0w3NlVxS0VROW1mcVNMZEhXRFA5azc3YnVIYjczS1RNckFKRWU1MTQ9', 'ELENIR 2', 'RUA SALVADOR LEME, BOM RETIRO', '', '', 'BOM RETIRO', 'SÃƒO PAULO / SP', 'SP', '01124-020', NULL, '228.649.135-69', '(11) 98236-3076', 'email@elenir.com.br', '0000-00-00', '0000-00-00 00:00:00', 1),
+(16, 'g1JfVlRD4MalNa1zEW5cqk5CLzhSUXU2dFQrZmxCRFFhRVpCQmNGcTFabXJHUXZlZ2ZST1J3TVZ6Y2s9', 'ABC', 'RUA SALVADOR LEME, BOM RETIRO', '', '', 'BOM RETIRO', 'SÃƒO PAULO / SP', 'SP', '01124-020', NULL, '513.247.213-32', '(11) 98236-3077', 'elenircombr2@gmail.com', '0000-00-00', '0000-00-00 00:00:00', 1),
+(17, 'QaDSeCRV7T6JSoZQwycxVEg3c3pyeTRvSC92N3poOGpYUWQzOEdtMWI4NXVVeWtlYTJGT2JBZ21aRm89', 'Alexandre', 'RUA SALVADOR LEME, BOM RETIRO', '', '', 'BOM RETIRO', 'SÃO PAULO / SP', 'SP', '01124-020', NULL, '887.201.193-05', '(11) 98765-4321', 'c.alexandre89@gmail.com', '0000-00-00', '2026-10-28 00:59:49', 1),
+(18, 'JdVV223KD+db7u5ipzzbaDhRS1hES0M1K1NTeFhOZzdKNm01UHVhNmQ2MUx0ZGMwaSt5MGQ4c2Myd3c9', '24202882', 'RUA SALVADOR LEME, BOM RETIRO', '', '', '', 'SÃO PAULO / SP', '', '01124-020', NULL, '718.365.675-61', '(11) 89765-4321', '24202882@aluno.univesp.br', '0000-00-00', '2026-10-28 01:02:11', 1),
+(19, 'PlUXYDHuTn2nimTUDn5A4khNTXpidDBFNEJvak5HblNKd2k0c04ydUt5YW1URkdOQ0RpMTc2VEszQVk9', 'Gabrielly Menezes', 'RUA SALVADOR LEME, BOM RETIRO', '', '', 'BOM RETIRO', 'SÃO PAULO / SP', 'SP', '01124-020', NULL, '915.187.101-74', '(11) 79865-4321', 'gabriellymenezes003@gmail.com', '0000-00-00', '2026-10-28 01:03:18', 1),
+(20, 'w3REgLh9q7BL90wvtcCKjkdBU0ovcDFDLzU1eGVzWnpWN3B6ck9lU3FBQU9BYzJ4MkpFUWdqdWplTTg9', 'Teste ', 'AVENIDA LINS DE VASCONCELOS, VILA MARIANA,2534', '', '', 'VILA MARIANA', 'SÃO PAULO / SP', 'SP', '04112-001', NULL, '339.257.310-83', '(11) 96094-6353', 'teste@univesp.br', '0000-00-00', '2026-10-29 21:11:56', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `trecibo`
+--
+
+CREATE TABLE IF NOT EXISTS `trecibo` (
+  `chave_recibo` int(11) NOT NULL,
+  `chave_perfil` int(11) NOT NULL,
+  `chave_cliente` int(11) NOT NULL,
+  `dtpagto_recibo` datetime NOT NULL,
+  `chave_orcamento` int(11) NOT NULL,
+  `cod_recibo` varchar(256) NOT NULL,
+  `valor_recibo` decimal(12,2) NOT NULL,
+  `dtc_recibo` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `dte_recibo` datetime NOT NULL,
+  `dtu_recibo` int(11) NOT NULL,
+  `urlpdf_recibo` varchar(256) NOT NULL,
+  `situacao_recibo` varchar(20) NOT NULL DEFAULT 'CRIADO',
+  `caixa_recibo` int(11) NOT NULL DEFAULT '1'
+) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+
+--
+-- Fazendo dump de dados para tabela `trecibo`
+--
+
+INSERT INTO `trecibo` (`chave_recibo`, `chave_perfil`, `chave_cliente`, `dtpagto_recibo`, `chave_orcamento`, `cod_recibo`, `valor_recibo`, `dtc_recibo`, `dte_recibo`, `dtu_recibo`, `urlpdf_recibo`, `situacao_recibo`, `caixa_recibo`) VALUES
+(1, 14, 14, '2026-10-29 23:02:54', 0, '', '0.00', '2026-10-28 14:52:36', '2026-10-29 18:07:26', 2147483647, 'rec_415a71534932425a45774b6f484934713668776c676b46576f3033356d337350752f467576387179366d673d.pdf', 'PAGO', 1),
+(2, 14, 14, '2026-10-29 23:03:28', 1, '', '0.00', '2026-10-29 22:08:16', '0000-00-00 00:00:00', 2147483647, '', 'PAGO', 1),
+(3, 14, 14, '0000-00-00 00:00:00', 2, '', '0.00', '2026-10-29 22:09:37', '2026-10-30 01:19:03', 2147483647, 'rec_6d306a416778323237796a54507837384f366f4b484f43593068334a695a7648555657475238324979534d3d.pdf', 'ENVIADO', 1),
+(4, 14, 14, '0000-00-00 00:00:00', 8, '', '0.00', '2026-10-29 22:20:00', '2026-10-30 01:20:04', 2147483647, 'rec_56733248684e796636674166447165732b474a592b576351734d5231572b6256562f666e65796d5a652b303d.pdf', 'ENVIADO', 1),
+(5, 14, 14, '0000-00-00 00:00:00', 10, '', '0.00', '2026-10-29 22:23:26', '2026-10-30 02:27:02', 2147483647, 'rec_596d324b6d6469534a33786777744c4648545931366739717330456179764f2b4b524f68727862747453383d.pdf', 'ENVIADO', 1),
+(6, 14, 14, '2026-10-29 23:29:18', 10, '', '300.00', '2026-10-29 22:32:13', '2026-10-30 02:29:09', 2147483647, 'rec_4850684c7962442f3136594771554c4237792b4b784d30695377674c64526c4c396c6a2f6b5171756357303d.pdf', 'PAGO', 1),
+(7, 14, 14, '2026-10-29 23:05:55', 10, '', '0.00', '2026-10-29 22:35:08', '0000-00-00 00:00:00', 2147483647, '', 'PAGO', 1),
+(8, 14, 14, '0000-00-00 00:00:00', 8, '', '0.00', '2026-10-29 23:57:17', '0000-00-00 00:00:00', 0, '', 'CRIADO', 1),
+(9, 14, 14, '0000-00-00 00:00:00', 0, '', '0.00', '2026-10-30 07:19:15', '0000-00-00 00:00:00', 0, '', 'CRIADO', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `trecibosrv`
+--
+
+CREATE TABLE IF NOT EXISTS `trecibosrv` (
+  `chave_recibosrv` int(11) NOT NULL,
+  `chave_recibo` int(11) NOT NULL,
+  `chave_servico` int(11) NOT NULL,
+  `qtd_recibosrv` int(11) NOT NULL,
+  `vlu_recibosrv` decimal(12,2) NOT NULL,
+  `vlt_recibosrv` decimal(12,2) NOT NULL,
+  `caixa_recibosrv` int(11) NOT NULL DEFAULT '1'
+) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+
+--
+-- Fazendo dump de dados para tabela `trecibosrv`
+--
+
+INSERT INTO `trecibosrv` (`chave_recibosrv`, `chave_recibo`, `chave_servico`, `qtd_recibosrv`, `vlu_recibosrv`, `vlt_recibosrv`, `caixa_recibosrv`) VALUES
+(1, 1, 7, 1, '300.00', '300.00', 1),
+(2, 2, 7, 1, '300.00', '300.00', 1),
+(3, 2, 4, 1, '61.00', '61.00', 1),
+(4, 2, 4, 1, '61.00', '61.00', 1),
+(5, 3, 3, 1, '40.00', '40.00', 1),
+(6, 4, 4, 1, '61.00', '61.00', 1),
+(7, 4, 5, 1, '220.00', '220.00', 1),
+(8, 5, 7, 1, '300.00', '300.00', 1),
+(9, 6, 7, 1, '300.00', '300.00', 1),
+(10, 7, 7, 1, '300.00', '300.00', 1),
+(11, 8, 4, 1, '61.00', '61.00', 1),
+(12, 8, 5, 1, '220.00', '220.00', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `tservico`
+--
+
+CREATE TABLE IF NOT EXISTS `tservico` (
+  `chave_servico` int(11) NOT NULL,
+  `chave_perfil` int(11) NOT NULL,
+  `descr_servico` varchar(50) NOT NULL,
+  `cobranca_servico` varchar(20) NOT NULL,
+  `valor_servico` decimal(12,2) NOT NULL,
+  `caixa_servico` int(11) NOT NULL DEFAULT '1'
+) ENGINE=MyISAM AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
+
+--
+-- Fazendo dump de dados para tabela `tservico`
+--
+
+INSERT INTO `tservico` (`chave_servico`, `chave_perfil`, `descr_servico`, `cobranca_servico`, `valor_servico`, `caixa_servico`) VALUES
+(1, 14, 'Faxina completa2', 'DIARIA', '180.00', 1),
+(2, 14, 'Faxina 1', 'TAREFA', '11.00', 0),
+(3, 14, 'Passadoria', 'HORA', '40.00', 1),
+(4, 14, 'Limpeza de vidros', 'TAREFA', '61.00', 1),
+(5, 14, 'Cozinha', 'DIARIA', '220.00', 1),
+(6, 14, '12', 'DIARIA', '14.00', 0),
+(7, 14, 'Capinagem de Quintal', 'TAREFA', '300.00', 1),
+(8, 14, '', '', '0.00', 0),
+(9, 14, '', '', '0.00', 0),
+(10, 14, '', '', '0.00', 0),
+(11, 14, '', 'DIARIA', '0.00', 0),
+(12, 14, '', '', '0.00', 0),
+(13, 14, '', '', '0.00', 0),
+(14, 14, '', '', '0.00', 0),
+(15, 14, '', '', '0.00', 0),
+(16, 14, '', '', '0.00', 0),
+(17, 14, '', '', '0.00', 0),
+(18, 14, '', '', '0.00', 0),
+(19, 14, 'SADADAS', 'DIARIA', '122.00', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `tusuario`
+--
+
+CREATE TABLE IF NOT EXISTS `tusuario` (
+  `chave_usuario` int(11) NOT NULL,
+  `chave_perfil` int(11) NOT NULL,
+  `cod_usuario` varchar(256) NOT NULL,
+  `nome_usuario` varchar(50) NOT NULL,
+  `email_usuario` varchar(128) NOT NULL,
+  `senha_usuario` varchar(128) NOT NULL,
+  `tipo_usuario` varchar(20) NOT NULL DEFAULT 'USUARIO',
+  `dtc_usuario` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `ativo_usuario` int(11) NOT NULL DEFAULT '1',
+  `caixa_usuario` int(11) NOT NULL DEFAULT '1'
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+
+--
+-- Fazendo dump de dados para tabela `tusuario`
+--
+
+INSERT INTO `tusuario` (`chave_usuario`, `chave_perfil`, `cod_usuario`, `nome_usuario`, `email_usuario`, `senha_usuario`, `tipo_usuario`, `dtc_usuario`, `ativo_usuario`, `caixa_usuario`) VALUES
+(1, 14, '', 'ELENIR FREITAS DE SOUSA', 'elenircombr@gmail.com', 'senha22', 'ADMINISTRADOR', '2026-10-29 18:29:11', 1, 1),
+(2, 15, '', 'ELENIR 2', 'email@elenir.com.br', 'senha22', 'USUARIO', '2026-10-29 18:29:11', 1, 1),
+(3, 16, '', 'ABC', 'elenircombr2@gmail.com', 'senha22', 'USUARIO', '2026-10-29 18:29:11', 1, 1),
+(4, 17, '', 'Alexandre', 'c.alexandre89@gmail.com', 'Alexandre', 'ADMINISTRADOR', '2026-10-29 18:29:11', 1, 1),
+(5, 18, '', '24202882', '24202882@aluno.univesp.br', '24202882', 'ADMINISTRADOR', '2026-10-29 18:29:11', 1, 1),
+(6, 19, '', 'Gabrielly Menezes', 'gabriellymenezes003@gmail.com', 'Gabrielly', 'ADMINISTRADOR', '2026-10-29 18:29:11', 1, 1),
+(7, 20, '', 'Teste ', 'teste@univesp.br', '123456', 'USUARIO', '2026-10-29 18:29:11', 1, 1);
+
+--
+-- Índices de tabelas apagadas
+--
+
+--
+-- Índices de tabela `tautoexec`
+--
+ALTER TABLE `tautoexec`
+  ADD PRIMARY KEY (`chave_autoexec`);
+
+--
+-- Índices de tabela `tcliente`
+--
+ALTER TABLE `tcliente`
+  ADD PRIMARY KEY (`chave_cliente`), ADD KEY `caixa_cliente` (`caixa_cliente`) USING BTREE, ADD KEY `nome_cliente` (`nome_cliente`) USING BTREE, ADD KEY `cpf_cliente` (`cpf_cliente`) USING BTREE, ADD KEY `email_cliente` (`email_cliente`) USING BTREE, ADD KEY `dtc_cliente` (`dtc_cliente`) USING BTREE, ADD KEY `codibge_cliente` (`codibge_cliente`), ADD KEY `cod_cliente` (`cod_cliente`(250));
+
+--
+-- Índices de tabela `tdiario`
+--
+ALTER TABLE `tdiario`
+  ADD PRIMARY KEY (`chave_diario`), ADD KEY `nometab_diario` (`nometab_diario`), ADD KEY `chavetab_diario` (`chavetab_diario`);
+
+--
+-- Índices de tabela `torcamento`
+--
+ALTER TABLE `torcamento`
+  ADD PRIMARY KEY (`chave_orcamento`), ADD KEY `chave_perfil` (`chave_perfil`), ADD KEY `chave_cliente` (`chave_cliente`), ADD KEY `cod_orcamento` (`cod_orcamento`(250)), ADD KEY `caixa_orcamento` (`caixa_orcamento`), ADD KEY `dtc_orcamento` (`dtc_orcamento`), ADD KEY `dta_orcamento` (`dta_orcamento`);
+
+--
+-- Índices de tabela `torcamentosrv`
+--
+ALTER TABLE `torcamentosrv`
+  ADD PRIMARY KEY (`chave_orcamentosrv`), ADD KEY `chave_orcamento` (`chave_orcamento`), ADD KEY `chave_servico` (`chave_servico`), ADD KEY `chave_servico_2` (`chave_servico`), ADD KEY `qtd_orcamentosrv` (`qtd_orcamentosrv`), ADD KEY `caixa_orcamentosrv` (`caixa_orcamentosrv`);
+
+--
+-- Índices de tabela `tperfil`
+--
+ALTER TABLE `tperfil`
+  ADD PRIMARY KEY (`chave_perfil`), ADD KEY `caixa_cliente` (`caixa_perfil`) USING BTREE, ADD KEY `nome_cliente` (`nome_perfil`) USING BTREE, ADD KEY `cpf_cliente` (`cpf_perfil`) USING BTREE, ADD KEY `email_cliente` (`email_perfil`) USING BTREE, ADD KEY `dtc_cliente` (`dtc_perfil`) USING BTREE, ADD KEY `codibge_cliente` (`codibge_perfil`), ADD KEY `cod_cliente` (`cod_perfil`(250));
+
+--
+-- Índices de tabela `trecibo`
+--
+ALTER TABLE `trecibo`
+  ADD PRIMARY KEY (`chave_recibo`), ADD KEY `chave_perfil` (`chave_perfil`), ADD KEY `chave_cliente` (`chave_cliente`), ADD KEY `cod_recibo` (`cod_recibo`(250)), ADD KEY `caixa_recibo` (`caixa_recibo`), ADD KEY `dtc_recibo` (`dtc_recibo`), ADD KEY `chave_orcamento` (`chave_orcamento`);
+
+--
+-- Índices de tabela `trecibosrv`
+--
+ALTER TABLE `trecibosrv`
+  ADD PRIMARY KEY (`chave_recibosrv`), ADD KEY `chave_recibo` (`chave_recibo`), ADD KEY `chave_servico` (`chave_servico`), ADD KEY `qtd_recibosrv` (`qtd_recibosrv`), ADD KEY `caixa_recibosrv` (`caixa_recibosrv`);
+
+--
+-- Índices de tabela `tservico`
+--
+ALTER TABLE `tservico`
+  ADD PRIMARY KEY (`chave_servico`);
+
+--
+-- Índices de tabela `tusuario`
+--
+ALTER TABLE `tusuario`
+  ADD PRIMARY KEY (`chave_usuario`), ADD KEY `nome_usuario` (`nome_usuario`), ADD KEY `ativo_usuario` (`ativo_usuario`), ADD KEY `caixa_usuario` (`caixa_usuario`), ADD KEY `chave_cliente` (`chave_perfil`) USING BTREE, ADD KEY `cod_usuario` (`cod_usuario`(250));
+
+--
+-- AUTO_INCREMENT de tabelas apagadas
+--
+
+--
+-- AUTO_INCREMENT de tabela `tautoexec`
+--
+ALTER TABLE `tautoexec`
+  MODIFY `chave_autoexec` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT de tabela `tcliente`
+--
+ALTER TABLE `tcliente`
+  MODIFY `chave_cliente` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=17;
+--
+-- AUTO_INCREMENT de tabela `tdiario`
+--
+ALTER TABLE `tdiario`
+  MODIFY `chave_diario` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=261;
+--
+-- AUTO_INCREMENT de tabela `torcamento`
+--
+ALTER TABLE `torcamento`
+  MODIFY `chave_orcamento` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
+--
+-- AUTO_INCREMENT de tabela `torcamentosrv`
+--
+ALTER TABLE `torcamentosrv`
+  MODIFY `chave_orcamentosrv` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=17;
+--
+-- AUTO_INCREMENT de tabela `tperfil`
+--
+ALTER TABLE `tperfil`
+  MODIFY `chave_perfil` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=21;
+--
+-- AUTO_INCREMENT de tabela `trecibo`
+--
+ALTER TABLE `trecibo`
+  MODIFY `chave_recibo` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
+--
+-- AUTO_INCREMENT de tabela `trecibosrv`
+--
+ALTER TABLE `trecibosrv`
+  MODIFY `chave_recibosrv` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=13;
+--
+-- AUTO_INCREMENT de tabela `tservico`
+--
+ALTER TABLE `tservico`
+  MODIFY `chave_servico` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=20;
+--
+-- AUTO_INCREMENT de tabela `tusuario`
+--
+ALTER TABLE `tusuario`
+  MODIFY `chave_usuario` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

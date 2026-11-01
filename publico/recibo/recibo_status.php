@@ -210,7 +210,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                     <small class="d-block text-muted"><strong>Próximo passo:</strong> Nossa equipe entrará em contato em breve para alinhar os detalhes do início do atendimento.</small>
                   </div>
                   <!-- Botão de Ação -->
-                  <a href="https://reciboexpress.kraftwork.com.br" class="btn btn-primary px-4 py-2 rounded-pill shadow-sm" style="background-color: #163b5c; border-color: #163b5c;">
+                  <a href="https://reciboexpress.guiadomestico.com.br" class="btn btn-primary px-4 py-2 rounded-pill shadow-sm" style="background-color: #163b5c; border-color: #163b5c;">
                     Voltar ao Painel
                   </a>
                 </div>
@@ -249,7 +249,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                     <a href="mailto:suporte@reciboexpress.com.br" class="btn btn-outline-secondary px-4 py-2 rounded-pill shadow-sm">
                       Solicitar Ajuste
                     </a>
-                    <a href="https://reciboexpress.kraftwork.com.br" class="btn btn-primary px-4 py-2 rounded-pill shadow-sm" style="background-color: #163b5c; border-color: #163b5c;">
+                    <a href="https://reciboexpress.guiadomestico.com.br" class="btn btn-primary px-4 py-2 rounded-pill shadow-sm" style="background-color: #163b5c; border-color: #163b5c;">
                       Voltar ao Painel
                     </a>
                   </div>

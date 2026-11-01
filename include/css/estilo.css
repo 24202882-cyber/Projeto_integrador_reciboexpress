@@ -1092,8 +1092,8 @@ titulo-cartao {
 }
 
 .ci-acao-visao-geral {
-  -webkit-mask-image: url('/design/acao-link.svg');
-  mask-image: url('/design/acao-link.svg');  
+  -webkit-mask-image: url('/design/acao-visao-geral.svg');
+  mask-image: url('/design/acao-visao-geral.svg');  
 }
 
 .ci-acao-salvar2 {

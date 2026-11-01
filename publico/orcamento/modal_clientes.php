@@ -406,5 +406,11 @@ echo $html;
       $("#chave_cliente").val(vchave_cliente);
       Pesquisa_Cliente();
     });
+    $("#BTN_MODAL_CLIENTE_VAZIO").on('click', function () {
+      const vchave_cliente = "";
+      $("#MODAL_BROWSECLIENTES").modal("hide");
+      $("#chave_cliente").val(vchave_cliente);
+      Pesquisa_Cliente();
+    });    
   });
 </script>

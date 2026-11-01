@@ -4,7 +4,8 @@
   "type": "module",
   "scripts": {
     "test": "vitest",
-    "test:ui": "vitest --ui"
+    "test:ui": "vitest --ui",
+    "test:json": "vitest run --reporter=json"
   },
   "devDependencies": {
     "@vitest/coverage-v8": "^1.6.1",

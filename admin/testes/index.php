@@ -48,6 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+  <meta charset="UTF-8" />
   <title>Recibo Express - Administração do Sistema - Testes Automarizados</title>
   <?php include($Raiz . "include/html/header.html"); ?>
   <style>
@@ -96,30 +97,69 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
       padding: 10px;
     }
   </style>
-</head>
+
 <script>
-  //window.carregarResultadosTestes = function() {
-async function carregarResultadosTestes() {
-  const response = await fetch('/api/run-tests', { method: 'POST' });
-  const { data } = await response.json();
+async function executarETestesVitest() {
+  const btn = document.getElementById('btn-calculo-subtotais');
+  //const statusSpan = document.getElementById('status-execucao');
 
-  // Atualiza os Cards Superiores
-  document.getElementById('total-suites').innerText = data.testSuites;
-  document.getElementById('total-tests').innerText = data.totalTests;
-  document.getElementById('duracao').innerText = `${data.duration} s`;
+  //if (btn) btn.disabled = true;
+  //if (statusSpan) statusSpan.innerText = "Executando testes...";
 
-  // Renderiza a lista de arquivos .spec na tabela
-  const container = document.getElementById('lista-testes');
-  container.innerHTML = data.testResults.map(spec => `
-    <div class="teste-row">
-      <span class="status-dot ${spec.status}"></span>
-      <span class="nome-arquivo">${spec.name}</span>
-      <span class="duracao">${spec.duration} ms</span>
-      <button onclick="verDetalhes('${spec.name}')">Visualizar</button>
-    </div>
-  `).join('');
+  try {
+    const response = await fetch('executar_testes.php', { method: 'POST' });
+    const result = await response.json();
+
+    if (result.status !== 'success') {
+      throw new Error(result.message || 'Erro ao processar testes');
+    }
+
+    const data = result.data;
+
+    // Métricas principais retornadas pelo Vitest
+    const totalSuites = data.numTotalTestSuites || 0;
+    const totalTests = data.numTotalTests || 0;
+    const durationSec = (data.startTime ? ((Date.now() - data.startTime) / 1000).toFixed(2) : '1.9');
+
+    // Atualiza os Cards Superiores
+    if (document.getElementById('total-suites')) document.getElementById('total-suites').innerText = totalSuites;
+    if (document.getElementById('total-tests')) document.getElementById('total-tests').innerText = totalTests;
+    if (document.getElementById('duracao')) document.getElementById('duracao').innerText = `${durationSec} s`;
+
+    // Atualiza a tabela dinâmica
+    const container = document.getElementById('lista-testes');
+    if (container && data.testResults) {
+      container.innerHTML = data.testResults.map(suite => `
+        <div class="d-flex justify-content-between align-items-center p-2 mb-1" style="background: #1E3348; border-radius: 4px;">
+          <div>
+            <span class="badge ${suite.status === 'passed' ? 'bg-success' : 'bg-danger'} me-2">
+              ${suite.status.toUpperCase()}
+            </span>
+            <span class="texto13-admin-regular2" style="color:#C7D2DD;">${suite.name.split(/[\\/]/).pop()}</span>
+          </div>
+          <div>
+            <span class="texto12-admin-regular me-3" style="color:#94A3B8;">${suite.endTime && suite.startTime ? suite.endTime - suite.startTime : 0} ms</span>
+            <button class="btn btn-sm btn-custom" onclick="alert('Status: ${suite.status}')">Visualizar</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    //if (statusSpan) statusSpan.innerText = "Concluído com sucesso!";
+  }
+  catch (err) {
+    console.error(err);
+    alert('Erro ao rodar testes: ' + err.message);
+    //if (statusSpan) statusSpan.innerText = "Erro na execução";
+  } 
+  finally {
+    if (btn) btn.disabled = false;
+  }
 }
 </script>
+
+</head>
+
 <body class="body-admin">
   <div class="container">
     <div class="row">
@@ -216,7 +256,7 @@ async function carregarResultadosTestes() {
                             </div>
                             <div class="d-grid gap-2 d-md-flex justify-content-end align-items-center">                              
                               <span class="texto12-admin-regular" style="color:#94A3B8">9 ms</span>
-                              <button class="btn btn-sm btn-custom" onclick="javascript:carregarResultadosTestes();">Visualizar</button>
+                              <button class="btn btn-sm btn-custom" id="btn-calculo-subtotais" onclick="javascript:executarETestesVitest();">Visualizar</button>
                             </div>
                           </div>
                         </td>

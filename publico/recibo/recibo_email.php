@@ -328,13 +328,14 @@ try {
   $mail->Encoding = 'base64';
   $mail->isSMTP();
   //$mail->SMTPDebug = 4;  <- desativado por exibe todos os processos em tela.
-  $mail->Host = "smtp.uni5.net";
+  //$mail->Host = "smtp.uni5.net";  
+  $mail->Host = "smtpi.uni5.net";
   $mail->Port = 587;
   $mail->SMTPAuth = true;
   $mail->SMTPSecure = 'tls';
-  $mail->Username = "reciboexpress@kraftwork.com.br"; // SMTP username
+  $mail->Username = "reciboexpress@guiadomestico.com.br"; // SMTP username
   $mail->Password = 'q#EcXwV5ikqEcXwV5ik'; // SMTP password  
-  $mail->From = "reciboexpress@kraftwork.com.br";
+  $mail->From = "reciboexpress@guiadomestico.com.br";
   $mail->FromName = "Recibo Express"; // Nome de quem envia o email
   $mail->AddAddress($email_cliente, $nome_cliente);  
   $mail->addReplyTo($email_usuario, 'Recibo Express');
@@ -363,7 +364,7 @@ try {
   ,situacao_recibo = :vsituacao_recibo
   ,dte_recibo = :vdte_recibo
   ,valor_recibo = :vvalor_recibo
-  ,dtu_orcamento = now() 
+  ,dtu_recibo = now() 
   where 
   chave_recibo = :vchave_recibo and 
   chave_perfil = :vchave_perfil and 
