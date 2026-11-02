@@ -1,4 +1,4 @@
-# Projeto_integrador_reciboexpress
+# Projeto integrador Reciboexpress
 Projeto integrador II Eixo Computação 2026
 
 Recibo Express
@@ -8,7 +8,7 @@ Disciplina	PJI240 – Projeto Integrador em Computação II, Turma	A2026S2N2, Gr
 
 
 # Sobre o projeto
-Muitos profissionais autônomos, microempreendedores (MEI) e pequenos comércios ainda emitem recibos à mão, em blocos de papel ou em modelos improvisados de editor de texto. Isso gera documentos sem padrão, difíceis de arquivar, fáceis de perder e trabalhosos de consultar depois.
+Muitos profissionais autônomos ainda emitem recibos à mão, em blocos de papel ou em modelos improvisados de editor de texto. Isso gera documentos sem padrão, difíceis de arquivar, fáceis de perder e trabalhosos de consultar depois.
 O Recibo Express resolve esse problema oferecendo uma plataforma simples onde o usuário cadastra seus dados uma única vez e, a partir daí, gera recibos completos em poucos cliques — com valor por extenso, numeração automática e opção de download ou compartilhamento.
 
 # Objetivos
@@ -29,15 +29,12 @@ Profissionais autônomos e prestadores de serviço Pessoa física que prestam se
  Visualização e download do recibo em PDF
  Compartilhamento do recibo (e-mail / WhatsApp)
  Histórico de recibos com busca e filtros por data, cliente e valor
- Layout responsivo (desktop e celular)
+
  
 # Tecnologias utilizadas
-Camada	Tecnologia
-Prototipação	Figma
-Front-end	HTML5, CSS3, JavaScript
-Back-end	a definir
-Banco de dados	a definir
-Geração de PDF	a definir
+Frontend (Interface) - HTML, CSS e JavaScript, com Bootstrap 5.3.8 para estrutura e responsividade. O projeto também utiliza JavaScript Vanilla e jQuery para interações na interface. 
+Backend & API/Acessibilidade - PHP 8.2.35, executado no servidor por meio de PHP-FPM/FastCGI. As integrações externas API´s são:ViaCEP, para consulta de CEP; Google Identity / OAuth 2.0 e OpenID Connect, para autenticação com conta Google; VLibras, para acessibilidade em Libras
+Dados e Nuvem - Banco de dados: o documento declara MySQL 11.4.2.; Nuvem e Hospedagem/servidor: King Host. A aplicação e os arquivos PDF de recibos e orçamentos ficam no ambiente de hospedagem da King Host, em servidor com Red Hat Enterprise Linux 8.10
 Versionamento	Git e GitHub
 
 
