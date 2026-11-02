@@ -33,8 +33,11 @@ Profissionais autônomos e prestadores de serviço Pessoa física que prestam se
  
 # Tecnologias utilizadas
 Frontend (Interface) - HTML, CSS e JavaScript, com Bootstrap 5.3.8 para estrutura e responsividade. O projeto também utiliza JavaScript Vanilla e jQuery para interações na interface. 
+
 Backend & API/Acessibilidade - PHP 8.2.35, executado no servidor por meio de PHP-FPM/FastCGI. As integrações externas API´s são:ViaCEP, para consulta de CEP; Google Identity / OAuth 2.0 e OpenID Connect, para autenticação com conta Google; VLibras, para acessibilidade em Libras
+
 Dados e Nuvem - Banco de dados: o documento declara MySQL 11.4.2.; Nuvem e Hospedagem/servidor: King Host. A aplicação e os arquivos PDF de recibos e orçamentos ficam no ambiente de hospedagem da King Host, em servidor com Red Hat Enterprise Linux 8.10
+
 Versionamento	Git e GitHub
 
 
